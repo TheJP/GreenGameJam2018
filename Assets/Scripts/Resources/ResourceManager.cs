@@ -20,6 +20,10 @@ namespace Resources
         [SerializeField]
         [Tooltip("The construction material base storage")]
         private ConstructionMaterialStorage constructionMaterialBaseStorage;
+        
+        [SerializeField]
+        [Tooltip("The blood base storage")]
+        private BloodStorage bloodBaseStorage;
         #pragma warning restore CS0649
 
         private readonly List<EnergySink> energySinks;
@@ -34,13 +38,27 @@ namespace Resources
         private readonly List<ConstructionMaterialSource> constructionMaterialSources;
         private readonly List<ConstructionMaterialStorage> constructionMaterialStorages;
 
+        private readonly List<BloodSink> bloodSinks;
+        private readonly List<BloodSource> bloodSources;
+        private readonly List<BloodStorage> bloodStorages;
+
         public EnergyStorage EnergyBaseStorage => energyBaseStorage;
         public OxygenStorage OxygenBaseStorage => oxygenBaseStorage;
         public ConstructionMaterialStorage ConstructionMaterialBaseStorage => constructionMaterialBaseStorage;
+        public BloodStorage BloodBaseStorage => bloodBaseStorage;
 
-        public Energy EnergyAvailable => energyStorages.Aggregate(energyBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
-        public Oxygen OxygenAvailable => oxygenStorages.Aggregate(oxygenBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
-        public ConstructionMaterial ConstructionMaterialAvailable => constructionMaterialStorages.Aggregate(constructionMaterialBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
+        public Energy EnergyAvailable =>
+            energyStorages.Aggregate(energyBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
+
+        public Oxygen OxygenAvailable =>
+            oxygenStorages.Aggregate(oxygenBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
+
+        public ConstructionMaterial ConstructionMaterialAvailable =>
+            constructionMaterialStorages.Aggregate(constructionMaterialBaseStorage.CurrentValue,
+                (a, s) => a + s.CurrentValue);
+
+        public Blood BloodAvailable =>
+            bloodStorages.Aggregate(bloodBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
 
         public ResourceManager()
         {
@@ -55,6 +73,10 @@ namespace Resources
             constructionMaterialSinks = new List<ConstructionMaterialSink>();
             constructionMaterialSources = new List<ConstructionMaterialSource>();
             constructionMaterialStorages = new List<ConstructionMaterialStorage>();
+            
+            bloodSinks = new List<BloodSink>();
+            bloodSources = new List<BloodSource>();
+            bloodStorages = new List<BloodStorage>();
         }
 
         public void Store(Energy energy)
@@ -95,6 +117,20 @@ namespace Resources
                 {
                     Debug.Assert(storages.Current != null, "storages.Current != null");
                     material = storages.Current.Store(material);
+                }
+            }
+        }
+
+        public void Store(Blood blood)
+        {
+            blood = bloodBaseStorage.Store(blood);
+
+            using (var storages = bloodStorages.GetEnumerator())
+            {
+                while (blood > Blood.Zero && storages.MoveNext())
+                {
+                    Debug.Assert(storages.Current != null, "storages.Current != null");
+                    blood = storages.Current.Store(blood);
                 }
             }
         }
@@ -146,6 +182,22 @@ namespace Resources
             
             return true;
         }
+        
+        public bool TryConsume(Blood blood)
+        {
+            if (blood > BloodAvailable)
+            {
+                return false;
+            }
+
+            blood = bloodBaseStorage.Consume(blood);
+            foreach (var storage in bloodStorages)
+            {
+                blood = storage.Consume(blood);
+            }
+            
+            return true;
+        }
 
         public void AddSource(EnergySource source)
         {
@@ -177,6 +229,16 @@ namespace Resources
             constructionMaterialSources.Add(source);
         }
 
+        public void AddSource(BloodSource source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            bloodSources.Add(source);
+        }
+
         public void RemoveSource(EnergySource source)
         {
             energySources.Remove(source);
@@ -190,6 +252,11 @@ namespace Resources
         public void RemoveSource(ConstructionMaterialSource source)
         {
             constructionMaterialSources.Remove(source);
+        }
+
+        public void RemoveSource(BloodSource source)
+        {
+            bloodSources.Remove(source);
         }
 
         public void AddSink(EnergySink sink)
@@ -222,6 +289,16 @@ namespace Resources
             constructionMaterialSinks.Add(sink);
         }
 
+        public void AddSink(BloodSink sink)
+        {
+            if (sink == null)
+            {
+                throw new ArgumentNullException(nameof(sink));
+            }
+
+            bloodSinks.Add(sink);
+        }
+
         public void RemoveSink(EnergySink sink)
         {
             energySinks.Remove(sink);
@@ -235,6 +312,11 @@ namespace Resources
         public void RemoveSink(ConstructionMaterialSink sink)
         {
             constructionMaterialSinks.Remove(sink);
+        }
+
+        public void RemoveSink(BloodSink sink)
+        {
+            bloodSinks.Remove(sink);
         }
 
         public void AddStorage(EnergyStorage storage)
@@ -267,6 +349,16 @@ namespace Resources
             constructionMaterialStorages.Add(storage);
         }
 
+        public void AddStorage(BloodStorage storage)
+        {
+            if (storage == null)
+            {
+                throw new ArgumentNullException(nameof(storage));
+            }
+
+            bloodStorages.Add(storage);
+        }
+
         public void RemoveStorage(EnergyStorage storage)
         {
             energyStorages.Remove(storage);
@@ -280,6 +372,11 @@ namespace Resources
         public void RemoveStorage(ConstructionMaterialStorage storage)
         {
             constructionMaterialStorages.Remove(storage);
+        }
+
+        public void RemoveStorage(BloodStorage storage)
+        {
+            bloodStorages.Remove(storage);
         }
 
         private void FixedUpdate()
@@ -321,6 +418,16 @@ namespace Resources
             foreach (var sink in constructionMaterialSinks)
             {
                 sink.ConsumeMaterial(this);
+            }
+
+            foreach (var source in bloodSources)
+            {
+                source.ProduceBlood(this);
+            }
+
+            foreach (var sink in bloodSinks)
+            {
+                sink.ConsumeBlood(this);
             }
         }
     }
