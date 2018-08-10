@@ -2,7 +2,7 @@
 
 namespace Resources
 {
-    public class OxygenStorage
+    public class OxygenStorage : MonoBehaviour
     {
         [SerializeField]
         private Oxygen capacity;
