@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7740609c9ef234418f5e89ccd4a191e, type: 3}
   m_Name: OxygenTowerTile
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 0}
-  Prefab: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 7e42e942a162a294e9794e6af58c4dda, type: 3}
+  Prefab: {fileID: 1933346158057044, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
