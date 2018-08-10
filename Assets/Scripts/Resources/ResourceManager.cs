@@ -190,22 +190,22 @@ namespace Resources
         {
             foreach (var source in energySources)
             {
-                source.Produce(this);
+                source.ProduceEnergy(this);
             }
             
             foreach (var sink in energySinks)
             {
-                sink.Consume(this);
+                sink.ConsumeEnergy(this);
             }
             
             foreach (var source in oxygenSources)
             {
-                source.Produce(this);
+                source.ProduceOxygen(this);
             }
             
             foreach (var sink in oxygenSinks)
             {
-                sink.Consume(this);
+                sink.ConsumeOxygen(this);
             }
             
             foreach (var source in constructionMaterialSources)

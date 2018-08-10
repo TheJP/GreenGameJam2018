@@ -2,6 +2,6 @@
 {
     public interface EnergySource
     {
-        void Produce(ResourceManager manager);
+        void ProduceEnergy(ResourceManager manager);
     }
 }

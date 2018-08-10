@@ -2,6 +2,6 @@
 {
     public interface EnergySink
     {
-        void Consume(ResourceManager manager);
+        void ConsumeEnergy(ResourceManager manager);
     }
 }

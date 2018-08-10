@@ -4,6 +4,6 @@ namespace Resources
 {
     public interface OxygenSink
     {
-        void Consume(ResourceManager manager);
+        void ConsumeOxygen(ResourceManager manager);
     }
 }

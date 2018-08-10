@@ -2,6 +2,6 @@
 {
     public interface OxygenSource
     {
-        void Produce(ResourceManager manager);
+        void ProduceOxygen(ResourceManager manager);
     }
 }
