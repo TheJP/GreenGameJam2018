@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4415757186898128}
   - component: {fileID: 212001903418164568}
   - component: {fileID: 114186112107759382}
+  - component: {fileID: 95091430530160706}
   - component: {fileID: 114558301151006122}
   m_Layer: 0
   m_Name: Player
@@ -42,6 +43,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95091430530160706
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1102575783721436}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09888b312a6fe9545b53e54b0e6c7851, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114186112107759382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca42108e95450b145afdde91b4b6d836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e8dd9f961f6722b46a1c5f4a65dd4bf7, type: 3}
+  sprite: {fileID: 21300000, guid: 6adbfc0ee26d14440820c5fc7975c6e5, type: 3}
 --- !u!114 &114558301151006122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,7 +85,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPosition: {x: 0, y: 0}
-  currentPosition: {x: 0, y: 0}
 --- !u!212 &212001903418164568
 SpriteRenderer:
   m_ObjectHideFlags: 1

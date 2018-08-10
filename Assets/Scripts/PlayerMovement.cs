@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     private readonly float maxVelocityVertical = 1.0F;
     private readonly float maxVelocityHorizontal = 1.0F;
 
-    [SerializeField]
     private Vector2 currentPosition;
 
     // Use this for initialization
@@ -19,23 +18,20 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (IsVerticalMovementAllowed())
         {
             //Flip Sprite Direction
-            //StartAnimation
-            float translationVertical = Input.GetAxis("Vertical") * maxVelocityVertical;
-            currentPosition.x = currentPosition.x + translationVertical;
+            float translationHorizontal = Input.GetAxis("Horizontal") * maxVelocityHorizontal;
+            currentPosition.x = currentPosition.x + translationHorizontal;
         }
 
         if (IsHorizontalMovementAllowed())
         {
-            //StartAnimation
-            float translationHorizontal = Input.GetAxis("Horizontal") * maxVelocityHorizontal;
-            currentPosition.y = currentPosition.y + translationHorizontal;
+            float translationVertical = Input.GetAxis("Vertical") * maxVelocityVertical;
+            currentPosition.y = currentPosition.y + translationVertical;
         }
 
-        //StopAnimation
+        transform.position = currentPosition;
 
         //Jump
     }
