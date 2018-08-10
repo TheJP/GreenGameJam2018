@@ -19,6 +19,9 @@
         * Was ist in der Wave
     * Scheduling
 * Monster
+* Monster können kompostiert werden
+    * Resourcen können gewonnen werden (noch nicht genau definiert)
+    * Monster müssen hingeschleppt werden
 * Turrets
     * Maschinengewehr (simple, günstig)
     * Missile-Tower (später, teuer)
