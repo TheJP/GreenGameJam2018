@@ -6,6 +6,8 @@ namespace Resources
     [Serializable]
     public struct Oxygen : IEquatable<Oxygen>, IComparable<Oxygen>, IComparable
     {
+        public static readonly Oxygen Zero = new Oxygen();
+        
         [SerializeField]
         private float value;
 
@@ -47,7 +49,12 @@ namespace Resources
 
         public static Oxygen operator -(Oxygen left, Oxygen right)
         {
-            return new Oxygen(left.value + right.value);
+            return new Oxygen(left.value - right.value);
+        }
+
+        public static Oxygen operator -(Oxygen oxygen)
+        {
+            return new Oxygen(-oxygen.value);
         }
 
         public int CompareTo(Oxygen other)

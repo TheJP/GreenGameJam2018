@@ -6,6 +6,8 @@ namespace Resources
     [Serializable]
     public struct ConstructionMaterial : IEquatable<ConstructionMaterial>, IComparable<ConstructionMaterial>, IComparable
     {
+        public static readonly ConstructionMaterial Zero = new ConstructionMaterial();
+        
         [SerializeField]
         private float value;
 
@@ -47,7 +49,12 @@ namespace Resources
 
         public static ConstructionMaterial operator -(ConstructionMaterial left, ConstructionMaterial right)
         {
-            return new ConstructionMaterial(left.value + right.value);
+            return new ConstructionMaterial(left.value - right.value);
+        }
+
+        public static ConstructionMaterial operator -(ConstructionMaterial material)
+        {
+            return new ConstructionMaterial(-material.value);
         }
 
         public int CompareTo(ConstructionMaterial other)

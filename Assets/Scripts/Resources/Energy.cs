@@ -6,6 +6,8 @@ namespace Resources
     [Serializable]
     public struct Energy : IEquatable<Energy>, IComparable<Energy>
     {
+        public static readonly Energy Zero = new Energy();
+        
         [SerializeField]
         private float value;
 
@@ -46,7 +48,12 @@ namespace Resources
 
         public static Energy operator -(Energy left, Energy right)
         {
-            return new Energy(left.value + right.value);
+            return new Energy(left.value - right.value);
+        }
+
+        public static Energy operator -(Energy energy)
+        {
+            return new Energy(-energy.value);
         }
         
         public static bool operator <(Energy left, Energy right)
