@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     #pragma warning disable 0649
     [SerializeField]
     private Sprite sprite;
+#pragma warning restore 0649
 
     [SerializeField]
     private Color color;
