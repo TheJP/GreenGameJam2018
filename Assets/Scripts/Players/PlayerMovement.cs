@@ -2,10 +2,9 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    private int playerNumber;
+    public int PlayerNumber { get; set; }
 
-    [SerializeField]
-    private Vector2 startPosition;
+    public Vector2 StartPosition { get; set; }
 
     [SerializeField]
     private float maxVelocityVertical;
@@ -14,21 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private float maxVelocityHorizontal;
 
     private Vector2 currentPosition;
-
-    void Start()
-    {
-        this.currentPosition = startPosition;
-
-        if (this.maxVelocityVertical == 0)
-        {
-            maxVelocityVertical = 1.0F;
-        }
-
-        if (maxVelocityHorizontal == 0)
-        {
-            maxVelocityHorizontal = 1.0F;
-        }
-    }
 
     void Update()
     {
@@ -48,6 +32,22 @@ public class PlayerMovement : MonoBehaviour
         transform.position = currentPosition;
 
         //Jump
+    }
+
+    public void Initilaize()
+    {
+        this.currentPosition = StartPosition;
+        this.transform.position = StartPosition;
+
+        if (this.maxVelocityVertical == 0)
+        {
+            maxVelocityVertical = 1.0F;
+        }
+
+        if (maxVelocityHorizontal == 0)
+        {
+            maxVelocityHorizontal = 1.0F;
+        }
     }
 
     private bool IsHorizontalMovementAllowed()
