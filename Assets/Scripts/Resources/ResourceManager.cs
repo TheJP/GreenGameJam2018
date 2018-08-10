@@ -8,6 +8,7 @@ namespace Resources
 {
     public class ResourceManager : MonoBehaviour
     {
+        #pragma warning disable CS0649
         [SerializeField]
         [Tooltip("The energy base storage")]
         private EnergyStorage energyBaseStorage;
@@ -19,6 +20,7 @@ namespace Resources
         [SerializeField]
         [Tooltip("The construction material base storage")]
         private ConstructionMaterialStorage constructionMaterialBaseStorage;
+        #pragma warning restore CS0649
 
         private readonly List<EnergySink> energySinks;
         private readonly List<EnergySource> energySources;
