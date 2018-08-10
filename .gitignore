@@ -33,3 +33,7 @@ sysinfo.txt
 
 Sprites/.DS_Store
 /.idea/
+
+#Resources
+/Resources/
+/Resources.meta

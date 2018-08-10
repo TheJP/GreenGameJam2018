@@ -2,20 +2,34 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+    private int playerNumber;
+
     [SerializeField]
     private Vector2 startPosition;
-    private readonly float maxVelocityVertical = 1.0F;
-    private readonly float maxVelocityHorizontal = 1.0F;
+
+    [SerializeField]
+    private float maxVelocityVertical;
+
+    [SerializeField]
+    private float maxVelocityHorizontal;
 
     private Vector2 currentPosition;
 
-    // Use this for initialization
     void Start()
     {
         this.currentPosition = startPosition;
+
+        if (this.maxVelocityVertical == 0)
+        {
+            maxVelocityVertical = 1.0F;
+        }
+
+        if (maxVelocityHorizontal == 0)
+        {
+            maxVelocityHorizontal = 1.0F;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (IsVerticalMovementAllowed())

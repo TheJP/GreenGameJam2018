@@ -28,6 +28,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
+            if(Input.GetAxis("Horizontal") > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if(Input.GetAxis("Horizontal") < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+
             this.animator.enabled = true;
         }
         else
