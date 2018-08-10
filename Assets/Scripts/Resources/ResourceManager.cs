@@ -54,7 +54,7 @@ namespace Resources
             constructionMaterialStorage += material;
         }
         
-        public bool TryConsumeEnergy(Energy energy)
+        public bool TryConsume(Energy energy)
         {
             if (energy > energyStorage)
             {
@@ -65,7 +65,7 @@ namespace Resources
             return true;
         }
         
-        public bool TryConsumeEnergy(Oxygen oxygen)
+        public bool TryConsume(Oxygen oxygen)
         {
             if (oxygen > oxygenStorage)
             {
@@ -76,7 +76,7 @@ namespace Resources
             return true;
         }
 
-        public bool TryConsumeMaterial(ConstructionMaterial material)
+        public bool TryConsume(ConstructionMaterial material)
         {
             if (material > constructionMaterialStorage)
             {
@@ -210,12 +210,12 @@ namespace Resources
             
             foreach (var source in constructionMaterialSources)
             {
-                source.Produce(this);
+                source.ProduceMaterial(this);
             }
             
             foreach (var sink in constructionMaterialSinks)
             {
-                sink.Consume(this);
+                sink.ConsumeMaterial(this);
             }
         }
     }

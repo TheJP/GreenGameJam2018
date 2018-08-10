@@ -2,6 +2,6 @@
 {
     public interface ConstructionMaterialSink
     {
-        void Consume(ResourceManager manager);
+        void ConsumeMaterial(ResourceManager manager);
     }
 }

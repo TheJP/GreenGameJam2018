@@ -2,6 +2,6 @@
 {
     public interface ConstructionMaterialSource
     {
-        void Produce(ResourceManager manager);
+        void ProduceMaterial(ResourceManager manager);
     }
 }
