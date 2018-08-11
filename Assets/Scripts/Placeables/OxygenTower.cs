@@ -6,7 +6,7 @@ using Resources;
 [RequireComponent(typeof(Animator))]
 public class OxygenTower : Placeable, OxygenSink, EnergySink
 {
-    private const string AnimatorOnFlag = "On";
+    public const string AnimatorOnFlag = "On";
 
     [Tooltip("How much energy is used per game tick")]
     public Energy energyUsage = new Energy(10);
