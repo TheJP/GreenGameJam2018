@@ -25,6 +25,8 @@ public class InventorySelection : MonoBehaviour
         {
             inventory.Confirm();
         }
+
+        //TODO: Add abort button and select last selected Item.
     }
 
     private void FixedUpdate()

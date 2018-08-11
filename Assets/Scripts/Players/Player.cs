@@ -1,6 +1,4 @@
 using Resources;
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,6 +16,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Oxygen oxygenStorageCapacity = new Oxygen(100);
+
+    [SerializeField]
+    private GameObject inventoryPrefab;
+    private Inventory inventory;
 #pragma warning restore 0649
 
     [SerializeField]
@@ -31,15 +33,15 @@ public class Player : MonoBehaviour
 
     private PlayerMovement playerMovement;
 
-    [SerializeField]
-    private Inventory inventory;
-
     private void Awake()
     {
         this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         this.animator = GetComponentInChildren<Animator>();
 
         Attributes = new PlayerAttributes(this, oxygenStorageCapacity);
+
+        GameObject inventoryObject = Instantiate(inventoryPrefab, transform);
+        this.inventory = inventoryObject.GetComponent<Inventory>();
     }
 
     private void Start()
@@ -47,19 +49,29 @@ public class Player : MonoBehaviour
         this.spriteRenderer.sprite = this.sprite;
         this.spriteRenderer.color = this.color;
         this.playerMovement = GetComponent<PlayerMovement>();
-        this.inventory.ControllerNumber = playerNumber;
+
+        //TODO: Replace this with the real Items of the Player
+        this.inventory.CreateExampleItems();
+        this.inventory.Player = this;
+        this.inventory.DisableItemSelection();
+        this.inventory.DisableMenuView();
 
         Attributes.IsAlive = true;
     }
 
     internal void OpenInventory()
     {
-        throw new NotImplementedException();
+        this.playerMovement.enabled = false;
+        this.inventory.EnableMenuView();
+        this.inventory.EnableItemSelection();
     }
 
     internal void ConfirmSelection(IInventoryItem inventoryItem)
     {
-        throw new NotImplementedException();
+        Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem()} is confirmed");
+        this.inventory.DisableItemSelection();
+        this.inventory.DisableMenuView();
+        this.playerMovement.enabled = true;
     }
 
     private void Update()
