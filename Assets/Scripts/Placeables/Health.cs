@@ -46,7 +46,6 @@ public class Health : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        Debug.Log($"{CurrentHealth} / {maxHealth}");
         healthBar.normalizedValue = CurrentHealth / maxHealth;
         healthBar.gameObject.SetActive(CurrentHealth < maxHealth);
     }
