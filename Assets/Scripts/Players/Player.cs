@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int currentOxygen;
-    private readonly float OXYGEN_REFILL_DELAY = 0.5F;
-    private readonly float OXYGEN_CONSUME_DELAY = 1.0F;
+    private const float OxygenRefillDelay = 0.5F;
+    private const float OxygenConsumeDelay = 1.0F;
     private Coroutine oxygenRefill;
     private Coroutine oxygenConsumer;
 
@@ -67,10 +67,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*
-     * Increase the Oxygen of this Player about the given amount. 
-     * If the Oxygen is already on maxOxygen, this call is ignored.
-     */
+    /// <summary>
+    /// Increase the Oxygen of this Player about the given amount.
+    /// If the Oxygen is already on maxOxygen, this call is ignored.
+    /// </summary>
+    /// <param name="amount"></param>
     public void IncreaseOxygen(int amount)
     {
         if (this.currentOxygen < MaxOxygen)
@@ -143,7 +144,7 @@ public class Player : MonoBehaviour
         while (true)
         {
             IncreaseOxygen(1);
-            yield return new WaitForSeconds(OXYGEN_REFILL_DELAY);
+            yield return new WaitForSeconds(OxygenRefillDelay);
         }
     }
 
@@ -152,7 +153,7 @@ public class Player : MonoBehaviour
         while (true)
         {
             DecreseOxygen(1);
-            yield return new WaitForSeconds(OXYGEN_CONSUME_DELAY);
+            yield return new WaitForSeconds(OxygenConsumeDelay);
         }
     }
 }
