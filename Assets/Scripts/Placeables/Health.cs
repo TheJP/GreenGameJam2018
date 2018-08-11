@@ -16,6 +16,12 @@ public class Health : MonoBehaviour
 
     public float CurrentHealth { get; private set; }
 
+    private void Start()
+    {
+        CurrentHealth = maxHealth;
+        UpdateHealthBar();
+    }
+
     public void TakeDamage(float damage)
     {
         if(damage > CurrentHealth)
@@ -38,5 +44,10 @@ public class Health : MonoBehaviour
         UpdateHealthBar();
     }
 
-    private void UpdateHealthBar() => healthBar.normalizedValue = CurrentHealth / maxHealth;
+    private void UpdateHealthBar()
+    {
+        Debug.Log($"{CurrentHealth} / {maxHealth}");
+        healthBar.normalizedValue = CurrentHealth / maxHealth;
+        healthBar.gameObject.SetActive(CurrentHealth < maxHealth);
+    }
 }

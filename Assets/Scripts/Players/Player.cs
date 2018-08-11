@@ -52,8 +52,7 @@ public class Player : MonoBehaviour
 
     private void OxygenLevelChanged(Oxygen oxygen)
     {
-        if (Attributes.MaxOxygen - oxygen < oxygenUsagePerSecond) { oxygenBar.gameObject.SetActive(false); }
-        else { oxygenBar.gameObject.SetActive(true); }
+        oxygenBar.gameObject.SetActive(Attributes.MaxOxygen - oxygen >= oxygenUsagePerSecond);
         oxygenBar.normalizedValue = oxygen / Attributes.MaxOxygen;
     }
 
