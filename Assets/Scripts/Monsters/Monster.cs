@@ -1,5 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEditor.Experimental.AssetImporters;
+using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+using UnityEngine.Rendering;
+using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.Tilemaps;
+using UnityEngine.WSA;
 
 namespace Monsters
 {
@@ -7,18 +14,107 @@ namespace Monsters
     {
         public MonsterAttributes Attributes;
 
-        public Transform Target;
+        public Building Target;
 
         private Rigidbody2D _rigidbody2D;
+        private SpriteRenderer _spriteRenderer;
+        private float attacksPerSeconds = 1f;
+        private int stuckcount = 0;
+        private Pathfinder _pathfinder;
 
         private void Start()
         {
-            _rigidbody2D = FindObjectOfType<Rigidbody2D>();
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         }
+
+        private bool InRange() => Target != null &&
+                                  Vector3.Distance(Target.transform.position, transform.position) < Attributes.Range;
 
         private void Update()
         {
-            
+            if (Target == null)
+            {
+                Target = FindTarget();
+                _pathfinder = Target.gameObject.GetComponent<Pathfinder>();
+            }
+
+
+            if (InRange())
+            {
+                Attack();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (Target != null &&
+                Vector3.Distance(Target.transform.position, transform.position) > Attributes.Range - 1)
+            {
+                Move();
+            }
+        }
+
+        private Building FindTarget()
+        {
+            var buildings = FindObjectsOfType<Building>();
+            return buildings.First();
+        }
+
+        private MoveDirection _lastHorizontal = MoveDirection.Left;
+
+        private void Move()
+        {
+            var direction = _pathfinder.PathFrom(transform.position);
+            if (direction == MoveDirection.Left || direction == MoveDirection.Down)
+            {
+                _lastHorizontal = direction;
+            }
+
+            if (_lastHorizontal == MoveDirection.Left)
+            {
+                transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * -1, transform.localScale.y,
+                    transform.localScale.z);
+            }
+            else if (Target.transform.position.x > transform.position.x + Attributes.Range)
+            {
+                transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y,
+                    transform.localScale.z);
+            }
+
+            Debug.Log(direction);
+            switch (direction)
+            {
+                case MoveDirection.Left:
+                case MoveDirection.Right:
+                    var forceDir = direction == MoveDirection.Left ? Vector3.left : Vector3.right;
+                    _rigidbody2D.AddForce(forceDir * Attributes.MoveForce);
+                    if (Mathf.Abs(_rigidbody2D.velocity.x) > Attributes.MaxSpeed)
+                    {
+                        _rigidbody2D.velocity = new Vector2(Mathf.Sign(_rigidbody2D.velocity.x) * Attributes.MaxSpeed,
+                            _rigidbody2D.velocity.y);
+                    }
+
+                    break;
+                case MoveDirection.Up:
+                    _rigidbody2D.AddForce(new Vector2(0, Attributes.JumpForce));
+                    break;
+                case MoveDirection.Down:
+                case MoveDirection.None:
+                    // change animation to idle
+                    _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void Attack()
+        {
+            if ((Target.transform.position - transform.position).magnitude < Attributes.Range)
+            {
+                Target.TakeDamage(Attributes.Attackpower * Time.deltaTime);
+            }
         }
     }
 }

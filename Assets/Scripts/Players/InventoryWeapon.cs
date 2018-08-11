@@ -9,9 +9,11 @@ using UnityEngine;
 public class InventoryWeapon : IInventoryItem
 {
     public Sprite Sprite { get; set; }
+    public IPlayerWeapon weapon;
 
-    public InventoryWeapon(Sprite weaponImage)
+    public InventoryWeapon(IPlayerWeapon weapon, Sprite weaponImage)
     {
+        this.weapon = weapon;
         this.Sprite = weaponImage;
     }
 }

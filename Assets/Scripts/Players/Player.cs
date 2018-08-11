@@ -1,4 +1,5 @@
 using Resources;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,7 +35,10 @@ public class Player : MonoBehaviour
 
     private Inventory inventory;
 
-    public Sprite[] items;
+    public PrefabTile[] tiles;
+    private TileController tileController;
+
+    public IPlayerWeapon[] weapons;
 
     [SerializeField]
     private Color color;
@@ -57,12 +61,8 @@ public class Player : MonoBehaviour
 
         GameObject inventoryObject = Instantiate(inventoryPrefab, transform);
         this.inventory = inventoryObject.GetComponent<Inventory>();
-    }
 
-    private void OxygenLevelChanged(Oxygen oxygen)
-    {
-        oxygenBar.gameObject.SetActive(Attributes.MaxOxygen - oxygen >= oxygenUsagePerSecond);
-        oxygenBar.normalizedValue = oxygen / Attributes.MaxOxygen;
+        this.tileController = FindObjectOfType<TileController>();
     }
 
     private void Start()
@@ -76,35 +76,6 @@ public class Player : MonoBehaviour
         this.inventory.DisableMenuView();
 
         Attributes.IsAlive = true;
-    }
-
-    internal void OpenInventory()
-    {
-        this.playerMovement.enabled = false;
-
-        //TODO: Get the InventoryList from a Centeral Point instead of the 3 examples here.
-        var itemList = new List<IInventoryItem>();
-        foreach (Sprite sprite in items)
-        {
-            IInventoryItem item = new InventoryWeapon(sprite);
-            itemList.Add(item);
-        }
-        //-------------------------------------------------
-
-        this.inventory.EnableMenuView(itemList);
-        this.inventory.EnableItemSelection();
-    }
-
-    internal void ConfirmSelection(IInventoryItem inventoryItem)
-    {
-        Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem().Sprite.name} is confirmed");
-        this.inventory.DisableItemSelection();
-        this.inventory.DisableMenuView();
-
-        Attributes.CurrentEquippedItem = this.inventory.GetCurrentSelectedItem();
-        rightHand.sprite = Attributes.CurrentEquippedItem.Sprite;
-
-        this.playerMovement.enabled = true;
     }
 
     private void Update()
@@ -153,5 +124,60 @@ public class Player : MonoBehaviour
             Attributes.IncreaseOxygen(oxygen);
             return true;
         }
+    }
+
+    internal void OpenInventory()
+    {
+        this.playerMovement.enabled = false;
+
+        var itemList = new List<IInventoryItem>();
+        foreach (PrefabTile tile in tiles)
+        {
+            IInventoryItem item = new InventoryTile(tile);
+            itemList.Add(item);
+        }
+
+        //TODO: Add weapons
+
+        this.inventory.EnableMenuView(itemList);
+        this.inventory.EnableItemSelection();
+    }
+
+    internal void ConfirmSelection(IInventoryItem inventoryItem)
+    {
+        Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem().Sprite.name} is confirmed");
+        this.inventory.DisableItemSelection();
+        this.inventory.DisableMenuView();
+
+        Attributes.CurrentEquippedItem = this.inventory.GetCurrentSelectedItem();
+        rightHand.sprite = Attributes.CurrentEquippedItem.Sprite;
+
+        this.playerMovement.enabled = true;
+    }
+
+    internal void ProcessAction()
+    {
+        IInventoryItem currentItem = Attributes.CurrentEquippedItem;
+        if (currentItem is InventoryTile)
+        {
+            InventoryTile inventoryTile = (InventoryTile)currentItem;
+            tileController.TryAddTile(inventoryTile.Tile, transform.position);
+        }
+        else if (currentItem is InventoryWeapon)
+        {
+            InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
+            inventoryWeapon.weapon.Fire();
+        }
+    }
+
+    internal void SellTower()
+    {
+        //Sell Tower in front of you
+    }
+
+    private void OxygenLevelChanged(Oxygen oxygen)
+    {
+        oxygenBar.gameObject.SetActive(Attributes.MaxOxygen - oxygen >= oxygenUsagePerSecond);
+        oxygenBar.normalizedValue = oxygen / Attributes.MaxOxygen;
     }
 }

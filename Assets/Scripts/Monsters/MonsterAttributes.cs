@@ -8,8 +8,11 @@ namespace Monsters
     {
         public int Health;
         public int Attackpower;
-        public int Speed;
-        
+        public float MoveForce;
+        public float Range;
+        public float JumpForce;
+
         public int EnergyValue;
+        public float MaxSpeed;
     }
 }
