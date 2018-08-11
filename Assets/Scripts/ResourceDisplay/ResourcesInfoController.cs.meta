@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f1f1a0208f74a884897ef8196d891609
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - resourceDisplayPrefab: {fileID: 1692178739838680, guid: 112402ccd4442444fa5eeda8a395df4c,
+      type: 2}
+  - energyIcon: {instanceID: 0}
+  - oxygenIcon: {instanceID: 0}
+  - constructionMaterialIcon: {instanceID: 0}
+  - bloodIcon: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

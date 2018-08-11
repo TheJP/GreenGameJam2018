@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Boo.Lang;
+using System.Collections.Generic;
 using UnityEngine;
 using Debug = System.Diagnostics.Debug;
 
@@ -60,6 +60,21 @@ namespace Resources
         public Blood BloodAvailable =>
             bloodStorages.Aggregate(bloodBaseStorage.CurrentValue, (a, s) => a + s.CurrentValue);
 
+        
+        public Energy EnergyCapacity =>
+            energyStorages.Aggregate(energyBaseStorage.CurrentValue, (a, s) => a + s.Capacity);
+
+        public Oxygen OxygenCapacity =>
+            oxygenStorages.Aggregate(oxygenBaseStorage.CurrentValue, (a, s) => a + s.Capacity);
+
+        public ConstructionMaterial ConstructionMaterialCapacity =>
+            constructionMaterialStorages.Aggregate(constructionMaterialBaseStorage.Capacity,
+                (a, s) => a + s.CurrentValue);
+
+        public Blood BloodCapacity =>
+            bloodStorages.Aggregate(bloodBaseStorage.CurrentValue, (a, s) => a + s.Capacity);
+
+        
         public ResourceManager()
         {
             energySinks = new List<EnergySink>();
