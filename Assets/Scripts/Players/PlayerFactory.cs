@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerFactory : MonoBehaviour
 {
-
 #pragma warning disable 0649
     [SerializeField]
     private GameObject playerPrefab;
