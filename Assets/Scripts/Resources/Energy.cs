@@ -56,6 +56,21 @@ namespace Resources
             return new Energy(-energy.value);
         }
         
+        public static Energy operator *(Energy left, float right)
+        {
+            return new Energy(left.value * right);
+        }
+        
+        public static Energy operator *(float left, Energy right)
+        {
+            return new Energy(left * right.value);
+        }
+        
+        public static Energy operator /(Energy left, float right)
+        {
+            return new Energy(left.value / right);
+        }
+        
         public static bool operator <(Energy left, Energy right)
         {
             return left.value < right.value;

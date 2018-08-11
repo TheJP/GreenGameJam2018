@@ -56,6 +56,21 @@ namespace Resources
         {
             return new ConstructionMaterial(-material.value);
         }
+        
+        public static ConstructionMaterial operator *(ConstructionMaterial left, float right)
+        {
+            return new ConstructionMaterial(left.value * right);
+        }
+        
+        public static ConstructionMaterial operator *(float left, ConstructionMaterial right)
+        {
+            return new ConstructionMaterial(left * right.value);
+        }
+        
+        public static ConstructionMaterial operator /(ConstructionMaterial left, float right)
+        {
+            return new ConstructionMaterial(left.value / right);
+        }
 
         public int CompareTo(ConstructionMaterial other)
         {
