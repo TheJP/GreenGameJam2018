@@ -53,11 +53,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown($"Action_{PlayerNumber}"))
         {
             Debug.Log($"Action Button Down Occured from Player {PlayerNumber}");
+            player.ProcessAction();
         }
 
         if (Input.GetButtonDown($"Remove_{PlayerNumber}"))
         {
             Debug.Log($"Remove Button Down Occured from Player {PlayerNumber}");
+            player.SellTower();
         }
     }
 
@@ -68,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             var horizontal = Input.GetAxis($"Horizontal_{PlayerNumber}");
             playerRigidBody2D.AddForce(Vector2.right * horizontal * moveForce);
 
-            if(Mathf.Abs(playerRigidBody2D.velocity.x) > maxSpeed)
+            if (Mathf.Abs(playerRigidBody2D.velocity.x) > maxSpeed)
             {
                 playerRigidBody2D.velocity = new Vector2(Mathf.Sign(playerRigidBody2D.velocity.x) * maxSpeed, playerRigidBody2D.velocity.y);
             }
