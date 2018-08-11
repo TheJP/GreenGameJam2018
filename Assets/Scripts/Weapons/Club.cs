@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-public class Club : IPlayerWeapon
+public class Club : MonoBehaviour, IPlayerWeapon
 {
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    private Sprite[] clubSprites;
+
     public void Fire()
     {
-        throw new NotImplementedException();
+        spriteRenderer.sprite = clubSprites[1];
     }
 }
