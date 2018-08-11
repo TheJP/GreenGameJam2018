@@ -1,10 +1,13 @@
 ﻿using Resources;
+using System;
 
 public class PlayerAttributes
 {
     public Oxygen MaxOxygen { get; set; }
     public Oxygen CurrentOxygen { get; private set; }
     public bool IsAlive { get; set; }
+
+    public event Action<Oxygen> OxygenLevelChanged;
 
 #pragma warning disable 0649
     private Player player;
@@ -33,6 +36,7 @@ public class PlayerAttributes
     {
         if (CurrentOxygen + amount <= MaxOxygen) { CurrentOxygen += amount; }
         else { CurrentOxygen = MaxOxygen; }
+        OxygenLevelChanged?.Invoke(CurrentOxygen);
     }
 
     /// <summary>
@@ -51,5 +55,6 @@ public class PlayerAttributes
             IsAlive = false;
             CurrentOxygen = new Oxygen(0);
         }
+        OxygenLevelChanged?.Invoke(CurrentOxygen);
     }
 }

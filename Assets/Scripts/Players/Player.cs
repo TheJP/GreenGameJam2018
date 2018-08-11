@@ -1,5 +1,6 @@
 using Resources;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -19,8 +20,12 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject inventoryPrefab;
-    private Inventory inventory;
+
+    [SerializeField]
+    private Slider oxygenBar;
 #pragma warning restore 0649
+
+    private Inventory inventory;
 
     [SerializeField]
     private Color color;
@@ -39,9 +44,17 @@ public class Player : MonoBehaviour
         this.animator = GetComponentInChildren<Animator>();
 
         Attributes = new PlayerAttributes(this, oxygenStorageCapacity);
+        Attributes.OxygenLevelChanged += OxygenLevelChanged;
 
         GameObject inventoryObject = Instantiate(inventoryPrefab, transform);
         this.inventory = inventoryObject.GetComponent<Inventory>();
+    }
+
+    private void OxygenLevelChanged(Oxygen oxygen)
+    {
+        if (Attributes.MaxOxygen - oxygen < oxygenUsagePerSecond) { oxygenBar.gameObject.SetActive(false); }
+        else { oxygenBar.gameObject.SetActive(true); }
+        oxygenBar.normalizedValue = oxygen / Attributes.MaxOxygen;
     }
 
     private void Start()
