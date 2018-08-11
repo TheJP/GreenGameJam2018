@@ -46,6 +46,8 @@ public class SolarArray : Placeable, EnergySource
 
     protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         resourceManager.RemoveSource(this);
         resourceManager.RemoveStorage(energyStorage);
     }

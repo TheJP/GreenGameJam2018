@@ -33,6 +33,8 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
 
     protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         manager.RemoveSink((EnergySink)this);
         manager.RemoveSink((OxygenSink)this);
     }
