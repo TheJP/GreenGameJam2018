@@ -45,7 +45,6 @@ public class PlanetSystemController : MonoBehaviour
 	
 	void Start()
 	{
-		// TODO Reset for re-use (start, end angles, line renderer, players, colors)
 		lineRenderer = GetComponent<LineRenderer>();
 		moonSpriteRenderer = moon.GetComponent<SpriteRenderer>();
 
