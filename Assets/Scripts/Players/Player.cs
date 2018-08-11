@@ -26,14 +26,14 @@ public class Player : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    private PlayerAttributes attributes;
+    public PlayerAttributes Attributes { get; private set; }
 
     private void Awake()
     {
         this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         this.animator = GetComponentInChildren<Animator>();
 
-        attributes = new PlayerAttributes(this, oxygenStorageCapacity);
+        Attributes = new PlayerAttributes(this, oxygenStorageCapacity);
     }
 
     private void Start()
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         this.spriteRenderer.sprite = this.sprite;
         this.spriteRenderer.color = this.color;
 
-        attributes.IsAlive = true;
+        Attributes.IsAlive = true;
     }
 
     private void Update()
@@ -59,14 +59,14 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        attributes.DecreseOxygen(oxygenUsagePerSecond * Time.fixedDeltaTime);
+        Attributes.DecreseOxygen(oxygenUsagePerSecond * Time.fixedDeltaTime);
     }
 
     /// <summary>Calculates how much oxygen this player maximally receive.</summary>
     public Oxygen MaxReceiveOxygen()
     {
-        if (!attributes.IsAlive) { return Oxygen.Zero; }
-        else { return attributes.MaxOxygen - attributes.CurrentOxygen; }
+        if (!Attributes.IsAlive) { return Oxygen.Zero; }
+        else { return Attributes.MaxOxygen - Attributes.CurrentOxygen; }
     }
 
     /// <summary>Receive oxygen to refill the oxygen tank.</summary>
@@ -74,12 +74,12 @@ public class Player : MonoBehaviour
     /// <returns>True if the oxygen could be accepted, false otherwise.</returns>
     public bool Receive(Oxygen oxygen)
     {
-        if (!attributes.IsAlive) { return false; }
-        else if (oxygen > attributes.MaxOxygen - attributes.CurrentOxygen) { return false; }
+        if (!Attributes.IsAlive) { return false; }
+        else if (oxygen > Attributes.MaxOxygen - Attributes.CurrentOxygen) { return false; }
         else
         {
             // TODO: Add oxygen received animation
-            attributes.IncreaseOxygen(oxygen);
+            Attributes.IncreaseOxygen(oxygen);
             return true;
         }
     }

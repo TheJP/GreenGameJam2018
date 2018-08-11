@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //So far all Buttons are only allowed if the Player stands on solid ground.
-        if (IsPlayerOnGround() && Input.GetButtonDown($"Jump_{PlayerNumber}"))
+        if (IsPlayerOnGround() && IsJumpingAllowed() && Input.GetButtonDown($"Jump_{PlayerNumber}"))
         {
             jump = true;
         }
@@ -86,16 +86,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsHorizontalMovementAllowed()
     {
-        return true;
-    }
-
-    private bool IsVerticalMovementAllowed()
-    {
-        return true;
+        return player.Attributes.IsAlive;
     }
 
     private bool IsJumpingAllowed()
     {
-        return true;
+        return player.Attributes.IsAlive;
     }
 }
