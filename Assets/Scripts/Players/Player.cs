@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     private TileController tileController;
 
     public GameObject[] weapons;
+    public GameObject weaponCache;
 
     [SerializeField]
     private Color color;
@@ -80,22 +81,45 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0 || Input.GetAxis($"Vertical_{PlayerNumber}") != 0)
+        if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0)
         {
-            bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
-            this.spriteRenderer.flipX = (lookRight) ? false : true;
-
-            if (Attributes.CurrentEquippedItem != null)
-            {
-                rightHand.sprite = lookRight ? Attributes.CurrentEquippedItem.Sprite : null;
-                leftHand.sprite = lookRight ? null : Attributes.CurrentEquippedItem.Sprite;
-            }
-
             this.animator.enabled = true;
+            DisplayCurrentItem();
         }
         else
         {
             this.animator.enabled = false;
+        }
+    }
+
+    private void DisplayCurrentItem()
+    {
+        if (Attributes.CurrentEquippedItem != null)
+        {
+            if (Attributes.CurrentEquippedItem is InventoryTile)
+            {
+                bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
+                this.spriteRenderer.flipX = (lookRight) ? false : true;
+
+                rightHand.sprite = lookRight ? Attributes.CurrentEquippedItem.Sprite : null;
+                leftHand.sprite = lookRight ? null : Attributes.CurrentEquippedItem.Sprite;
+            }
+            else if (Attributes.CurrentEquippedItem is InventoryWeapon)
+            {
+                GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
+
+                bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
+                if (lookRight)
+                {
+                    weapon.GetComponent<SpriteRenderer>().flipX = false;
+                    weapon.gameObject.transform.SetParent(rightHand.gameObject.transform, false);
+                }
+                else
+                {
+                    weapon.GetComponent<SpriteRenderer>().flipX = true;
+                    weapon.gameObject.transform.SetParent(leftHand.gameObject.transform, false);
+                }
+            }
         }
     }
 
@@ -139,9 +163,8 @@ public class Player : MonoBehaviour
 
         foreach (GameObject weapon in weapons)
         {
-            IPlayerWeapon weaponScript = weapon.GetComponent<IPlayerWeapon>();
             Sprite sprite = weapon.GetComponent<SpriteRenderer>().sprite;
-            IInventoryItem item = new InventoryWeapon(weaponScript, sprite);
+            IInventoryItem item = new InventoryWeapon(Instantiate(weapon, weaponCache.transform), sprite);
             itemList.Add(item);
         }
 
@@ -157,7 +180,7 @@ public class Player : MonoBehaviour
         this.inventory.DisableMenuView();
 
         Attributes.CurrentEquippedItem = this.inventory.GetCurrentSelectedItem();
-        rightHand.sprite = Attributes.CurrentEquippedItem.Sprite;
+        ClearHands();
 
         this.playerMovement.enabled = true;
     }
@@ -173,7 +196,7 @@ public class Player : MonoBehaviour
         else if (currentItem is InventoryWeapon)
         {
             InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
-            inventoryWeapon.weapon.Fire();
+            inventoryWeapon.Weapon.GetComponent<IPlayerWeapon>().Fire();
         }
     }
 
@@ -186,5 +209,21 @@ public class Player : MonoBehaviour
     {
         oxygenBar.gameObject.SetActive(Attributes.MaxOxygen - oxygen >= oxygenUsagePerSecond);
         oxygenBar.normalizedValue = oxygen / Attributes.MaxOxygen;
+    }
+
+    private void ClearHands()
+    {
+        leftHand.sprite = null;
+        rightHand.sprite = null;
+
+        foreach (Transform child in leftHand.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in rightHand.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
