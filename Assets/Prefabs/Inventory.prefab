@@ -233,6 +233,7 @@ MonoBehaviour:
   spriteLeft: {fileID: 114610841906684538}
   spriteMiddle: {fileID: 114490155720987740}
   spriteRight: {fileID: 114368430781979428}
+  inventorySelection: {fileID: 114098826645165854}
 --- !u!114 &114363924973239808
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2,13 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(InventorySelection))]
 public class Inventory : MonoBehaviour
 {
-
-    [SerializeField]
-    private int controllerNumber;
-    public int ControllerNumber { get { return controllerNumber; } set { this.controllerNumber = value; } }
-
     [SerializeField]
     public Canvas menuCanvas;
 
@@ -21,24 +17,28 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     public Image spriteRight;
 
+#pragma warning disable 0649
+    [SerializeField]
+    private InventorySelection inventorySelection;
+#pragma warning restore 0649
+
     private List<IInventoryItem> items;
     private int currentSelctedItem;
     private bool selectionChanged;
-    private InventorySelection inventorySelection;
 
-    public Player player { get; set; }
+    public Player Player { get; set; }
 
-    // Use this for initialization
-    void Start()
+    private void Awake()
     {
         items = new List<IInventoryItem>();
-        CreateExampleItems();
-
-        inventorySelection = GetComponent<InventorySelection>();
-        inventorySelection.ControllerNumber = ControllerNumber;
     }
 
-    void Update()
+    private void Start()
+    {
+        inventorySelection.ControllerNumber = Player.PlayerNumber;
+    }
+
+    private void Update()
     {
         if (selectionChanged)
         {
@@ -47,14 +47,24 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void EnableMenu()
+    public void EnableMenuView()
     {
         menuCanvas.enabled = true;
     }
 
-    public void DisableMenu()
+    public void DisableMenuView()
     {
         menuCanvas.enabled = false;
+    }
+
+    public void EnableItemSelection()
+    {
+        inventorySelection.enabled = true;
+    }
+
+    public void DisableItemSelection()
+    {
+        inventorySelection.enabled = false;
     }
 
     public void AddItems(IList<IInventoryItem> items)
@@ -70,25 +80,9 @@ public class Inventory : MonoBehaviour
 
     private void RedrawItems()
     {
-        if (currentSelctedItem >= 1)
-        {
-            spriteLeft.sprite = items[currentSelctedItem - 1].Sprite;
-        }
-        else
-        {
-            spriteLeft.sprite = null;
-        }
-
+        spriteLeft.sprite = (currentSelctedItem >= 1) ? items[currentSelctedItem - 1].Sprite : null;
         spriteMiddle.sprite = items[currentSelctedItem].Sprite;
-
-        if (currentSelctedItem < items.Count - 1)
-        {
-            spriteRight.sprite = items[currentSelctedItem + 1].Sprite;
-        }
-        else
-        {
-            spriteRight.sprite = null;
-        }
+        spriteRight.sprite = (currentSelctedItem < items.Count - 1) ? items[currentSelctedItem + 1].Sprite : null;
     }
 
     internal void MoveSelectionRight()
@@ -119,10 +113,10 @@ public class Inventory : MonoBehaviour
 
     internal void Confirm()
     {
-        player?.ConfirmSelection(items[currentSelctedItem]);
+        Player?.ConfirmSelection(items[currentSelctedItem]);
     }
 
-    private void CreateExampleItems()
+    public void CreateExampleItems()
     {
         IInventoryItem item1 = new InventoryWeapon(UnityEngine.Resources.Load<Sprite>("weapon_club"));
         IInventoryItem item2 = new InventoryWeapon(UnityEngine.Resources.Load<Sprite>("weapon_gun"));
