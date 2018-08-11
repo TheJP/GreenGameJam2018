@@ -23,6 +23,7 @@ public class TileController : MonoBehaviour
     public bool TryAddTile(TileBase tileType, Vector3Int position)
     {
         if (terrain.GetTile(position) != null) { return false; }
+        if (terrain.GetTile(position + Vector3Int.down) == null) { return false; }
         if (placeables.GetTile(position) != null) { return false; }
 
         placeables.SetTile(position, tileType);
