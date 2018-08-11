@@ -13,7 +13,7 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
     public Energy energyUsagePerSecond = new Energy(10);
 
     [Tooltip("How much oxygen is used per game tick")]
-    public Oxygen oxygenUsagePerSecond = new Oxygen(5);
+    public Oxygen minOxygenUsagePerSecond = new Oxygen(5);
 
     [Tooltip("How much oxygen is used per game tick")]
     public Oxygen oxygenRefillPerSecond = new Oxygen(10);
@@ -76,6 +76,9 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
                 var maxOxygenRequest = connectedPlayers.Aggregate(Oxygen.Zero, (a, b) => a + b.MaxReceiveOxygen());
                 // Amount of oxygen that will be provided to the players
                 var oxygenRequest = ResourceMath.Min(oxygenAvailable, maxOxygenRequest);
+                // At least consume a minimal amount of oxygen
+                // Without this, the tower wont work. Excess is lost.
+                oxygenRequest = ResourceMath.Max(oxygenRequest, minOxygenUsagePerSecond * Time.fixedDeltaTime);
 
                 if (manager.TryConsume(oxygenRequest))
                 {
