@@ -5,6 +5,7 @@ using Resources;
 using System.Linq;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(LineRenderer))]
 public class OxygenTower : Placeable, OxygenSink, EnergySink
 {
     public const string AnimatorOnFlag = "On";
@@ -23,13 +24,18 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
 
     private Animator animator;
     private ResourceManager manager;
+    private LineRenderer lineRenderer;
 
     private readonly HashSet<Player> connectedPlayers = new HashSet<Player>();
 
     /// <summary>Internal state that determines if the machine has power and should consume oxygen.</summary>
     private bool HasEnergy { get; set; } = false;
 
-    private void Awake() => animator = GetComponent<Animator>();
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        lineRenderer = GetComponent<LineRenderer>();
+    }
 
     protected override void Start()
     {
@@ -58,6 +64,13 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
     {
         var player = collision.GetComponent<Player>();
         if (player != null) { connectedPlayers.Remove(player); }
+    }
+
+    private void Update()
+    {
+        var lines = connectedPlayers.SelectMany(p => new[] { transform.position, p.transform.position, transform.position }).ToArray();
+        lineRenderer.positionCount = lines.Length;
+        lineRenderer.SetPositions(lines);
     }
 
     public void ConsumeEnergy(ResourceManager manager) =>
