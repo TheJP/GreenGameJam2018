@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7740609c9ef234418f5e89ccd4a191e, type: 3}
   m_Name: SolarArrayTile
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 21300000, guid: 37a7fbd2c10295f40ac529d895cd2473, type: 3}
+  Sprite: {fileID: 21300000, guid: 708c077c012d9f14faea8bbc59b64de7, type: 3}
   Prefab: {fileID: 1262909855714896, guid: b6933b939a9544e44946aa5df5ee1807, type: 2}
