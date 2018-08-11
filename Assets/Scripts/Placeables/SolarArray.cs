@@ -1,7 +1,7 @@
 ﻿using Resources;
 using UnityEngine;
 
-public class SolarArray : MonoBehaviour, EnergySource
+public class SolarArray : Placeable, EnergySource
 {
     #pragma warning disable 0649
     [SerializeField]
@@ -11,8 +11,10 @@ public class SolarArray : MonoBehaviour, EnergySource
     private ResourceManager resourceManager;
     private EnergyStorage energyStorage;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         resourceManager = FindObjectOfType<ResourceManager>();
         energyStorage = GetComponent<EnergyStorage>();
         

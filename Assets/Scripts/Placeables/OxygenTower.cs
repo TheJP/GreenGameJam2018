@@ -4,7 +4,7 @@ using UnityEngine;
 using Resources;
 
 [RequireComponent(typeof(Animator))]
-public class OxygenTower : MonoBehaviour, OxygenSink, EnergySink
+public class OxygenTower : Placeable, OxygenSink, EnergySink
 {
     private const string AnimatorOnFlag = "On";
 
@@ -22,8 +22,10 @@ public class OxygenTower : MonoBehaviour, OxygenSink, EnergySink
 
     private void Awake() => animator = GetComponent<Animator>();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         manager = FindObjectOfType<ResourceManager>();
         manager.AddSink((EnergySink)this);
         manager.AddSink((OxygenSink)this);
