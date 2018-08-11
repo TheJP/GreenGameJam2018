@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public int PlayerNumber { get; set; }
+    [SerializeField]
+    private int playerNumber;
+    public int PlayerNumber { get { return playerNumber; } set { this.playerNumber = value; } }
 
     public Vector2 StartPosition { get; set; }
 
@@ -12,26 +16,65 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float maxVelocityHorizontal;
 
+    [SerializeField]
+#pragma warning disable 0649
+    private Rigidbody2D rigidbody2d;
+#pragma warning restore 0649
+
     private Vector2 currentPosition;
+
+    public const int JumpHeight = 50;
 
     void Update()
     {
         if (IsVerticalMovementAllowed())
         {
-            //Flip Sprite Direction
-            float translationHorizontal = Input.GetAxis("Horizontal") * maxVelocityHorizontal;
+            float translationHorizontal = Input.GetAxis($"Horizontal_{PlayerNumber}") * maxVelocityHorizontal * Time.deltaTime;
             currentPosition.x = currentPosition.x + translationHorizontal;
+            transform.position = new Vector2(currentPosition.x, transform.position.y);
         }
 
-        if (IsHorizontalMovementAllowed())
+        //For climbing Ladders
+        //if (IsHorizontalMovementAllowed())
+        //{
+        //    float translationVertical = Input.GetAxis($"Vertical_{PlayerNumber}") * maxVelocityVertical * Time.deltaTime;
+        //    currentPosition.y = currentPosition.y + translationVertical;
+        //}
+
+        //So far all Buttons are only allowed if the Player stands on solid ground.
+        if (IsPlayerOnGround())
         {
-            float translationVertical = Input.GetAxis("Vertical") * maxVelocityVertical;
-            currentPosition.y = currentPosition.y + translationVertical;
+            if (Input.GetButtonDown($"Jump_{PlayerNumber}"))
+            {
+                this.rigidbody2d.AddForce(new Vector2(0, JumpHeight));
+            }
+
+            if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
+            {
+                Debug.Log($"Selector Button Down Occured from Player {PlayerNumber}");
+            }
+
+            if (Input.GetButtonDown($"Action_{PlayerNumber}"))
+            {
+                Debug.Log($"Action Button Down Occured from Player {PlayerNumber}");
+            }
+
+            if (Input.GetButtonDown($"Remove_{PlayerNumber}"))
+            {
+                Debug.Log($"Remove Button Down Occured from Player {PlayerNumber}");
+            }
         }
+    }
 
-        transform.position = currentPosition;
+    private bool IsPlayerOnGround()
+    {
+        //TODO: Check if the Player stands on solid Ground
+        return true;
+    }
 
-        //Jump
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 
     public void Initilaize()
@@ -64,4 +107,13 @@ public class PlayerMovement : MonoBehaviour
     {
         return true;
     }
+
+    //private IEnumerator Jump()
+    //{
+    //    while (transform.position.y < JumpHeight)
+    //    {
+
+    //    }
+    //    yield return null;
+    //}
 }

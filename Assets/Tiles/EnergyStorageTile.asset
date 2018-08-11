@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7740609c9ef234418f5e89ccd4a191e, type: 3}
+  m_Name: EnergyStorageTile
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 21300000, guid: 4b4a156af975dab4698027429ff7fb00, type: 3}
+  Prefab: {fileID: 1285321357168388, guid: 1c8265eefd3da4640847170cb689e479, type: 2}

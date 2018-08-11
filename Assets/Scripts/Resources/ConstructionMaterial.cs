@@ -71,6 +71,11 @@ namespace Resources
         {
             return new ConstructionMaterial(left.value / right);
         }
+        
+        public static float operator /(ConstructionMaterial left, ConstructionMaterial right)
+        {
+            return left.value / right.value;
+        }
 
         public int CompareTo(ConstructionMaterial other)
         {

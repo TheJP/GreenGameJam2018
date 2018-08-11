@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     private int playerNumber;
     public int PlayerNumber { get { return this.playerNumber; } set { this.playerNumber = value; } }
 
-    #pragma warning disable 0649
+#pragma warning disable 0649
     [SerializeField]
     private Sprite sprite;
 #pragma warning restore 0649
@@ -19,46 +19,36 @@ public class Player : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    [SerializeField]
-    private int currentOxygen;
+    public int MaxOxygen { get { return attributes.MaxOxygen; } set { attributes.MaxOxygen = value; } }
+    private PlayerAttributes attributes;
+
     private const float OxygenRefillDelay = 0.5F;
     private const float OxygenConsumeDelay = 1.0F;
     private Coroutine oxygenRefill;
     private Coroutine oxygenConsumer;
 
-    public int MaxOxygen { get; set; }
-    public bool IsAlive { get; private set; }
-
-    //Phobie
-    //Equipped Weapon
-    //Inventory
-
     private void Awake()
     {
-        this.spriteRenderer = GetComponent<SpriteRenderer>();
-        this.animator = GetComponent<Animator>();
+        this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        this.animator = GetComponentInChildren<Animator>();
+
+        attributes = new PlayerAttributes(this);
     }
 
     public void Initialize()
     {
-        if (MaxOxygen == 0)
-        {
-            MaxOxygen = 100;
-        }
-        this.currentOxygen = MaxOxygen;
-
         this.spriteRenderer.sprite = this.sprite;
         this.spriteRenderer.color = this.color;
 
-        IsAlive = true;
+        attributes.IsAlive = true;
         StartConsumeOxygen();
     }
 
     void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0 || Input.GetAxis($"Vertical_{PlayerNumber}") != 0)
         {
-            this.spriteRenderer.flipX = (Input.GetAxis("Horizontal") > 0) ? false : true;
+            this.spriteRenderer.flipX = (Input.GetAxis($"Horizontal_{PlayerNumber}") > 0) ? false : true;
             this.animator.enabled = true;
         }
         else
@@ -68,49 +58,18 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Increase the Oxygen of this Player about the given amount.
-    /// If the Oxygen is already on maxOxygen, this call is ignored.
+    /// Start a Coroutine which consumes continuously oxgen.
+    /// At the moment, only one of these coroutines at the time can be started.
     /// </summary>
-    /// <param name="amount"></param>
-    public void IncreaseOxygen(int amount)
-    {
-        if (this.currentOxygen < MaxOxygen)
-        {
-            currentOxygen++;
-        }
-    }
-
-    /*
-     * Decrease the Oxygen of this Player about the given amount.
-     * If the Oxygen is 0 (or lower) IsAlive is set to false;
-     */
-    public void DecreseOxygen(int amount)
-    {
-        if (this.currentOxygen > 0)
-        {
-            this.currentOxygen--;
-        }
-        else
-        {
-            IsAlive = false;
-            StopRefillOxgen();
-            StopConsumeOxygen();
-        }
-    }
-
-    /*
-     * Start a Coroutine which consumes continuously oxgen.
-     * At the moment, only one of these coroutines at the time can be started.
-     */
     public void StartConsumeOxygen()
     {
         StopConsumeOxygen();
         this.oxygenConsumer = StartCoroutine(ConsumeOxygen());
     }
 
-    /*
-     * Stops the Coroutine which consumes continuously oxgen if running.
-     */
+    /// <summary>
+    /// Stops the Coroutine which consumes continuously oxgen if running.
+    /// </summary>
     public void StopConsumeOxygen()
     {
         if (this.oxygenConsumer != null)
@@ -119,18 +78,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*
-     * Start a Coroutine which refills continuously oxgen.
-     * At the moment, only one of these coroutines at the time can be started.
-     */
+    /// <summary>
+    /// Start a Coroutine which refills continuously oxgen.
+    /// At the moment, only one of these coroutines at the time can be started.
+    /// </summary>
     public void StartRefillOxygen()
     {
         this.oxygenRefill = StartCoroutine(RefillOxygen());
     }
 
-    /*
-     * Stops the Coroutine which refills continuously oxgen if running.
-     */
+    /// <summary>
+    /// Stops the Coroutine which refills continuously oxgen if running.
+    /// </summary>
     public void StopRefillOxgen()
     {
         if (this.oxygenRefill != null)
@@ -143,7 +102,7 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            IncreaseOxygen(1);
+            attributes.IncreaseOxygen(1);
             yield return new WaitForSeconds(OxygenRefillDelay);
         }
     }
@@ -152,7 +111,7 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            DecreseOxygen(1);
+            attributes.DecreseOxygen(1);
             yield return new WaitForSeconds(OxygenConsumeDelay);
         }
     }
