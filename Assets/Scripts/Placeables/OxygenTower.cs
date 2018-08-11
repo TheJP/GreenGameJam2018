@@ -9,13 +9,13 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
     public const string AnimatorOnFlag = "On";
 
     [Tooltip("How much energy is used per game tick")]
-    public Energy energyUsage = new Energy(10);
+    public Energy energyUsagePerSecond = new Energy(10);
+
+    [Tooltip("How much oxygen is used per game tick")]
+    public Oxygen oxygenUsagePerSecond = new Oxygen(5);
 
     [Tooltip("Area of effect that this tower provides with oxygen")]
     public float aoeRadius = 2f;
-
-    // TODO: Remove (see ConsumeOxygen)
-    private Oxygen oxygenUsage = new Oxygen(10);
 
     private Animator animator;
     private ResourceManager manager;
@@ -42,15 +42,17 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
         manager.RemoveSink((OxygenSink)this);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.name);
+    }
+
     public void ConsumeEnergy(ResourceManager manager) =>
-        HasEnergy = manager.TryConsume(energyUsage);
+        HasEnergy = manager.TryConsume(energyUsagePerSecond * Time.fixedDeltaTime);
 
     public void ConsumeOxygen(ResourceManager manager)
     {
-        // TODO: Check for attached players and only use oxygen to charge their tank (instead of consuming a constant amount each tick)
-        bool on = HasEnergy && manager.TryConsume(oxygenUsage);
-
-        // Update animation state
+        var on = HasEnergy && manager.TryConsume(oxygenUsagePerSecond * Time.fixedDeltaTime);
         if (animator.GetBool(AnimatorOnFlag) != on) { animator.SetBool(AnimatorOnFlag, on); }
     }
 }
