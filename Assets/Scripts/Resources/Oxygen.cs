@@ -71,6 +71,11 @@ namespace Resources
         {
             return new Oxygen(left.value / right);
         }
+        
+        public static float operator /(Oxygen left, Oxygen right)
+        {
+            return left.value / right.value;
+        }
 
         public int CompareTo(Oxygen other)
         {

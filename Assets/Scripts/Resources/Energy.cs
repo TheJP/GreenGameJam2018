@@ -71,6 +71,11 @@ namespace Resources
             return new Energy(left.value / right);
         }
         
+        public static float operator /(Energy left, Energy right)
+        {
+            return left.value / right.value;
+        }
+        
         public static bool operator <(Energy left, Energy right)
         {
             return left.value < right.value;
