@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
 
     internal void ConfirmSelection(IInventoryItem inventoryItem)
     {
-        Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem()} is confirmed");
+        Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem().Sprite.name} is confirmed");
         this.inventory.DisableItemSelection();
         this.inventory.DisableMenuView();
         this.playerMovement.enabled = true;

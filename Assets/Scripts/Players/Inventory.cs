@@ -6,10 +6,6 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
-    private int controllerNumber;
-    public int ControllerNumber { get { return controllerNumber; } set { this.controllerNumber = value; } }
-
-    [SerializeField]
     public Canvas menuCanvas;
 
     [SerializeField]
@@ -84,25 +80,9 @@ public class Inventory : MonoBehaviour
 
     private void RedrawItems()
     {
-        if (currentSelctedItem >= 1)
-        {
-            spriteLeft.sprite = items[currentSelctedItem - 1].Sprite;
-        }
-        else
-        {
-            spriteLeft.sprite = null;
-        }
-
+        spriteLeft.sprite = (currentSelctedItem >= 1) ? items[currentSelctedItem - 1].Sprite : null;
         spriteMiddle.sprite = items[currentSelctedItem].Sprite;
-
-        if (currentSelctedItem < items.Count - 1)
-        {
-            spriteRight.sprite = items[currentSelctedItem + 1].Sprite;
-        }
-        else
-        {
-            spriteRight.sprite = null;
-        }
+        spriteRight.sprite = (currentSelctedItem < items.Count - 1) ? items[currentSelctedItem + 1].Sprite : null;
     }
 
     internal void MoveSelectionRight()
