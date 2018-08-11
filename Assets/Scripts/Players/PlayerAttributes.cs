@@ -9,12 +9,13 @@ public class PlayerAttributes
 
     public event Action<Oxygen> OxygenLevelChanged;
 
+    public IInventoryItem CurrentEquippedItem { get; set; }
+
 #pragma warning disable 0649
     private Player player;
 #pragma warning restore 0649
 
     //List of Phobies
-    //Equipped Weapon/Tower
     //Weapon Inventory
     //Tower Inventory
 

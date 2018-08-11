@@ -47,8 +47,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void EnableMenuView()
+    public void EnableMenuView(IList<IInventoryItem> itemListToDisaply)
     {
+        items.Clear();
+        items.AddRange(itemListToDisaply);
+        RedrawItems();
         menuCanvas.enabled = true;
     }
 
@@ -65,12 +68,6 @@ public class Inventory : MonoBehaviour
     public void DisableItemSelection()
     {
         inventorySelection.enabled = false;
-    }
-
-    public void AddItems(IList<IInventoryItem> items)
-    {
-        this.items.AddRange(items);
-        selectionChanged = true;
     }
 
     public IInventoryItem GetCurrentSelectedItem()
@@ -114,17 +111,5 @@ public class Inventory : MonoBehaviour
     internal void Confirm()
     {
         Player?.ConfirmSelection(items[currentSelctedItem]);
-    }
-
-    public void CreateExampleItems()
-    {
-        IInventoryItem item1 = new InventoryWeapon(UnityEngine.Resources.Load<Sprite>("weapon_club"));
-        IInventoryItem item2 = new InventoryWeapon(UnityEngine.Resources.Load<Sprite>("weapon_gun"));
-        IInventoryItem item3 = new InventoryWeapon(UnityEngine.Resources.Load<Sprite>("weapon_saw"));
-        List<IInventoryItem> items = new List<IInventoryItem>();
-        items.Add(item1);
-        items.Add(item2);
-        items.Add(item3);
-        AddItems(items);
     }
 }

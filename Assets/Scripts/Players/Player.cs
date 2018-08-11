@@ -1,4 +1,5 @@
 using Resources;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,9 +24,17 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Slider oxygenBar;
+
+    [SerializeField]
+    private SpriteRenderer leftHand;
+
+    [SerializeField]
+    private SpriteRenderer rightHand;
 #pragma warning restore 0649
 
     private Inventory inventory;
+
+    public Sprite[] items;
 
     [SerializeField]
     private Color color;
@@ -62,8 +71,6 @@ public class Player : MonoBehaviour
         this.spriteRenderer.color = this.color;
         this.playerMovement = GetComponent<PlayerMovement>();
 
-        //TODO: Replace this with the real Items of the Player
-        this.inventory.CreateExampleItems();
         this.inventory.Player = this;
         this.inventory.DisableItemSelection();
         this.inventory.DisableMenuView();
@@ -74,7 +81,17 @@ public class Player : MonoBehaviour
     internal void OpenInventory()
     {
         this.playerMovement.enabled = false;
-        this.inventory.EnableMenuView();
+
+        //TODO: Get the InventoryList from a Centeral Point instead of the 3 examples here.
+        var itemList = new List<IInventoryItem>();
+        foreach (Sprite sprite in items)
+        {
+            IInventoryItem item = new InventoryWeapon(sprite);
+            itemList.Add(item);
+        }
+        //-------------------------------------------------
+
+        this.inventory.EnableMenuView(itemList);
         this.inventory.EnableItemSelection();
     }
 
@@ -83,6 +100,10 @@ public class Player : MonoBehaviour
         Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem().Sprite.name} is confirmed");
         this.inventory.DisableItemSelection();
         this.inventory.DisableMenuView();
+
+        Attributes.CurrentEquippedItem = this.inventory.GetCurrentSelectedItem();
+        rightHand.sprite = Attributes.CurrentEquippedItem.Sprite;
+
         this.playerMovement.enabled = true;
     }
 
@@ -90,7 +111,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0 || Input.GetAxis($"Vertical_{PlayerNumber}") != 0)
         {
-            this.spriteRenderer.flipX = (Input.GetAxis($"Horizontal_{PlayerNumber}") > 0) ? false : true;
+            bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
+            this.spriteRenderer.flipX = (lookRight) ? false : true;
+
+            if (Attributes.CurrentEquippedItem != null)
+            {
+                rightHand.sprite = lookRight ? Attributes.CurrentEquippedItem.Sprite : null;
+                leftHand.sprite = lookRight ? null : Attributes.CurrentEquippedItem.Sprite;
+            }
+
             this.animator.enabled = true;
         }
         else
