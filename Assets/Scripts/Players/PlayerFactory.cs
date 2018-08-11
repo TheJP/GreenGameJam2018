@@ -34,7 +34,6 @@ public class PlayerFactory : MonoBehaviour
                 Player player = playerObject.GetComponent<Player>();
                 player.PlayerNumber = playerNumber;
                 player.Color = playerColors[playerNumber - 1];
-                player.MaxOxygen = 100;
 
                 PlayerMovement playerMovement = playerObject.GetComponent<PlayerMovement>();
                 playerMovement.StartPosition = playerPositions[playerNumber - 1].transform.position;

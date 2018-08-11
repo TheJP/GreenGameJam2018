@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Resources;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,6 +11,12 @@ public class Player : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
     private Sprite sprite;
+
+    [SerializeField]
+    private Oxygen oxygenUsagePerSecond = new Oxygen(5);
+
+    [SerializeField]
+    private Oxygen oxygenStorageCapacity = new Oxygen(100);
 #pragma warning restore 0649
 
     [SerializeField]
@@ -19,20 +26,14 @@ public class Player : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    public int MaxOxygen { get { return attributes.MaxOxygen; } set { attributes.MaxOxygen = value; } }
     private PlayerAttributes attributes;
-
-    private const float OxygenRefillDelay = 0.5F;
-    private const float OxygenConsumeDelay = 1.0F;
-    private Coroutine oxygenRefill;
-    private Coroutine oxygenConsumer;
 
     private void Awake()
     {
         this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         this.animator = GetComponentInChildren<Animator>();
 
-        attributes = new PlayerAttributes(this);
+        attributes = new PlayerAttributes(this, oxygenStorageCapacity);
     }
 
     private void Start()
@@ -41,10 +42,9 @@ public class Player : MonoBehaviour
         this.spriteRenderer.color = this.color;
 
         attributes.IsAlive = true;
-        StartConsumeOxygen();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0 || Input.GetAxis($"Vertical_{PlayerNumber}") != 0)
         {
@@ -57,62 +57,30 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Start a Coroutine which consumes continuously oxgen.
-    /// At the moment, only one of these coroutines at the time can be started.
-    /// </summary>
-    public void StartConsumeOxygen()
+    private void FixedUpdate()
     {
-        StopConsumeOxygen();
-        this.oxygenConsumer = StartCoroutine(ConsumeOxygen());
+        attributes.DecreseOxygen(oxygenUsagePerSecond * Time.fixedDeltaTime);
     }
 
-    /// <summary>
-    /// Stops the Coroutine which consumes continuously oxgen if running.
-    /// </summary>
-    public void StopConsumeOxygen()
+    /// <summary>Calculates how much oxygen this player maximally receive.</summary>
+    public Oxygen MaxReceiveOxygen()
     {
-        if (this.oxygenConsumer != null)
+        if (!attributes.IsAlive) { return Oxygen.Zero; }
+        else { return attributes.MaxOxygen - attributes.CurrentOxygen; }
+    }
+
+    /// <summary>Receive oxygen to refill the oxygen tank.</summary>
+    /// <param name="oxygen">Amount of oxygen that this player receives.</param>
+    /// <returns>True if the oxygen could be accepted, false otherwise.</returns>
+    public bool Receive(Oxygen oxygen)
+    {
+        if (!attributes.IsAlive) { return false; }
+        else if (oxygen > attributes.MaxOxygen - attributes.CurrentOxygen) { return false; }
+        else
         {
-            StopCoroutine(oxygenConsumer);
-        }
-    }
-
-    /// <summary>
-    /// Start a Coroutine which refills continuously oxgen.
-    /// At the moment, only one of these coroutines at the time can be started.
-    /// </summary>
-    public void StartRefillOxygen()
-    {
-        this.oxygenRefill = StartCoroutine(RefillOxygen());
-    }
-
-    /// <summary>
-    /// Stops the Coroutine which refills continuously oxgen if running.
-    /// </summary>
-    public void StopRefillOxgen()
-    {
-        if (this.oxygenRefill != null)
-        {
-            StopCoroutine(oxygenRefill);
-        }
-    }
-
-    private IEnumerator RefillOxygen()
-    {
-        while (true)
-        {
-            attributes.IncreaseOxygen(1);
-            yield return new WaitForSeconds(OxygenRefillDelay);
-        }
-    }
-
-    private IEnumerator ConsumeOxygen()
-    {
-        while (true)
-        {
-            attributes.DecreseOxygen(1);
-            yield return new WaitForSeconds(OxygenConsumeDelay);
+            // TODO: Add oxygen received animation
+            attributes.IncreaseOxygen(oxygen);
+            return true;
         }
     }
 }
