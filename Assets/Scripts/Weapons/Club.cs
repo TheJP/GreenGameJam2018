@@ -8,13 +8,10 @@ using UnityEngine;
 public class Club : MonoBehaviour, IPlayerWeapon
 {
     [SerializeField]
-    private SpriteRenderer spriteRenderer;
-
-    [SerializeField]
-    private Sprite[] clubSprites;
+    private Animator animator;
 
     public void Fire()
     {
-        spriteRenderer.sprite = clubSprites[1];
+        animator.SetTrigger("beat");
     }
 }

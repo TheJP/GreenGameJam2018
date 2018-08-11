@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class Pistole : MonoBehaviour,  IPlayerWeapon
+public class Pistole : MonoBehaviour, IPlayerWeapon
 {
     public void Fire()
     {
-        throw new NotImplementedException();
+        Debug.Log("PENG PENG");
     }
 }
