@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -34,17 +35,25 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 1; i <= ConfiguredInputs; ++i)
         {
-            if (Input.GetButtonDown($"{JoinButton}_{i}") &&
-                !Settings.JoinedPlayers.Any(p => p.PlayerNumber == i) &&
-                Settings.JoinedPlayers.Count < colours.Length)
+            if (Input.GetButtonDown($"{JoinButton}_{i}"))
             {
-                var colour = colours[Settings.JoinedPlayers.Count];
-                Settings.AddPlayer(colour, i);
-                if(i - 1 < standaloneInputs.Length) { standaloneInputs[i - 1].enabled = true; }
+                if (!Settings.JoinedPlayers.Any(p => p.PlayerNumber == i))
+                {
+                    if (Settings.JoinedPlayers.Count >= colours.Length) { continue; }
 
-                var player = Instantiate(playerUiPrefab, playersParent);
-                player.colour = colour;
-                player.playerNumber = i;
+                    var colour = colours[Settings.JoinedPlayers.Count];
+                    Settings.AddPlayer(colour, i);
+                    if (i - 1 < standaloneInputs.Length) { standaloneInputs[i - 1].enabled = true; }
+
+                    var player = Instantiate(playerUiPrefab, playersParent);
+                    player.colour = colour;
+                    player.playerNumber = i;
+                }
+                else
+                {
+                    // A player that already joined pressed the button => start the game
+                    StartGame();
+                }
             }
         }
     }
@@ -58,6 +67,7 @@ public class MainMenuController : MonoBehaviour
         else
         {
             statusText.text = "";
+            SceneManager.LoadScene("MainScene");
             // TODO: Load main scene
         }
     }
