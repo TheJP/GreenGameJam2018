@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TurretController : Placeable, EnergySink
 {
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	[Tooltip("The barrel of the turret. Should be preconfigured in the Prefab")]
 	private GameObject barrel;
 
@@ -31,8 +32,9 @@ public class TurretController : Placeable, EnergySink
 	[SerializeField]
 	[Tooltip("For testing only")]
 	private GameObject dummyTarget;
+#pragma warning restore 0649
 
-	private float currentAngle;
+    private float currentAngle;
 	private ResourceManager resourceManager;
 
 	private bool hasEnergy;

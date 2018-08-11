@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class AutoDestroy : MonoBehaviour
 {
-	[SerializeField]
+
+#pragma warning disable 0649
+    [SerializeField]
 	private float destroyAfter;
-	
-	private void Start ()
+#pragma warning restore 0649
+
+    private void Start ()
 	{
 		StartCoroutine(StartSelftDestructionTimer());
 	}

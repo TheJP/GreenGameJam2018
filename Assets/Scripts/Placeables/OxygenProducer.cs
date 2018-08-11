@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using Resources;
 using UnityEngine;
 
-public class OxygenProducer
-	: Placeable, OxygenSource
+public class OxygenProducer : Placeable, OxygenSource
 {
-	[SerializeField]
+
+#pragma warning disable 0649
+    [SerializeField]
 	[Tooltip("The necessary energy for every unit of produced oxygen")]
 	private Energy energyCostPerOxygenUnit;
 
 	[SerializeField]
 	[Tooltip("Maximum oxygen production per second")]
 	private Oxygen oxygenPerSecond;
+#pragma warning restore 0649
 
-	private ResourceManager resourceManager;
+    private ResourceManager resourceManager;
 	
 	protected override void Start()
 	{
