@@ -2,7 +2,9 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    public int PlayerNumber { get; set; }
+    [SerializeField]
+    private int playerNumber;
+    public int PlayerNumber { get { return playerNumber; } set { this.playerNumber = value; } }
 
     public Vector2 StartPosition { get; set; }
 
@@ -19,19 +21,37 @@ public class PlayerMovement : MonoBehaviour
         if (IsVerticalMovementAllowed())
         {
             //Flip Sprite Direction
-            float translationHorizontal = Input.GetAxis("Horizontal") * maxVelocityHorizontal;
+            float translationHorizontal = Input.GetAxis($"Horizontal_{PlayerNumber}") * maxVelocityHorizontal * Time.deltaTime;
             currentPosition.x = currentPosition.x + translationHorizontal;
         }
 
         if (IsHorizontalMovementAllowed())
         {
-            float translationVertical = Input.GetAxis("Vertical") * maxVelocityVertical;
+            float translationVertical = Input.GetAxis($"Vertical_{PlayerNumber}") * maxVelocityVertical * Time.deltaTime;
             currentPosition.y = currentPosition.y + translationVertical;
         }
 
         transform.position = currentPosition;
 
-        //Jump
+        if (Input.GetButtonDown($"Jump_{PlayerNumber}"))
+        {
+            Debug.Log($"Jump Button Down Occured from Player {PlayerNumber}");
+        }
+
+        if (Input.GetButtonDown($"Action_{PlayerNumber}"))
+        {
+            Debug.Log($"Action Button Down Occured from Player {PlayerNumber}");
+        }
+
+        if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
+        {
+            Debug.Log($"Selector Button Down Occured from Player {PlayerNumber}");
+        }
+
+        if (Input.GetButtonDown($"Remove_{PlayerNumber}"))
+        {
+            Debug.Log($"Remove Button Down Occured from Player {PlayerNumber}");
+        }
     }
 
     public void Initilaize()

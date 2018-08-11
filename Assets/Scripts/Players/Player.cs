@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     private int playerNumber;
     public int PlayerNumber { get { return this.playerNumber; } set { this.playerNumber = value; } }
 
-    #pragma warning disable 0649
+#pragma warning disable 0649
     [SerializeField]
     private Sprite sprite;
 #pragma warning restore 0649
@@ -56,9 +56,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0 || Input.GetAxis($"Vertical_{PlayerNumber}") != 0)
         {
-            this.spriteRenderer.flipX = (Input.GetAxis("Horizontal") > 0) ? false : true;
+            this.spriteRenderer.flipX = (Input.GetAxis($"Horizontal_{PlayerNumber}") > 0) ? false : true;
             this.animator.enabled = true;
         }
         else

@@ -4,10 +4,10 @@ using UnityEngine;
 public class PlayerFactory : MonoBehaviour
 {
 
-    #pragma warning disable 0649
+#pragma warning disable 0649
     [SerializeField]
     private GameObject playerPrefab;
-    #pragma warning restore 0649
+#pragma warning restore 0649
     private readonly int NUMBER_OF_PLAYERS = 4;
     private readonly int NUMBER_OF_FIRST_PLAYER = 1;
     private List<GameObject> players;
@@ -34,6 +34,7 @@ public class PlayerFactory : MonoBehaviour
 
                 PlayerMovement playerMovement = playerObject.GetComponent<PlayerMovement>();
                 playerMovement.StartPosition = playerPositions[playerNumber - 1].transform.position;
+                playerMovement.PlayerNumber = playerNumber;
 
                 playerMovement.Initilaize();
                 player.Initialize();
