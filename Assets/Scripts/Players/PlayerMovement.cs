@@ -41,12 +41,9 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //So far all Buttons are only allowed if the Player stands on solid ground.
-        if (IsPlayerOnGround())
+        if (IsPlayerOnGround() && Input.GetButtonDown($"Jump_{PlayerNumber}"))
         {
-            if (Input.GetButtonDown($"Jump_{PlayerNumber}"))
-            {
-                this.playerRigidBody2D.AddForce(new Vector2(0, jumpForce));
-            }
+            jump = true;
         }
 
         if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
@@ -76,6 +73,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerRigidBody2D.velocity = new Vector2(Mathf.Sign(playerRigidBody2D.velocity.x) * maxSpeed, playerRigidBody2D.velocity.y);
             }
+        }
+
+        if (jump)
+        {
+            this.playerRigidBody2D.AddForce(new Vector2(0, jumpForce));
+            jump = false;
         }
     }
 
