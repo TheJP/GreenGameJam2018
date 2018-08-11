@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ced7af498015c6848a85d29ee2e03f2e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - spiderAsset: {fileID: 114810222848120506, guid: 3c818ffa12245f74fa3104380f61145a,
+      type: 2}
+  - meteorAsset: {fileID: 114658940609317180, guid: 0c1a8bb85648b69458e4426659ade1f3,
+      type: 2}
+  - waveDisplayCtrl: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
