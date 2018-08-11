@@ -17,6 +17,9 @@ public class Quarry : Placeable, EnergySink, ConstructionMaterialSource
     [Tooltip("Size of the internal storage of this quarry")]
     public ConstructionMaterial internalStorageSize = new ConstructionMaterial(50f);
 
+    [Tooltip("Prefab to show resource gathering information")]
+    public FadeoutText fadeoutTextPrefab;
+
     private ResourceManager manager;
 
     public bool HasEnergy { get; private set; } = false;
@@ -50,12 +53,15 @@ public class Quarry : Placeable, EnergySink, ConstructionMaterialSource
         {
             InternalStorage += constructionMaterialPerSecond * Time.fixedDeltaTime;
             InternalStorage = ResourceMath.Min(internalStorageSize, InternalStorage);
-            Debug.Assert(InternalStorage >= minimumDeliveryAmount, "Quarry internal storage is not big enough");
+            Debug.Assert(internalStorageSize >= minimumDeliveryAmount, "Quarry internal storage is not big enough");
             Debug.Assert(minimumDeliveryAmount > ConstructionMaterial.Zero, "Delivery amount has to be bigger than 0");
             while (InternalStorage >= minimumDeliveryAmount)
             {
                 manager.Store(minimumDeliveryAmount);
                 InternalStorage -= minimumDeliveryAmount;
+                var fadeout = Instantiate(fadeoutTextPrefab, transform);
+                fadeout.TextMesh.text = $"+{(float)minimumDeliveryAmount:F0}";
+                fadeout.TextMesh.color = new Color(1f, 0.5f, 0.15f, 1);
             }
         }
     }

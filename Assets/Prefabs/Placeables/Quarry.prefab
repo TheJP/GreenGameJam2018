@@ -60,6 +60,8 @@ MonoBehaviour:
     value: 20
   internalStorageSize:
     value: 50
+  fadeoutTextPrefab: {fileID: 114141913701440386, guid: 94f3568b96003e4478417fd21cc70e4d,
+    type: 2}
 --- !u!212 &212099361593542640
 SpriteRenderer:
   m_ObjectHideFlags: 1
