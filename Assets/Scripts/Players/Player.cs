@@ -1,4 +1,5 @@
-﻿using Resources;
+using Resources;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +29,11 @@ public class Player : MonoBehaviour
 
     public PlayerAttributes Attributes { get; private set; }
 
+    private PlayerMovement playerMovement;
+
+    [SerializeField]
+    private Inventory inventory;
+
     private void Awake()
     {
         this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -40,8 +46,20 @@ public class Player : MonoBehaviour
     {
         this.spriteRenderer.sprite = this.sprite;
         this.spriteRenderer.color = this.color;
+        this.playerMovement = GetComponent<PlayerMovement>();
+        this.inventory.ControllerNumber = playerNumber;
 
         Attributes.IsAlive = true;
+    }
+
+    internal void OpenInventory()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void ConfirmSelection(IInventoryItem inventoryItem)
+    {
+        throw new NotImplementedException();
     }
 
     private void Update()

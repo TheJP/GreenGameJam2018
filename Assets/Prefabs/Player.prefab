@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 212705233823680230}
   - component: {fileID: 95049485685907876}
   m_Layer: 0
-  m_Name: View
+  m_Name: PlayerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,6 +170,8 @@ MonoBehaviour:
   playerNumber: 1
   sprite: {fileID: 21300000, guid: 6adbfc0ee26d14440820c5fc7975c6e5, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
+  inventory: {fileID: 114276719371626902, guid: 8ce5076d29de12b489c9e5b10fc6fe71,
+    type: 2}
 --- !u!114 &114558301151006122
 MonoBehaviour:
   m_ObjectHideFlags: 1

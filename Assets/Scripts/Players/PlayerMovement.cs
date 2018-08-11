@@ -31,12 +31,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        if (Mathf.Abs(maxSpeed) < Mathf.Epsilon) { maxSpeed = 1.0f; }
-        player = GetComponent<Player>();
-        playerRigidBody2D = GetComponent<Rigidbody2D>();
+        if (Mathf.Abs(this.maxSpeed) < Mathf.Epsilon) { this.maxSpeed = 1.0f; }
+        this.player = GetComponent<Player>();
+        this.playerRigidBody2D = GetComponent<Rigidbody2D>();
     }
 
-    private void Start() => this.transform.position = StartPosition;
+    private void Start() => this.transform.position = this.StartPosition;
 
     private void Update()
     {
@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
         {
             Debug.Log($"Selector Button Down Occured from Player {PlayerNumber}");
+            player.OpenInventory();
         }
 
         if (Input.GetButtonDown($"Action_{PlayerNumber}"))
