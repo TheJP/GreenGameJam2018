@@ -36,7 +36,10 @@ namespace Monsters
             if (Target == null)
             {
                 Target = FindTarget();
-                _pathfinder = Target.gameObject.GetComponent<Pathfinder>();
+                if (Target)
+                {
+                    _pathfinder = Target.gameObject.GetComponent<Pathfinder>();
+                }
             }
 
 
@@ -58,7 +61,7 @@ namespace Monsters
         private Building FindTarget()
         {
             var buildings = FindObjectsOfType<Building>();
-            return buildings.First();
+            return buildings.FirstOrDefault();
         }
 
         private MoveDirection _lastHorizontal = MoveDirection.Left;
