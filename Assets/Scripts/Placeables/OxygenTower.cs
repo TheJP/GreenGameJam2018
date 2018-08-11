@@ -11,6 +11,9 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
     [Tooltip("How much energy is used per game tick")]
     public Energy energyUsage = new Energy(10);
 
+    [Tooltip("Area of effect that this tower provides with oxygen")]
+    public float aoeRadius = 2f;
+
     // TODO: Remove (see ConsumeOxygen)
     private Oxygen oxygenUsage = new Oxygen(10);
 
