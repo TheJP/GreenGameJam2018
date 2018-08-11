@@ -44,7 +44,7 @@ public class SolarArray : Placeable, EnergySource
         spriteRenderer.sprite = IsSolarOn ? solarOnSprite : solarOffSprite;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         resourceManager.RemoveSource(this);
         resourceManager.RemoveStorage(energyStorage);

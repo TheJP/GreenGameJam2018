@@ -9,4 +9,6 @@ public abstract class Placeable : MonoBehaviour
         TileController = FindObjectOfType<TileController>();
         TileController?.AddPlaceable(this);
     }
+
+    protected virtual void OnDestroy() => TileController?.RemovePlaceable(this);
 }

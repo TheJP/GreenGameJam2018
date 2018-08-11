@@ -14,6 +14,8 @@ public class TileController : MonoBehaviour
 
     private void Awake() => placeds.Clear();
 
+    public void RemovePlaceable(Placeable placeable) => placeds.Remove(placeable);
+
     public void AddPlaceable(Placeable placeable) => placeds.Add(placeable);
 
     public bool TryAddTile(TileBase tileType, Vector3 position) => TryAddTile(tileType, placeables.WorldToCell(position));
