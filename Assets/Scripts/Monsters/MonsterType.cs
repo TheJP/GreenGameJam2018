@@ -1,7 +1,6 @@
-﻿namespace DefaultNamespace
+﻿public enum MonsterType
 {
-    public enum MonsterType
-    {
-        
-    }
+    Spider,
+    // Worm, 
+    Meteor
 }
