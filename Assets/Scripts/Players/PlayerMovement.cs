@@ -46,19 +46,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
         {
-            Debug.Log($"Selector Button Down Occured from Player {PlayerNumber}");
             player.OpenInventory();
         }
 
         if (Input.GetButtonDown($"Action_{PlayerNumber}"))
         {
-            Debug.Log($"Action Button Down Occured from Player {PlayerNumber}");
             player.ProcessAction();
         }
 
         if (Input.GetButtonDown($"Remove_{PlayerNumber}"))
         {
-            Debug.Log($"Remove Button Down Occured from Player {PlayerNumber}");
             player.SellTower();
         }
     }

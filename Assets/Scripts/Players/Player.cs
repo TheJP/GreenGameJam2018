@@ -172,7 +172,7 @@ public class Player : MonoBehaviour
 
     internal void SellTower()
     {
-        //Sell Tower in front of you
+        // TODO: Sell Tower in front of you
     }
 
     private void OxygenLevelChanged(Oxygen oxygen)
