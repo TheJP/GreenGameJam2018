@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class InventorySelection : MonoBehaviour
@@ -34,7 +32,6 @@ public class InventorySelection : MonoBehaviour
     private void FixedUpdate()
     {
         var horizontal = Input.GetAxis($"Horizontal_{ControllerNumber}");
-        Debug.Log("DEBUG: " + horizontal);
         if (horizontal < 0 && !selectionMoved)
         {
             selectionMoved = true;
