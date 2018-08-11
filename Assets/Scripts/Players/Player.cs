@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     public PrefabTile[] tiles;
     private TileController tileController;
 
-    public IPlayerWeapon[] weapons;
+    public GameObject[] weapons;
 
     [SerializeField]
     private Color color;
@@ -137,7 +137,14 @@ public class Player : MonoBehaviour
             itemList.Add(item);
         }
 
-        //TODO: Add weapons
+        foreach (GameObject weapon in weapons)
+        {
+            IPlayerWeapon weaponScript = weapon.GetComponent<IPlayerWeapon>();
+            Sprite sprite = weapon.GetComponent<SpriteRenderer>().sprite;
+            IInventoryItem item = new InventoryWeapon(weaponScript, sprite);
+            itemList.Add(item);
+        }
+
 
         this.inventory.EnableMenuView(itemList);
         this.inventory.EnableItemSelection();
