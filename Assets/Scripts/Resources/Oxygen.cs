@@ -56,6 +56,21 @@ namespace Resources
         {
             return new Oxygen(-oxygen.value);
         }
+        
+        public static Oxygen operator *(Oxygen left, float right)
+        {
+            return new Oxygen(left.value * right);
+        }
+        
+        public static Oxygen operator *(float left, Oxygen right)
+        {
+            return new Oxygen(left * right.value);
+        }
+        
+        public static Oxygen operator /(Oxygen left, float right)
+        {
+            return new Oxygen(left.value / right);
+        }
 
         public int CompareTo(Oxygen other)
         {

@@ -56,6 +56,21 @@ namespace Resources
         {
             return new Blood(-blood.value);
         }
+        
+        public static Blood operator *(Blood left, float right)
+        {
+            return new Blood(left.value * right);
+        }
+        
+        public static Blood operator *(float left, Blood right)
+        {
+            return new Blood(left * right.value);
+        }
+        
+        public static Blood operator /(Blood left, float right)
+        {
+            return new Blood(left.value / right);
+        }
 
         public int CompareTo(Blood other)
         {
