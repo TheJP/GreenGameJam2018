@@ -2,96 +2,84 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private int playerNumber;
-    public int PlayerNumber { get { return playerNumber; } set { this.playerNumber = value; } }
-
+#pragma warning disable 0649
     public Vector2 StartPosition { get; set; }
 
     [SerializeField]
-    private float maxVelocityVertical;
+    private float maxSpeed = 5f;
 
     [SerializeField]
-    private float maxVelocityHorizontal;
+    private float moveForce = 365f;
 
     [SerializeField]
-#pragma warning disable 0649
-    private Rigidbody2D rigidbody2d;
+    private float jumpForce = 1000f;
+
+    [SerializeField]
+    private Transform groundCheck;
 #pragma warning restore 0649
 
-    private Vector2 currentPosition;
+    private bool jump = false;
 
-    public const int JumpHeight = 50;
+    private Player player;
+    private Rigidbody2D playerRigidBody2D;
 
-    void Update()
+    private int PlayerNumber => player?.PlayerNumber ?? 1;
+
+    private void Awake()
     {
-        if (IsVerticalMovementAllowed())
-        {
-            float translationHorizontal = Input.GetAxis($"Horizontal_{PlayerNumber}") * maxVelocityHorizontal * Time.deltaTime;
-            currentPosition.x = currentPosition.x + translationHorizontal;
-            transform.position = new Vector2(currentPosition.x, transform.position.y);
-        }
+        if (Mathf.Abs(maxSpeed) < Mathf.Epsilon) { maxSpeed = 1.0f; }
+        player = GetComponent<Player>();
+        playerRigidBody2D = GetComponent<Rigidbody2D>();
+    }
 
-        //For climbing Ladders
-        //if (IsHorizontalMovementAllowed())
-        //{
-        //    float translationVertical = Input.GetAxis($"Vertical_{PlayerNumber}") * maxVelocityVertical * Time.deltaTime;
-        //    currentPosition.y = currentPosition.y + translationVertical;
-        //}
+    private void Start() => this.transform.position = StartPosition;
 
+    private void Update()
+    {
         //So far all Buttons are only allowed if the Player stands on solid ground.
         if (IsPlayerOnGround())
         {
             if (Input.GetButtonDown($"Jump_{PlayerNumber}"))
             {
-                this.rigidbody2d.AddForce(new Vector2(0, JumpHeight));
-            }
-
-            if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
-            {
-                Debug.Log($"Selector Button Down Occured from Player {PlayerNumber}");
-            }
-
-            if (Input.GetButtonDown($"Action_{PlayerNumber}"))
-            {
-                Debug.Log($"Action Button Down Occured from Player {PlayerNumber}");
-            }
-
-            if (Input.GetButtonDown($"Remove_{PlayerNumber}"))
-            {
-                Debug.Log($"Remove Button Down Occured from Player {PlayerNumber}");
+                this.playerRigidBody2D.AddForce(new Vector2(0, jumpForce));
             }
         }
-    }
 
-    private bool IsPlayerOnGround()
-    {
-        //TODO: Check if the Player stands on solid Ground
-        return true;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
-
-    public void Initilaize()
-    {
-        this.currentPosition = StartPosition;
-        this.transform.position = StartPosition;
-
-        if (this.maxVelocityVertical == 0)
+        if (Input.GetButtonDown($"Selector_{PlayerNumber}"))
         {
-            maxVelocityVertical = 1.0F;
+            Debug.Log($"Selector Button Down Occured from Player {PlayerNumber}");
         }
 
-        if (maxVelocityHorizontal == 0)
+        if (Input.GetButtonDown($"Action_{PlayerNumber}"))
         {
-            maxVelocityHorizontal = 1.0F;
+            Debug.Log($"Action Button Down Occured from Player {PlayerNumber}");
+        }
+
+        if (Input.GetButtonDown($"Remove_{PlayerNumber}"))
+        {
+            Debug.Log($"Remove Button Down Occured from Player {PlayerNumber}");
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (IsHorizontalMovementAllowed())
+        {
+            var horizontal = Input.GetAxis($"Horizontal_{PlayerNumber}");
+            playerRigidBody2D.AddForce(Vector2.right * horizontal * moveForce);
+
+            if(Mathf.Abs(playerRigidBody2D.velocity.x) > maxSpeed)
+            {
+                playerRigidBody2D.velocity = new Vector2(Mathf.Sign(playerRigidBody2D.velocity.x) * maxSpeed, playerRigidBody2D.velocity.y);
+            }
+        }
+    }
+
+    private bool IsPlayerOnGround() => Physics2D.Linecast(transform.position, groundCheck.position, LayerMask.GetMask("Ground")).transform != null;
 
     private bool IsHorizontalMovementAllowed()
     {
@@ -107,13 +95,4 @@ public class PlayerMovement : MonoBehaviour
     {
         return true;
     }
-
-    //private IEnumerator Jump()
-    //{
-    //    while (transform.position.y < JumpHeight)
-    //    {
-
-    //    }
-    //    yield return null;
-    //}
 }

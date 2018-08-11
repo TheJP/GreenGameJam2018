@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         attributes = new PlayerAttributes(this);
     }
 
-    public void Initialize()
+    private void Start()
     {
         this.spriteRenderer.sprite = this.sprite;
         this.spriteRenderer.color = this.color;
