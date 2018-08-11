@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7740609c9ef234418f5e89ccd4a191e, type: 3}
+  m_Name: OxygenProducerTile
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 21300000, guid: e05ec05faa141db42aa0f9518f37ff7a, type: 3}
+  Prefab: {fileID: 1017010556126138, guid: 53e31e4b2b04a214182a24d7f6554fdf, type: 2}
