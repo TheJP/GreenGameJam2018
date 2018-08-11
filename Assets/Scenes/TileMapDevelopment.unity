@@ -23742,6 +23742,12 @@ CompositeCollider2D:
       - {x: 30.001667, y: -2.9816666}
       - {x: 30.005, y: -2.9816666}
   m_VertexDistance: 0.0005
+--- !u!114 &509235072 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114169720634076694, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1321804932}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &663908543
 GameObject:
   m_ObjectHideFlags: 0
@@ -23841,6 +23847,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1321804932
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905774007710, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1376919861
 GameObject:
   m_ObjectHideFlags: 0
@@ -24016,3 +24064,23 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1413735831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1933346158057044, guid: 4973d1de4c0d2b8468d2ca4272ea4bf4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1321804932}
+--- !u!114 &1413735832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1413735831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40919ab62320cb74c86003faf7ae62ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 509235072}
+  maxHealth: 100
+  healthRegenPerSecond: 1
+  CurrentHealth: 100
