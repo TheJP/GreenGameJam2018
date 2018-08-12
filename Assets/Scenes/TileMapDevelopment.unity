@@ -25051,6 +25051,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114439318726195596, guid: 86b169a53405c164a9d47bba2e9ceac7,
+        type: 2}
+      propertyPath: resourceManager
+      value: 
+      objectReference: {fileID: 444857743}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86b169a53405c164a9d47bba2e9ceac7, type: 2}
   m_IsPrefabAsset: 0
@@ -25059,3 +25064,45 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224167512592406406, guid: 86b169a53405c164a9d47bba2e9ceac7,
     type: 2}
   m_PrefabInternal: {fileID: 1573690517}
+--- !u!1001 &1877316704
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 8.860819
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.0528576
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.21031661
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797279154157802, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
+  m_IsPrefabAsset: 0

@@ -20,7 +20,7 @@ public class ResourcesInfoController : MonoBehaviour
     public int xDistance = 70;
     public int yDistance = 0;
 
-    private ResourceManager resourceManager;
+    public ResourceManager resourceManager;
 
     private GameObject energyDisplay;
     private GameObject oxygenDisplay;
@@ -36,7 +36,6 @@ public class ResourcesInfoController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        resourceManager = resourceDisplayPrefab.GetComponent<ResourceManager>();
         Debug.Log("have resourceManager: " + resourceManager);
             
         energyDisplay = addDisplay("Energy", energyIcon, energyColor, 0, 0);

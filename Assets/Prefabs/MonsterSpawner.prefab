@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1493365962815938}
+  m_IsPrefabAsset: 1
+--- !u!1 &1493365962815938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4797279154157802}
+  - component: {fileID: 114058842355521556}
+  - component: {fileID: 114924235169517418}
+  m_Layer: 0
+  m_Name: MonsterSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4797279154157802
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493365962815938}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.860819, y: 2.0528576, z: 0.21031661}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114058842355521556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493365962815938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3b3c34337383d44b7aecf9b2ad6249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KeyWaves:
+  - name: Start Wave
+    number: 1
+    enemies:
+    - Prefab: {fileID: 4711499317051980, guid: 661650d64297f42c187e75bad4cf03de, type: 2}
+      Count: 2
+      Rate: 1
+    subsequent_rounds:
+      attack: 1
+      health: 1
+      next_attack: 1
+      next_health: 1
+      next_numbers: 0.3
+  - name: Final Wave
+    number: 5
+    enemies:
+    - Prefab: {fileID: 4711499317051980, guid: 661650d64297f42c187e75bad4cf03de, type: 2}
+      Count: 20
+      Rate: 5
+    - Prefab: {fileID: 4697080300283522, guid: 0c1a8bb85648b69458e4426659ade1f3, type: 2}
+      Count: 5
+      Rate: 1
+    subsequent_rounds:
+      attack: 2
+      health: 2
+      next_attack: 2
+      next_health: 0.5
+      next_numbers: 0.5
+  SpawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  TimeBetweenWaves: 5
+--- !u!114 &114924235169517418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493365962815938}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ced7af498015c6848a85d29ee2e03f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spiderAsset: {fileID: 114810222848120506, guid: 3c818ffa12245f74fa3104380f61145a,
+    type: 2}
+  meteorAsset: {fileID: 114658940609317180, guid: 0c1a8bb85648b69458e4426659ade1f3,
+    type: 2}
+  waveTimeMinDistanceSec: 5
+  waveDisplayCtrl: {fileID: 0}

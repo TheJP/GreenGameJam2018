@@ -193,10 +193,10 @@ public class WaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void SpawnEnemy(Transform _enemy)
+    void SpawnEnemy(Transform enemy)
     {
         Transform _sp = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
-        var e = Instantiate(_enemy, _sp.position, _sp.rotation);
+        var e = Instantiate(enemy, _sp.position, _sp.rotation);
         e.transform.parent = _enemiesContainer.transform;
     }
 }
