@@ -6,6 +6,7 @@ using System.Linq;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(OxygenStorage))]
 public class OxygenTower : Placeable, OxygenSink, EnergySink
 {
     public const string AnimatorOnFlag = "On";
@@ -25,6 +26,7 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
     private Animator animator;
     private ResourceManager manager;
     private LineRenderer lineRenderer;
+    private OxygenStorage oxygenStorage;
 
     private readonly HashSet<Player> connectedPlayers = new HashSet<Player>();
 
@@ -35,6 +37,7 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
     {
         animator = GetComponent<Animator>();
         lineRenderer = GetComponent<LineRenderer>();
+        oxygenStorage = GetComponent<OxygenStorage>();
     }
 
     protected override void Start()
@@ -44,6 +47,7 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
         manager = FindObjectOfType<ResourceManager>();
         manager.AddSink((EnergySink)this);
         manager.AddSink((OxygenSink)this);
+        manager.AddStorage(oxygenStorage);
     }
 
     protected override void OnDestroy()
@@ -52,6 +56,7 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
 
         manager.RemoveSink((EnergySink)this);
         manager.RemoveSink((OxygenSink)this);
+        manager.RemoveStorage(oxygenStorage);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

@@ -34,9 +34,11 @@ public class CameraController : MonoBehaviour
             }
         );
 
+        // Move camera to correct location
         var centre = (bounds.Max + bounds.Min) / 2;
         moveableCamera.transform.position = new Vector3(centre.x, centre.y, moveableCamera.transform.position.z);
 
+        // Zoom camera
         var radius = (bounds.Max - bounds.Min) / 2;
         var widthSize = radius.x / moveableCamera.aspect;
         moveableCamera.orthographicSize = Mathf.Max(minimalCameraSize, widthSize + shownBorder, radius.y + shownBorder);

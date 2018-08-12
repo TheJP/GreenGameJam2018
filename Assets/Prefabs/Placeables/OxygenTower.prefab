@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 114706448653220386}
   - component: {fileID: 114124346544463324}
   - component: {fileID: 114343525802875256}
+  - component: {fileID: 114764858015184938}
   - component: {fileID: 50728900235894898}
   - component: {fileID: 120466557106368546}
   - component: {fileID: 114208913875069104}
@@ -658,6 +659,21 @@ MonoBehaviour:
   oxygenRefillPerSecond:
     value: 10
   aoeRadius: 2
+--- !u!114 &114764858015184938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1933346158057044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd29b58802d4576b14e8c4a6325d02c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity:
+    value: 50
+  currentValue:
+    value: 0
 --- !u!120 &120466557106368546
 LineRenderer:
   m_ObjectHideFlags: 1
