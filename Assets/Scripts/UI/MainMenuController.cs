@@ -13,6 +13,7 @@ using UnityEditor;
 public class MainMenuController : MonoBehaviour
 {
     private const string JoinButton = "Jump";
+    private const string LeaveButton = "Remove";
     private const int ConfiguredInputs = 5;
 
     [Tooltip("Prefab that is added to the main menu when a player joins")]
@@ -41,7 +42,7 @@ public class MainMenuController : MonoBehaviour
                 {
                     if (Settings.JoinedPlayers.Count >= colours.Length) { continue; }
 
-                    var colour = colours[Settings.JoinedPlayers.Count];
+                    var colour = colours.First(c => Settings.JoinedPlayers.All(p => c != p.Colour));
                     Settings.AddPlayer(colour, i);
                     if (i - 1 < standaloneInputs.Length) { standaloneInputs[i - 1].enabled = true; }
 
@@ -53,6 +54,19 @@ public class MainMenuController : MonoBehaviour
                 {
                     // A player that already joined pressed the button => start the game
                     StartGame();
+                }
+            }
+
+            // Player leave the ready state
+            if (Input.GetButtonDown($"{LeaveButton}_{i}"))
+            {
+                var joinedPlayer = Settings.JoinedPlayers.FirstOrDefault(p => p.PlayerNumber == i);
+                if(joinedPlayer != null)
+                {
+                    Settings.RemovePlayer(joinedPlayer);
+                    var playerUi = playersParent.GetComponentsInChildren<PlayerUiJoined>().FirstOrDefault(p => p.playerNumber == i);
+                    if(playerUi != null) { Destroy(playerUi.gameObject); }
+                    if (i - 1 < standaloneInputs.Length) { standaloneInputs[i - 1].enabled = false; }
                 }
             }
         }
@@ -68,7 +82,6 @@ public class MainMenuController : MonoBehaviour
         {
             statusText.text = "";
             SceneManager.LoadScene("MainScene");
-            // TODO: Load main scene
         }
     }
 
