@@ -17,7 +17,7 @@ public class Pistole : MonoBehaviour, IPlayerWeapon
     private float pitchRange = 0.2f;
 
     
-    private void Start()
+    private void Awake()
     {
         if (audioSource != null)
         {
