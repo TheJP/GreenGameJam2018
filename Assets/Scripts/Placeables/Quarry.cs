@@ -20,7 +20,13 @@ public class Quarry : Placeable, EnergySink, ConstructionMaterialSource
     [Tooltip("Prefab to show resource gathering information")]
     public FadeoutText fadeoutTextPrefab;
 
+    [Tooltip("How much will the sound pitch vary from instance to instance")]
+    public float pitchRange = 0.2f;
+
     private ResourceManager manager;
+    
+    private AudioSource audioSource;
+    private float originalPitch;
 
     public bool HasEnergy { get; private set; } = false;
 
@@ -34,6 +40,14 @@ public class Quarry : Placeable, EnergySink, ConstructionMaterialSource
         manager = FindObjectOfType<ResourceManager>();
         manager.AddSink(this);
         manager.AddSource(this);
+        
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.2f;
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
+        originalPitch = audioSource.pitch;
+        audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
+
     }
 
     protected override void OnDestroy()
@@ -62,6 +76,8 @@ public class Quarry : Placeable, EnergySink, ConstructionMaterialSource
                 var fadeout = Instantiate(fadeoutTextPrefab, transform);
                 fadeout.TextMesh.text = $"+{(float)minimumDeliveryAmount:F0}";
                 fadeout.TextMesh.color = new Color(1f, 0.5f, 0.15f, 1);
+                
+                audioSource.Play();
             }
         }
     }

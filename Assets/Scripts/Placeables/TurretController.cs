@@ -32,13 +32,20 @@ public class TurretController : Placeable, EnergySink
 	[SerializeField]
 	[Tooltip("For testing only")]
 	private GameObject dummyTarget;
+	
+	[Tooltip("How much will the sound pitch vary from instance to instance")]
+	public float pitchRange = 0.2f;
 #pragma warning restore 0649
 
+	
     private float currentAngle;
 	private ResourceManager resourceManager;
 
 	private bool hasEnergy;
-	
+
+	private AudioSource audioSource;
+	private float originalPitch;
+
 	protected override void Start()
 	{
 		base.Start();
@@ -50,6 +57,14 @@ public class TurretController : Placeable, EnergySink
 		{
 			AimAt(dummyTarget);
 		}
+		
+		audioSource = GetComponent<AudioSource>();
+		audioSource.volume = 0.2f;
+		audioSource.loop = true;
+		audioSource.playOnAwake = false;
+		originalPitch = audioSource.pitch;
+		audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
+
 	}
 
 	public void AimAt(GameObject target)
@@ -85,6 +100,7 @@ public class TurretController : Placeable, EnergySink
 				waitTime = 1 / bulletFrequency;
 				var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, Quaternion.identity);
 				bullet.GetComponent<Rigidbody2D>().AddForce(-bulletSpawn.transform.right * 10);
+				audioSource.Play();
 			}
 			else
 			{

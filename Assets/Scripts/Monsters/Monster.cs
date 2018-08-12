@@ -21,13 +21,40 @@ namespace Monsters
         private float attacksPerSeconds = 1f;
         private int stuckcount = 0;
         private Pathfinder _pathfinder;
+        
+        private AudioSource audioSource;
+        private float originalPitch;
+        private float pitchRange = 0.2f;
 
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+            
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSource.volume = 0.9f;
+                audioSource.loop = true;
+                audioSource.playOnAwake = false;
+                originalPitch = audioSource.pitch;
+                audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);                
+                audioSource.Play();
+            }
         }
 
+        /*
+        public void Awake()
+        {
+            Debug.Log("in awake");
+
+            if (audioSource != null)
+            {
+                Debug.Log("have audio");
+                audioSource.Play();
+            }
+        }
+*/
         private bool InRange() => Target != null &&
                                   Vector3.Distance(Target.transform.position, transform.position) < Attributes.Range;
 
