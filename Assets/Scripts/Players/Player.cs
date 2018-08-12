@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer rightHand;
+
+    [SerializeField]
+    private FadeoutText fadeoutTextPrefab;
 #pragma warning restore 0649
 
     private Inventory inventory;
@@ -194,6 +197,9 @@ public class Player : MonoBehaviour
         this.playerMovement.enabled = true;
     }
 
+    /// <summary>
+    /// Executes an Action depending on the CurrentEquipped Item. (Build or use Weapon)
+    /// </summary>
     internal void ProcessAction()
     {
         if (Attributes.IsAlive)
@@ -210,8 +216,9 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Not enough ConstructionMaterial to Build");
-                    //TODO: Maybe error sound if to less ressources
+                    var fadeout = Instantiate(fadeoutTextPrefab, transform);
+                    fadeout.TextMesh.text = "Not enought Resources!";
+                    fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
                 }
             }
             else if (currentItem is InventoryWeapon)

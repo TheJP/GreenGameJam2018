@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114558301151006122}
   - component: {fileID: 50558980188384594}
   - component: {fileID: 58200040278686288}
+  - component: {fileID: 114609501364783396}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -446,6 +447,8 @@ MonoBehaviour:
   oxygenBar: {fileID: 114703742415513224}
   leftHand: {fileID: 212585605883201726}
   rightHand: {fileID: 212728128365180336}
+  fadeoutTextPrefab: {fileID: 114141913701440386, guid: 94f3568b96003e4478417fd21cc70e4d,
+    type: 2}
   tiles:
   - {fileID: 11400000, guid: d94385bac0b2d1c4c8ca26ed9aa590d6, type: 2}
   - {fileID: 11400000, guid: b6948637f070b934db2c2f524325d38b, type: 2}
@@ -515,6 +518,19 @@ MonoBehaviour:
   moveForce: 150
   jumpForce: 400
   groundCheck: {fileID: 4882772376147438}
+--- !u!114 &114609501364783396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1102575783721436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8771eb5d9436914396b896c12ed0b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyUpSpeed: 0.5
+  fadeoutDuration: 3
 --- !u!114 &114703742415513224
 MonoBehaviour:
   m_ObjectHideFlags: 1
