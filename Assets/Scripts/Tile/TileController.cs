@@ -31,6 +31,24 @@ public class TileController : MonoBehaviour
         return true;
     }
 
+    public bool TryRemoveTile(Vector3 position, out PrefabTile tile) =>
+        TryRemoveTile(placeables.WorldToCell(position), out tile);
+
+    public bool TryRemoveTile(Vector3Int position, out PrefabTile tile)
+    {
+        tile = placeables.GetTile(position) as PrefabTile;
+        if (tile == null) { return false; }
+        else
+        {
+            placeables.SetTile(position, null);
+            return true;
+        }
+    }
+
+    public PrefabTile GetTile(Vector3 position) => GetTile(placeables.WorldToCell(position));
+
+    public PrefabTile GetTile(Vector3Int position) => placeables.GetTile(position) as PrefabTile;
+
     public IEnumerable<T> GetPlaceablesOfType<T>() where T : Placeable =>
         placeds.Select(p => p as T).Where(p => p != null);
 }
