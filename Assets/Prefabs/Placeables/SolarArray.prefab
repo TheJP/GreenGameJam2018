@@ -57,7 +57,7 @@ MonoBehaviour:
     value: 5
   solarOffSprite: {fileID: 21300000, guid: 69afa08c486e8d84a9594869fab26cf2, type: 3}
   solarOnSprite: {fileID: 21300000, guid: 708c077c012d9f14faea8bbc59b64de7, type: 3}
-  isSolarOn: 0
+  isSolarOn: 1
 --- !u!114 &114461957822846284
 MonoBehaviour:
   m_ObjectHideFlags: 1
