@@ -448,6 +448,7 @@ MonoBehaviour:
   rightHand: {fileID: 212728128365180336}
   fadeoutTextPrefab: {fileID: 114141913701440386, guid: 94f3568b96003e4478417fd21cc70e4d,
     type: 2}
+  _deathAnimationDeathAnimationState: 0
   tiles:
   - {fileID: 11400000, guid: d94385bac0b2d1c4c8ca26ed9aa590d6, type: 2}
   - {fileID: 11400000, guid: b6948637f070b934db2c2f524325d38b, type: 2}
@@ -458,6 +459,8 @@ MonoBehaviour:
   - {fileID: 1678374822056738, guid: 7e72f20b2e9ab864396069cdf0da5390, type: 2}
   - {fileID: 1350154889748100, guid: b88affac1a5af694f82f3bdea8a0ed94, type: 2}
   weaponCache: {fileID: 1796489856170396}
+  DeathParticleSystem: {fileID: 198570617055143780, guid: 914360566742845debbf0da6162efa42,
+    type: 2}
   color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &114349037385205744
 MonoBehaviour:

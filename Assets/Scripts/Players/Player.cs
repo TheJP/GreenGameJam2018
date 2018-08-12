@@ -4,36 +4,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private int playerNumber;
-    public int PlayerNumber { get { return this.playerNumber; } set { this.playerNumber = value; } }
+    [SerializeField] private int playerNumber;
+
+    public int PlayerNumber
+    {
+        get { return this.playerNumber; }
+        set { this.playerNumber = value; }
+    }
+
+    enum DeathAnimationState
+    {
+        Alive,
+        Dying,
+        Dead
+    }
 
 #pragma warning disable 0649
-    [SerializeField]
-    private Sprite sprite;
+    [SerializeField] private Sprite sprite;
 
-    [SerializeField]
-    private Oxygen oxygenUsagePerSecond = new Oxygen(5);
+    [SerializeField] private Oxygen oxygenUsagePerSecond = new Oxygen(5);
 
-    [SerializeField]
-    private Oxygen oxygenStorageCapacity = new Oxygen(100);
+    [SerializeField] private Oxygen oxygenStorageCapacity = new Oxygen(100);
 
-    [SerializeField]
-    private GameObject inventoryPrefab;
+    [SerializeField] private GameObject inventoryPrefab;
 
-    [SerializeField]
-    private Slider oxygenBar;
+    [SerializeField] private Slider oxygenBar;
 
-    [SerializeField]
-    private SpriteRenderer leftHand;
+    [SerializeField] private SpriteRenderer leftHand;
 
-    [SerializeField]
-    private SpriteRenderer rightHand;
+    [SerializeField] private SpriteRenderer rightHand;
 
-    [SerializeField]
-    private FadeoutText fadeoutTextPrefab;
+    [SerializeField] private FadeoutText fadeoutTextPrefab;
+
+    [SerializeField] private DeathAnimationState _deathAnimationDeathAnimationState = DeathAnimationState.Alive;
+
 #pragma warning restore 0649
 
     private Inventory inventory;
@@ -45,10 +52,15 @@ public class Player : MonoBehaviour
 
     public GameObject[] weapons;
     public GameObject weaponCache;
+    public ParticleSystem DeathParticleSystem;
 
-    [SerializeField]
-    private Color color;
-    public Color Color { get { return this.color; } set { this.color = value; } }
+    [SerializeField] private Color color;
+
+    public Color Color
+    {
+        get { return this.color; }
+        set { this.color = value; }
+    }
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -101,6 +113,17 @@ public class Player : MonoBehaviour
         {
             this.animator.enabled = false;
         }
+
+        if (!Attributes.IsAlive && _deathAnimationDeathAnimationState == DeathAnimationState.Alive)
+        {
+            _deathAnimationDeathAnimationState = DeathAnimationState.Dying;
+            for (int i = 0; i < 3; i++)
+            {
+                var particles = Instantiate(DeathParticleSystem);
+                particles.transform.SetParent(transform, false);
+                particles.Play();
+            }
+        }
     }
 
     private void DisplayCurrentItem()
@@ -116,7 +139,7 @@ public class Player : MonoBehaviour
             }
             else if (Attributes.CurrentEquippedItem is InventoryWeapon)
             {
-                GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
+                GameObject weapon = ((InventoryWeapon) Attributes.CurrentEquippedItem).Weapon;
                 if (lookRight)
                 {
                     weapon.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -139,8 +162,14 @@ public class Player : MonoBehaviour
     /// <summary>Calculates how much oxygen this player maximally receive.</summary>
     public Oxygen MaxReceiveOxygen()
     {
-        if (!Attributes.IsAlive) { return Oxygen.Zero; }
-        else { return Attributes.MaxOxygen - Attributes.CurrentOxygen; }
+        if (!Attributes.IsAlive)
+        {
+            return Oxygen.Zero;
+        }
+        else
+        {
+            return Attributes.MaxOxygen - Attributes.CurrentOxygen;
+        }
     }
 
     /// <summary>Receive oxygen to refill the oxygen tank.</summary>
@@ -148,8 +177,14 @@ public class Player : MonoBehaviour
     /// <returns>True if the oxygen could be accepted, false otherwise.</returns>
     public bool Receive(Oxygen oxygen)
     {
-        if (!Attributes.IsAlive) { return false; }
-        else if (oxygen > Attributes.MaxOxygen - Attributes.CurrentOxygen) { return false; }
+        if (!Attributes.IsAlive)
+        {
+            return false;
+        }
+        else if (oxygen > Attributes.MaxOxygen - Attributes.CurrentOxygen)
+        {
+            return false;
+        }
         else
         {
             // TODO: Add oxygen received animation
@@ -208,12 +243,13 @@ public class Player : MonoBehaviour
             IInventoryItem currentItem = Attributes.CurrentEquippedItem;
             if (currentItem is InventoryTile)
             {
-                InventoryTile inventoryTile = (InventoryTile)currentItem;
+                InventoryTile inventoryTile = (InventoryTile) currentItem;
                 PrefabTile tileToBuild = inventoryTile.Tile;
 
                 if (this.resourceManager.ConstructionMaterialAvailable >= tileToBuild.BuildingCosts)
                 {
-                    if (!(this.resourceManager.TryConsume(tileToBuild.BuildingCosts) && this.tileController.TryAddTile(tileToBuild, transform.position)))
+                    if (!(this.resourceManager.TryConsume(tileToBuild.BuildingCosts) &&
+                          this.tileController.TryAddTile(tileToBuild, transform.position)))
                     {
                         var fadeout = Instantiate(fadeoutTextPrefab, transform);
                         fadeout.TextMesh.text = "#@!&$%";
@@ -222,7 +258,7 @@ public class Player : MonoBehaviour
                     else
                     {
                         var fadeout = Instantiate(fadeoutTextPrefab, transform);
-                        fadeout.TextMesh.text = $"-{(float)tileToBuild.BuildingCosts}";
+                        fadeout.TextMesh.text = $"-{(float) tileToBuild.BuildingCosts}";
                         fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
                     }
                 }
@@ -235,7 +271,7 @@ public class Player : MonoBehaviour
             }
             else if (currentItem is InventoryWeapon)
             {
-                InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
+                InventoryWeapon inventoryWeapon = (InventoryWeapon) currentItem;
                 inventoryWeapon.Weapon.GetComponent<IPlayerWeapon>().Fire();
             }
         }
@@ -243,16 +279,22 @@ public class Player : MonoBehaviour
 
     internal void SellTower()
     {
-        if (!Attributes.IsAlive) { return; }
+        if (!Attributes.IsAlive)
+        {
+            return;
+        }
 
-        if (!TowerSellable()) { return; }
+        if (!TowerSellable())
+        {
+            return;
+        }
 
         PrefabTile tile;
         if (tileController.TryRemoveTile(transform.position, out tile))
         {
             resourceManager.Store(tile.BuildingCosts / 2);
             var fadeout = Instantiate(fadeoutTextPrefab, transform);
-            fadeout.TextMesh.text = $"+{(float)tile.BuildingCosts / 2}";
+            fadeout.TextMesh.text = $"+{(float) tile.BuildingCosts / 2}";
             fadeout.TextMesh.color = new Color(0.0f, 1.0f, 0.0f, 1);
         }
     }
