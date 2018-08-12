@@ -150,15 +150,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constructionMaterialPerSecond:
-    value: 10
+    value: 2
   energyUsedPerSecond:
     value: 5
   minimumDeliveryAmount:
-    value: 20
+    value: 5
   internalStorageSize:
     value: 50
   fadeoutTextPrefab: {fileID: 114141913701440386, guid: 94f3568b96003e4478417fd21cc70e4d,
     type: 2}
+  pitchRange: 0.2
 --- !u!212 &212099361593542640
 SpriteRenderer:
   m_ObjectHideFlags: 1
