@@ -88,6 +88,7 @@ public class WaveSpawner : MonoBehaviour
     public Transform[] SpawnPoints;
     public float TimeBetweenWaves = 5f;
     public Tilemap Placeables;
+    public Tilemap Terrain;
 
     public int NextWave => _waveCounter + 1;
     //public float WaveCountdown => _waveCountdown;
@@ -203,5 +204,6 @@ public class WaveSpawner : MonoBehaviour
         enemy.transform.SetParent(_enemiesContainer.transform);
         var monster = enemy.GetComponent<Monster>();
         monster.Placeables = Placeables;
+        monster.Terrain = Terrain;
     }
 }
