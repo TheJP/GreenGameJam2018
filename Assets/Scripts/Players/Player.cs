@@ -101,7 +101,6 @@ public class Player : MonoBehaviour
     {
         if (Attributes.CurrentEquippedItem != null)
         {
-
             bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
 
             if (Attributes.CurrentEquippedItem is InventoryTile)
@@ -158,26 +157,27 @@ public class Player : MonoBehaviour
     /// </summary>
     internal void OpenInventory()
     {
-        this.playerMovement.enabled = false;
-
-
-        var itemList = new List<IInventoryItem>();
-
-        foreach (GameObject weapon in weapons)
+        if (Attributes.IsAlive)
         {
-            Sprite sprite = weapon.GetComponent<SpriteRenderer>().sprite;
-            IInventoryItem item = new InventoryWeapon(Instantiate(weapon, weaponCache.transform), sprite);
-            itemList.Add(item);
-        }
+            this.playerMovement.enabled = false;
+            var itemList = new List<IInventoryItem>();
 
-        foreach (PrefabTile tile in tiles)
-        {
-            IInventoryItem item = new InventoryTile(tile);
-            itemList.Add(item);
-        }
+            foreach (GameObject weapon in weapons)
+            {
+                Sprite sprite = weapon.GetComponent<SpriteRenderer>().sprite;
+                IInventoryItem item = new InventoryWeapon(Instantiate(weapon, weaponCache.transform), sprite);
+                itemList.Add(item);
+            }
 
-        this.inventory.EnableMenuView(itemList);
-        this.inventory.EnableItemSelection();
+            foreach (PrefabTile tile in tiles)
+            {
+                IInventoryItem item = new InventoryTile(tile);
+                itemList.Add(item);
+            }
+
+            this.inventory.EnableMenuView(itemList);
+            this.inventory.EnableItemSelection();
+        }
     }
 
     internal void ConfirmSelection(IInventoryItem inventoryItem)
@@ -194,16 +194,19 @@ public class Player : MonoBehaviour
 
     internal void ProcessAction()
     {
-        IInventoryItem currentItem = Attributes.CurrentEquippedItem;
-        if (currentItem is InventoryTile)
+        if (Attributes.IsAlive)
         {
-            InventoryTile inventoryTile = (InventoryTile)currentItem;
-            tileController.TryAddTile(inventoryTile.Tile, transform.position);
-        }
-        else if (currentItem is InventoryWeapon)
-        {
-            InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
-            inventoryWeapon.Weapon.GetComponent<IPlayerWeapon>().Fire();
+            IInventoryItem currentItem = Attributes.CurrentEquippedItem;
+            if (currentItem is InventoryTile)
+            {
+                InventoryTile inventoryTile = (InventoryTile)currentItem;
+                tileController.TryAddTile(inventoryTile.Tile, transform.position);
+            }
+            else if (currentItem is InventoryWeapon)
+            {
+                InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
+                inventoryWeapon.Weapon.GetComponent<IPlayerWeapon>().Fire();
+            }
         }
     }
 

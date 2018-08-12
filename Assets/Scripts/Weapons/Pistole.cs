@@ -11,19 +11,19 @@ public class Pistole : MonoBehaviour, IPlayerWeapon
     [SerializeField]
     [Tooltip("The bullet spawn point. Should be preconfigured in the Prefab")]
     private GameObject bulletSpawn;
+
+    [SerializeField]
+    private AudioSource audioSource;
 #pragma warning restore 0649
 
     [SerializeField]
     [Tooltip("Shooting power of the gun")]
     private int shootingPower = 20;
 
-    [SerializeField]
-    private AudioSource audioSource;
-    
     private float originalPitch;
     private float pitchRange = 0.2f;
 
-    
+
     private void Awake()
     {
         if (audioSource != null)
