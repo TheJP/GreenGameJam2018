@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     public PrefabTile[] tiles;
     private TileController tileController;
 
+    private ResourceManager resourceManager;
+
     public GameObject[] weapons;
     public GameObject weaponCache;
 
@@ -64,7 +66,7 @@ public class Player : MonoBehaviour
 
         this.tileController = FindObjectOfType<TileController>();
 
-        Input.GetJoystickNames();
+        this.resourceManager = FindObjectOfType<ResourceManager>();
     }
 
     private void Start()
@@ -85,6 +87,10 @@ public class Player : MonoBehaviour
         if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0)
         {
             this.animator.enabled = true;
+
+            bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
+            this.spriteRenderer.flipX = (lookRight) ? false : true;
+
             DisplayCurrentItem();
         }
         else
@@ -97,9 +103,7 @@ public class Player : MonoBehaviour
     {
         if (Attributes.CurrentEquippedItem != null)
         {
-
             bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
-            this.spriteRenderer.flipX = (lookRight) ? false : true;
 
             if (Attributes.CurrentEquippedItem is InventoryTile)
             {
@@ -111,12 +115,12 @@ public class Player : MonoBehaviour
                 GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
                 if (lookRight)
                 {
-                    weapon.gameObject.transform.localScale = new Vector2(1, 1);
+                    weapon.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                     weapon.gameObject.transform.SetParent(rightHand.gameObject.transform, false);
                 }
                 else
                 {
-                    weapon.gameObject.transform.localScale = new Vector2(-1, 1);
+                    weapon.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
                     weapon.gameObject.transform.SetParent(leftHand.gameObject.transform, false);
                 }
             }
@@ -155,26 +159,27 @@ public class Player : MonoBehaviour
     /// </summary>
     internal void OpenInventory()
     {
-        this.playerMovement.enabled = false;
-
-
-        var itemList = new List<IInventoryItem>();
-
-        foreach (GameObject weapon in weapons)
+        if (Attributes.IsAlive)
         {
-            Sprite sprite = weapon.GetComponent<SpriteRenderer>().sprite;
-            IInventoryItem item = new InventoryWeapon(Instantiate(weapon, weaponCache.transform), sprite);
-            itemList.Add(item);
-        }
+            this.playerMovement.enabled = false;
+            var itemList = new List<IInventoryItem>();
 
-        foreach (PrefabTile tile in tiles)
-        {
-            IInventoryItem item = new InventoryTile(tile);
-            itemList.Add(item);
-        }
+            foreach (GameObject weapon in weapons)
+            {
+                Sprite sprite = weapon.GetComponent<SpriteRenderer>().sprite;
+                IInventoryItem item = new InventoryWeapon(Instantiate(weapon, weaponCache.transform), sprite);
+                itemList.Add(item);
+            }
 
-        this.inventory.EnableMenuView(itemList);
-        this.inventory.EnableItemSelection();
+            foreach (PrefabTile tile in tiles)
+            {
+                IInventoryItem item = new InventoryTile(tile);
+                itemList.Add(item);
+            }
+
+            this.inventory.EnableMenuView(itemList);
+            this.inventory.EnableItemSelection();
+        }
     }
 
     internal void ConfirmSelection(IInventoryItem inventoryItem)
@@ -184,22 +189,36 @@ public class Player : MonoBehaviour
 
         Attributes.CurrentEquippedItem = this.inventory.GetCurrentSelectedItem();
         ClearHands();
+        DisplayCurrentItem();
 
         this.playerMovement.enabled = true;
     }
 
     internal void ProcessAction()
     {
-        IInventoryItem currentItem = Attributes.CurrentEquippedItem;
-        if (currentItem is InventoryTile)
+        if (Attributes.IsAlive)
         {
-            InventoryTile inventoryTile = (InventoryTile)currentItem;
-            tileController.TryAddTile(inventoryTile.Tile, transform.position);
-        }
-        else if (currentItem is InventoryWeapon)
-        {
-            InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
-            inventoryWeapon.Weapon.GetComponent<IPlayerWeapon>().Fire();
+            IInventoryItem currentItem = Attributes.CurrentEquippedItem;
+            if (currentItem is InventoryTile)
+            {
+                InventoryTile inventoryTile = (InventoryTile)currentItem;
+                PrefabTile tileToBuild = inventoryTile.Tile;
+
+                if (this.resourceManager.TryConsume(tileToBuild.BuildingCosts))
+                {
+                    this.tileController.TryAddTile(tileToBuild, transform.position);
+                }
+                else
+                {
+                    Debug.Log("Not enough ConstructionMaterial to Build");
+                    //TODO: Maybe error sound if to less ressources
+                }
+            }
+            else if (currentItem is InventoryWeapon)
+            {
+                InventoryWeapon inventoryWeapon = (InventoryWeapon)currentItem;
+                inventoryWeapon.Weapon.GetComponent<IPlayerWeapon>().Fire();
+            }
         }
     }
 

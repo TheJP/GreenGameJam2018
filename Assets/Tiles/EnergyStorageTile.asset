@@ -13,3 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 4b4a156af975dab4698027429ff7fb00, type: 3}
   Prefab: {fileID: 1285321357168388, guid: 1c8265eefd3da4640847170cb689e479, type: 2}
+  BuildingCosts:
+    value: 50
