@@ -36,10 +36,10 @@ public class ResourcesInfoController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {           
-        energyDisplay = addDisplay("Energy", energyIcon, energyColor, 0, 0);
-        oxygenDisplay = addDisplay("Oxygen", oxygenIcon, oxygenColor, 1, 0);
-        materialDisplay = addDisplay("Construction material", constructionMaterialIcon, constructionMaterialColor, 2, 0);
-        bloodDisplay = addDisplay("Blood", bloodIcon, bloodColor, 3, 0);
+        energyDisplay = AddDisplay("Energy", energyIcon, energyColor, 0, 0);
+        oxygenDisplay = AddDisplay("Oxygen", oxygenIcon, oxygenColor, 1, 0);
+        materialDisplay = AddDisplay("Construction material", constructionMaterialIcon, constructionMaterialColor, 2, 0);
+        bloodDisplay = AddDisplay("Blood", bloodIcon, bloodColor, 3, 0);
         
         energyText = energyDisplay.GetComponentInChildren<Text>();
         oxygenText = oxygenDisplay.GetComponentInChildren<Text>();
@@ -48,13 +48,13 @@ public class ResourcesInfoController : MonoBehaviour
 
     }
 
-    private GameObject addDisplay(string name, Sprite icon, Color color, int xPosition, int yPosition)
+    private GameObject AddDisplay(string name, Sprite icon, Color color, int xPosition, int yPosition)
     {
         GameObject display = Instantiate(resourceDisplayPrefab, 
-            this.transform.position + Vector3.right * xPosition * xDistance + Vector3.down * yPosition * yDistance, 
-            this.transform.rotation
+            transform.position + Vector3.right * xPosition * xDistance + Vector3.down * yPosition * yDistance,
+            resourceDisplayPrefab.transform.rotation,
+            transform
         );
-        display.transform.SetParent(this.transform, true);
         display.name = name;
 
         Image image = display.GetComponentInChildren<Image>();
@@ -67,8 +67,7 @@ public class ResourcesInfoController : MonoBehaviour
         return display;
     }
 	
-    // Update is called once per frame
-    void Update ()
+    private void Update ()
     {
         energyText.text = $"{(float) resourceManager.EnergyAvailable:0} / {(float)resourceManager.EnergyCapacity:0}";
         oxygenText.text = $"{(float)resourceManager.OxygenAvailable:0} / {(float)resourceManager.OxygenCapacity:0}";

@@ -654,7 +654,7 @@ MonoBehaviour:
   energyUsagePerSecond:
     value: 10
   minOxygenUsagePerSecond:
-    value: 5
+    value: 4
   oxygenRefillPerSecond:
     value: 10
   aoeRadius: 2
