@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
         this.inventory = inventoryObject.GetComponent<Inventory>();
 
         this.tileController = FindObjectOfType<TileController>();
+
+        var info = Input.GetJoystickNames();
     }
 
     private void Start()
@@ -109,12 +111,12 @@ public class Player : MonoBehaviour
                 GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
                 if (lookRight)
                 {
-                    weapon.gameObject.transform.localScale = new Vector2(-1, 1);
+                    weapon.gameObject.transform.localScale = new Vector2(1, 1);
                     weapon.gameObject.transform.SetParent(rightHand.gameObject.transform, false);
                 }
                 else
                 {
-                    weapon.gameObject.transform.localScale = new Vector2(1, 1);
+                    weapon.gameObject.transform.localScale = new Vector2(-1, 1);
                     weapon.gameObject.transform.SetParent(leftHand.gameObject.transform, false);
                 }
             }
