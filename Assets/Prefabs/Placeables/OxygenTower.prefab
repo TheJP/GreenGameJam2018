@@ -158,7 +158,6 @@ GameObject:
   - component: {fileID: 114343525802875256}
   - component: {fileID: 50728900235894898}
   - component: {fileID: 120466557106368546}
-  - component: {fileID: 114048554653276738}
   - component: {fileID: 114208913875069104}
   m_Layer: 0
   m_Name: OxygenTower
@@ -434,18 +433,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114048554653276738
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1933346158057044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6fccbfd7cfe43b7a613e7a3b9d8c6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 50
 --- !u!114 &114124346544463324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -604,7 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 114169720634076694}
   maxHealth: 100
-  healthRegenPerSecond: 1
+  healthRegenPerSecond: 0.5
 --- !u!114 &114462061772024484
 MonoBehaviour:
   m_ObjectHideFlags: 1

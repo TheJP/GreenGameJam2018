@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
@@ -7,21 +8,23 @@ using UnityEngine.Rendering;
 using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.Tilemaps;
 using UnityEngine.WSA;
+using Random = UnityEngine.Random;
 
 namespace Monsters
 {
     public class Monster : MonoBehaviour
     {
         public MonsterAttributes Attributes;
+        public Tilemap Placeables { get; set; }
 
-        public AttackableBuilding Target;
 
         private Rigidbody2D _rigidbody2D;
+
         //private SpriteRenderer _spriteRenderer;
         //private float attacksPerSeconds = 1f;
         //private int stuckcount = 0;
-        private Pathfinder _pathfinder;
-        
+        public AttackableBuilding Target;
+
         private AudioSource audioSource;
         private float originalPitch;
         private float pitchRange = 0.2f;
@@ -30,7 +33,7 @@ namespace Monsters
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             //_spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
-            
+
             audioSource = GetComponent<AudioSource>();
             if (audioSource != null)
             {
@@ -38,8 +41,13 @@ namespace Monsters
                 audioSource.loop = true;
                 audioSource.playOnAwake = false;
                 originalPitch = audioSource.pitch;
-                audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);                
+                audioSource.pitch = Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
                 audioSource.Play();
+            }
+
+            if (Placeables == null)
+            {
+                Debug.LogError("Monster needs placeables tilemap");
             }
         }
 
@@ -65,14 +73,8 @@ namespace Monsters
                 Target = FindTarget();
                 if (Target)
                 {
-                    _pathfinder = Target.gameObject.GetComponent<Pathfinder>();
+                    Target = Target.gameObject.GetComponent<AttackableBuilding>();
                 }
-            }
-
-
-            if (InRange())
-            {
-                Attack();
             }
         }
 
@@ -83,19 +85,30 @@ namespace Monsters
             {
                 Move();
             }
+
+            if (InRange())
+            {
+                Target.GetComponent<Health>().TakeDamage(Attributes.Attackpower * Time.fixedDeltaTime);
+            }
         }
 
         private AttackableBuilding FindTarget()
         {
-            var buildings = FindObjectsOfType<AttackableBuilding>();
-            return buildings.FirstOrDefault();
+            var attackable = Placeables.GetComponentsInChildren<AttackableBuilding>();
+            if (attackable.Length == 0)
+            {
+                Debug.Log("using expensive FindObjectsOfType");
+                attackable = FindObjectsOfType<AttackableBuilding>();
+            }
+
+            return attackable.Length == 0 ? null : attackable[Random.Range(0, attackable.Length)];
         }
 
         private MoveDirection _lastHorizontal = MoveDirection.Left;
 
         private void Move()
         {
-            var direction = _pathfinder.PathFrom(transform.position);
+            var direction = Target.PathFrom(transform.position);
             if (direction == MoveDirection.Left || direction == MoveDirection.Down)
             {
                 _lastHorizontal = direction;
@@ -135,14 +148,6 @@ namespace Monsters
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void Attack()
-        {
-            if ((Target.transform.position - transform.position).magnitude < Attributes.Range)
-            {
-                Target.TakeDamage(Attributes.Attackpower * Time.deltaTime);
             }
         }
     }

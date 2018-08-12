@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Monsters;
 // using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
@@ -29,7 +31,7 @@ public class WaveSpawner : MonoBehaviour
     [System.Serializable]
     public class Enemy
     {
-        public Transform Prefab;
+        public Monster Prefab;
         public int Count = 1;
         public float Rate = 1f;
 
@@ -85,6 +87,7 @@ public class WaveSpawner : MonoBehaviour
     public KeyWave[] KeyWaves;
     public Transform[] SpawnPoints;
     public float TimeBetweenWaves = 5f;
+    public Tilemap Placeables;
 
     public int NextWave => _waveCounter + 1;
     //public float WaveCountdown => _waveCountdown;
@@ -193,10 +196,12 @@ public class WaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void SpawnEnemy(Transform enemy)
+    void SpawnEnemy(Monster prefab)
     {
         Transform _sp = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
-        var e = Instantiate(enemy, _sp.position, _sp.rotation);
-        e.transform.parent = _enemiesContainer.transform;
+        var enemy = Instantiate(prefab, _sp.position, _sp.rotation);
+        enemy.transform.SetParent(_enemiesContainer.transform);
+        var monster = enemy.GetComponent<Monster>();
+        monster.Placeables = Placeables;
     }
 }

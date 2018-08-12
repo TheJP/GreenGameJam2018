@@ -52,9 +52,9 @@ GameObject:
   - component: {fileID: 4772742338854864}
   - component: {fileID: 212959353938750534}
   - component: {fileID: 114892529015853574}
-  - component: {fileID: 114943070897757214}
-  - component: {fileID: 114361359138096380}
   - component: {fileID: 82823115275385330}
+  - component: {fileID: 114855199443451162}
+  - component: {fileID: 114228456065246298}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -199,7 +199,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114361359138096380
+--- !u!114 &114228456065246298
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,6 +213,20 @@ MonoBehaviour:
   Recompute: 0
   DebugTileSprite: {fileID: 11400000, guid: 3d06a1b5f5c084aa7a5c5be179ba9fe6, type: 2}
   DrawDebugInfo: 0
+--- !u!114 &114855199443451162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1818415801269782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40919ab62320cb74c86003faf7ae62ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  maxHealth: 100
+  healthRegenPerSecond: 1
 --- !u!114 &114892529015853574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,20 +248,7 @@ MonoBehaviour:
   standbyEnergy:
     value: 0.5
   dummyTarget: {fileID: 0}
-  audioSource: {fileID: 0}
   pitchRange: 0.2
---- !u!114 &114943070897757214
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1818415801269782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6fccbfd7cfe43b7a613e7a3b9d8c6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 200
 --- !u!212 &212530387652220076
 SpriteRenderer:
   m_ObjectHideFlags: 1
