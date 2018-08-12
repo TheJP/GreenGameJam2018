@@ -2,6 +2,8 @@
 
 public class Pistole : MonoBehaviour, IPlayerWeapon
 {
+
+#pragma warning disable 0649
     [SerializeField]
     [Tooltip("The bullet Prefab")]
     private GameObject bulletPrefab;
@@ -9,6 +11,7 @@ public class Pistole : MonoBehaviour, IPlayerWeapon
     [SerializeField]
     [Tooltip("The bullet spawn point. Should be preconfigured in the Prefab")]
     private GameObject bulletSpawn;
+#pragma warning restore 0649
 
     [SerializeField]
     [Tooltip("Shooting power of the gun")]
