@@ -210,9 +210,16 @@ public class Player : MonoBehaviour
                 InventoryTile inventoryTile = (InventoryTile)currentItem;
                 PrefabTile tileToBuild = inventoryTile.Tile;
 
-                if (this.resourceManager.TryConsume(tileToBuild.BuildingCosts))
+
+                //if ()
+                if (this.resourceManager.ConstructionMaterialAvailable >= tileToBuild.BuildingCosts)
                 {
-                    this.tileController.TryAddTile(tileToBuild, transform.position);
+                    if (!(this.resourceManager.TryConsume(tileToBuild.BuildingCosts) && this.tileController.TryAddTile(tileToBuild, transform.position)))
+                    {
+                        var fadeout = Instantiate(fadeoutTextPrefab, transform);
+                        fadeout.TextMesh.text = "#@!&$%";
+                        fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
+                    }
                 }
                 else
                 {
