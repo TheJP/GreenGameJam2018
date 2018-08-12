@@ -72,10 +72,6 @@ namespace Monsters
             if (Target == null)
             {
                 Target = FindTarget();
-                if (Target)
-                {
-                    Target = Target.gameObject.GetComponent<AttackableBuilding>();
-                }
             }
         }
 
@@ -96,12 +92,6 @@ namespace Monsters
         private AttackableBuilding FindTarget()
         {
             var attackable = Placeables.GetComponentsInChildren<AttackableBuilding>();
-            if (attackable.Length == 0)
-            {
-                Debug.Log("using expensive FindObjectsOfType");
-                attackable = FindObjectsOfType<AttackableBuilding>();
-            }
-
             return attackable.Length == 0 ? null : attackable[Random.Range(0, attackable.Length)];
         }
 
