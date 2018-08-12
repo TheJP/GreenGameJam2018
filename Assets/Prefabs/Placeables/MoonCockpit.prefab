@@ -92,7 +92,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 243049804364062730, guid: 654333d1994c69946b82bc0970605a1e,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 513423f8bcfb22c4e9f05f5a0f4b990a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -284,8 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbcd292803cdbea4ea0ffa703facf10a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalMin: 150
-  intervalMax: 360
+  intervalMin: 10
+  intervalMax: 20
   advancedWarningTime: 40
   enemies:
   - {fileID: 114604524971665166, guid: 661650d64297f42c187e75bad4cf03de, type: 2}
