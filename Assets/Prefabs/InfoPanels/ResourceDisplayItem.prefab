@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224244270668667526}
   - component: {fileID: 222645704391869944}
-  - component: {fileID: 114276614196663038}
   m_Layer: 5
   m_Name: ResourceDisplayItem
   m_TagString: Untagged
@@ -89,17 +88,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114276614196663038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1692178739838680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c897600e500ee143b852d5ee4cf57d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114741741382246550
 MonoBehaviour:
   m_ObjectHideFlags: 1
