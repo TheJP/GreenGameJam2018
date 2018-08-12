@@ -15,7 +15,6 @@ public class Wave
         // this.monsterType = type;
         // this.asset = WaveGenerator.GetMonsterAssetForType(type);
         this.asset = asset;
-        Debug.Log("Wave.asset is " + this.asset);
         this.count = count;
         this.rate = rate;
     }

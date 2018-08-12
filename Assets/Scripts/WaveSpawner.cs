@@ -13,9 +13,9 @@ public class WaveSpawner : MonoBehaviour
 {
     public enum SpawnState
     {
-        SPAWNING,
-        WAITING,
-        COUNTING
+        Spawning,
+        Waiting,
+        Counting,
     };
 
     [System.Serializable]
@@ -88,6 +88,7 @@ public class WaveSpawner : MonoBehaviour
     public Transform[] SpawnPoints;
     public float TimeBetweenWaves = 5f;
     public Tilemap Placeables;
+    public GameObject _enemiesContainer = null;
 
     public int NextWave => _waveCounter + 1;
     //public float WaveCountdown => _waveCountdown;
@@ -100,8 +101,7 @@ public class WaveSpawner : MonoBehaviour
     private KeyWave _lastKeyWave;
     // private float _searchCountdown = 1f; // Not used
     private float _waveCountdown;
-    private SpawnState _state = SpawnState.COUNTING;
-    private GameObject _enemiesContainer = null;
+    private SpawnState _state = SpawnState.Counting;
 
     private void Awake()
     {
@@ -119,14 +119,14 @@ public class WaveSpawner : MonoBehaviour
         _waveCounter = 1;
         _keyWaves = new Stack<KeyWave>(KeyWaves.Reverse());
         _lastKeyWave = null;
-        _state = SpawnState.COUNTING;
+        _state = SpawnState.Counting;
         //_searchCountdown = 1f;
         _waveCountdown = TimeBetweenWaves;
     }
 
     void Update()
     {
-        if (_state == SpawnState.WAITING)
+        if (_state == SpawnState.Waiting)
         {
             if (!EnemyIsAlive)
             {
@@ -141,7 +141,7 @@ public class WaveSpawner : MonoBehaviour
 
         if (_waveCountdown <= 0)
         {
-            if (_state != SpawnState.SPAWNING)
+            if (_state != SpawnState.Spawning)
             {
                 if (!EndlessMode && _waveCounter == _keyWaves.Peek().number)
                 {
@@ -161,7 +161,7 @@ public class WaveSpawner : MonoBehaviour
     void WaveCompleted()
     {
         Debug.Log("Wave Completed!");
-        _state = SpawnState.COUNTING;
+        _state = SpawnState.Counting;
     }
 
 
@@ -178,7 +178,7 @@ public class WaveSpawner : MonoBehaviour
     IEnumerator SpawnWave(Wave wave)
     {
         Debug.Log($"Spawning Wave: {wave}");
-        _state = SpawnState.SPAWNING;
+        _state = SpawnState.Spawning;
         EnsureEnemiesContainerExists();
 
         foreach (var enemy in wave.Enemies)
@@ -190,7 +190,7 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        _state = SpawnState.WAITING;
+        _state = SpawnState.Waiting;
 
         yield break;
     }
