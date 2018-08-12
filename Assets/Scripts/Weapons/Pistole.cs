@@ -11,6 +11,10 @@ public class Pistole : MonoBehaviour, IPlayerWeapon
     private GameObject bulletSpawn;
 
     [SerializeField]
+    [Tooltip("Shooting power of the gun")]
+    private int shootingPower = 20;
+
+    [SerializeField]
     private AudioSource audioSource;
     
     private float originalPitch;
@@ -25,14 +29,14 @@ public class Pistole : MonoBehaviour, IPlayerWeapon
             audioSource.loop = false;
             audioSource.playOnAwake = false;
             originalPitch = audioSource.pitch;
-            audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);                
+            audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
         }
     }
 
     public void Fire()
     {
         var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody2D>().AddForce(-bulletSpawn.transform.right * 10);
+        bullet.GetComponent<Rigidbody2D>().AddForce(bulletSpawn.transform.right * shootingPower);
 
         audioSource.Play();
     }

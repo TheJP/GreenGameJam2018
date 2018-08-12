@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca42108e95450b145afdde91b4b6d836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
+  playerNumber: 4
   sprite: {fileID: 21300000, guid: 6adbfc0ee26d14440820c5fc7975c6e5, type: 3}
   oxygenUsagePerSecond:
     value: 5

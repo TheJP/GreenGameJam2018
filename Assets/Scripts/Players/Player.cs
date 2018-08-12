@@ -85,6 +85,10 @@ public class Player : MonoBehaviour
         if (Input.GetAxis($"Horizontal_{PlayerNumber}") != 0)
         {
             this.animator.enabled = true;
+
+            bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
+            this.spriteRenderer.flipX = (lookRight) ? false : true;
+
             DisplayCurrentItem();
         }
         else
@@ -99,7 +103,6 @@ public class Player : MonoBehaviour
         {
 
             bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
-            this.spriteRenderer.flipX = (lookRight) ? false : true;
 
             if (Attributes.CurrentEquippedItem is InventoryTile)
             {
@@ -111,12 +114,12 @@ public class Player : MonoBehaviour
                 GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
                 if (lookRight)
                 {
-                    weapon.gameObject.transform.localScale = new Vector2(1, 1);
+                    weapon.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                     weapon.gameObject.transform.SetParent(rightHand.gameObject.transform, false);
                 }
                 else
                 {
-                    weapon.gameObject.transform.localScale = new Vector2(-1, 1);
+                    weapon.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
                     weapon.gameObject.transform.SetParent(leftHand.gameObject.transform, false);
                 }
             }
@@ -184,6 +187,7 @@ public class Player : MonoBehaviour
 
         Attributes.CurrentEquippedItem = this.inventory.GetCurrentSelectedItem();
         ClearHands();
+        DisplayCurrentItem();
 
         this.playerMovement.enabled = true;
     }
