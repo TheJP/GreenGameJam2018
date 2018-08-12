@@ -198,7 +198,7 @@ public class WaveSpawner : MonoBehaviour
         _state = SpawnState.Waiting;
     }
 
-    void SpawnEnemy(Monster prefab)
+    public void SpawnEnemy(Monster prefab)
     {
         Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         var enemy = Instantiate(prefab, _sp.position, _sp.rotation);
