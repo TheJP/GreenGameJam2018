@@ -392,6 +392,11 @@ Prefab:
       value: 
       objectReference: {fileID: 114159807042858070, guid: 010458b00dd0a4c53b9ccfeb40b7c80f,
         type: 2}
+    - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
+        type: 2}
+      propertyPath: Terrain
+      value: 
+      objectReference: {fileID: 471126710}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
   m_IsPrefabAsset: 0
