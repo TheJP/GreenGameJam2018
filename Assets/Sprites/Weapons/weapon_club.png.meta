@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: weapon_club_0
     21300002: weapon_club_1
+    21300004: weapon_club_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -94,13 +95,13 @@ TextureImporter:
         width: 300
         height: 232
       alignment: 9
-      pivot: {x: 0.050299283, y: 0.04725317}
+      pivot: {x: 0.06636003, y: 0.057637516}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c2032ca21d32014aad19444869c9930
+      spriteID: a6275806cac4a804b978297edb20d758
       vertices: []
       indices: 
       edges: []
@@ -109,18 +110,38 @@ TextureImporter:
       name: weapon_club_1
       rect:
         serializedVersion: 2
-        x: 304
-        y: 0
-        width: 352
-        height: 141
+        x: 367
+        y: 1
+        width: 219
+        height: 315
       alignment: 9
-      pivot: {x: 0.05650451, y: 0.1070243}
+      pivot: {x: 0.07758056, y: 0.038827337}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 834a6e5b0ce06a34d844996fb03745f4
+      spriteID: 78d0126064af4f54fb3de759adbd3457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: weapon_club_2
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 1
+        width: 348
+        height: 140
+      alignment: 9
+      pivot: {x: 0.053483635, y: 0.097334325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5e8d70bb9344a4429cf3f364f870e31
       vertices: []
       indices: 
       edges: []
