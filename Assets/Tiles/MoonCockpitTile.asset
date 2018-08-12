@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7740609c9ef234418f5e89ccd4a191e, type: 3}
+  m_Name: MoonCockpitTile
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 21300000, guid: b82b1a3e411409d40b9cda8f36b1f09d, type: 3}
+  Prefab: {fileID: 1058569569588888, guid: 99d1429ccc1f10a4f94b082f9147a59e, type: 2}
+  BuildingCosts:
+    value: 0

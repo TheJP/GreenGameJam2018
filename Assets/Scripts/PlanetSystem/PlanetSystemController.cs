@@ -37,18 +37,18 @@ public class PlanetSystemController : MonoBehaviour
 	private float currentAngleStart = Single.NaN;
 	private float currentAngleEnd = Single.NaN;
 
-	private PlayerFactory playerFactory;
+	private PlayerSpawner playerSpawner;
 	private float countdown;
 	private bool failed;
 
 	private Vector3 moonOrigin;
 	
-	void Start()
+	private void Start()
 	{
 		lineRenderer = GetComponent<LineRenderer>();
 		moonSpriteRenderer = moon.GetComponent<SpriteRenderer>();
 
-		playerFactory = FindObjectOfType<PlayerFactory>();
+		playerSpawner = FindObjectOfType<PlayerSpawner>();
 
 		moonOrigin = moon.transform.position;
 
@@ -56,25 +56,17 @@ public class PlanetSystemController : MonoBehaviour
 		{
 			crosshair.gameObject.SetActive(false);
 		}
-
-//		CreateBloodMoonEvent(TestIt);
 	}
 
-//	private void TestIt(bool success)
-//	{
-//		Debug.Log(success ? "Success" : "Failure");
-//		CreateBloodMoonEvent(TestIt);
-//	}
-	
 	private void Update()
 	{
-		countdown = Mathf.Max(countdown - Time.deltaTime, 0);
-		countdownText.text = $"{countdown:0}s";
-
 		if (countdown < Single.Epsilon)
 		{
 			return;
 		}
+		
+		countdown = Mathf.Max(countdown - Time.deltaTime, 0);
+		countdownText.text = $"{countdown:0}s";
 		
 		moon.transform.RotateAround(earth.transform.position, Vector3.forward, angularSpeed * Time.deltaTime);
 
@@ -113,8 +105,9 @@ public class PlanetSystemController : MonoBehaviour
 	/// </summary>
 	/// <param name="callback">This callback will be called when the event finisheds in some way. The parameter will be
 	/// true when the player did successful; otherwise false.</param>
+	/// <param name="additionalTime">Additional time the players have until the moon reaches blood moon status.</param>
 	/// <returns>If the event could be started true; otherwise in case one is already running false.</returns>
-	public bool CreateBloodMoonEvent(Action<bool> callback)
+	public bool CreateBloodMoonEvent(Action<bool> callback, float additionalTime = 0)
 	{
 		if (!Single.IsNaN(currentAngleStart) && !Single.IsNaN(currentAngleEnd))
 		{
@@ -124,7 +117,7 @@ public class PlanetSystemController : MonoBehaviour
 		failed = false;
 		moonSpriteRenderer.color = Color.white;
 		var maxPlayers = Mathf.Min(playerCrosshairs.Length, boxSpriteRenderers.Length);
-		var players = playerFactory.GetComponentsInChildren<Player>();
+		var players = playerSpawner.Players.ToArray();
 
 		if (players.Length > maxPlayers)
 		{
@@ -176,11 +169,22 @@ public class PlanetSystemController : MonoBehaviour
 
 		moon.transform.position = moonOrigin;
 		moon.transform.rotation = Quaternion.identity;
-		
-		var moonStartAngle = (360 + start - angularSpeed * 10) % 360.0f;
-		moon.transform.RotateAround(earth.transform.position, Vector3.forward, moonStartAngle);
 
-		countdown = 30;
+		var moonAwayTime = 10.0f;
+		if (additionalTime < 30)
+		{
+			countdown = additionalTime;
+			moonAwayTime = additionalTime / 30 * 10;
+		}
+		else
+		{
+			countdown = 30;
+			moonAwayTime += additionalTime - countdown;
+		}
+		
+		moonAwayTime = Math.Max(0, Math.Min(moonAwayTime, (180 - distance) / angularSpeed));
+		var moonStartAngle = (360 + start - angularSpeed * moonAwayTime) % 360.0f;
+		moon.transform.RotateAround(earth.transform.position, Vector3.forward, moonStartAngle);
 		
 		StartCoroutine(ChallengePlayers(players, callback));
 
@@ -233,7 +237,7 @@ public class PlanetSystemController : MonoBehaviour
 
 			yield return null;
 
-			while (!failed && !playerCrosshairs.All(crosshair => !crosshair.gameObject.activeInHierarchy || crosshair.HasValidHit))
+			while (!failed && countdown > Single.Epsilon && !playerCrosshairs.All(crosshair => !crosshair.gameObject.activeInHierarchy || crosshair.HasValidHit))
 			{
 				yield return null;
 			}
