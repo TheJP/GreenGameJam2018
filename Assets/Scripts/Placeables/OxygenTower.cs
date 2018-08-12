@@ -68,9 +68,16 @@ public class OxygenTower : Placeable, OxygenSink, EnergySink
 
     private void Update()
     {
-        var lines = connectedPlayers.SelectMany(p => new[] { transform.position, p.transform.position, transform.position }).ToArray();
-        lineRenderer.positionCount = lines.Length;
-        lineRenderer.SetPositions(lines);
+        if (HasEnergy)
+        {
+            var lines = connectedPlayers.SelectMany(p => new[] { transform.position, p.transform.position, transform.position }).ToArray();
+            lineRenderer.positionCount = lines.Length;
+            lineRenderer.SetPositions(lines);
+        }
+        else
+        {
+            lineRenderer.positionCount = 0;
+        }
     }
 
     public void ConsumeEnergy(ResourceManager manager) =>
