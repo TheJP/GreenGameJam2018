@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114558301151006122}
   - component: {fileID: 50558980188384594}
   - component: {fileID: 58200040278686288}
-  - component: {fileID: 114609501364783396}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -518,19 +517,6 @@ MonoBehaviour:
   moveForce: 150
   jumpForce: 400
   groundCheck: {fileID: 4882772376147438}
---- !u!114 &114609501364783396
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1102575783721436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8771eb5d9436914396b896c12ed0b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flyUpSpeed: 0.5
-  fadeoutDuration: 3
 --- !u!114 &114703742415513224
 MonoBehaviour:
   m_ObjectHideFlags: 1
