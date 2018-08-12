@@ -284,8 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbcd292803cdbea4ea0ffa703facf10a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalMin: 10
-  intervalMax: 20
+  intervalMin: 150
+  intervalMax: 300
   advancedWarningTime: 40
   enemies:
   - {fileID: 114604524971665166, guid: 661650d64297f42c187e75bad4cf03de, type: 2}
