@@ -66,19 +66,16 @@ public class ResourcesInfoController : MonoBehaviour
         text.text = "0 / 0";
         text.color = color;
 
-        Debug.Log("have added display: " + display.name);
-
         return display;
     }
 	
     // Update is called once per frame
     void Update ()
     {
-        energyText.text = $"{(float) resourceManager.EnergyAvailable:0}" + "/" + $"{(float)resourceManager.EnergyCapacity:0}";
+        energyText.text = $"{(float) resourceManager.EnergyAvailable:0} / {(float)resourceManager.EnergyCapacity:0}";
         oxygenText.text = $"{(float)resourceManager.OxygenAvailable:0} / {(float)resourceManager.OxygenCapacity:0}";
         materialText.text = $"{(float)resourceManager.ConstructionMaterialAvailable:0} / {(float)resourceManager.ConstructionMaterialCapacity:0}";
         bloodText.text = $"{(float)resourceManager.BloodAvailable:0} / {(float)resourceManager.BloodCapacity:0}";
-
     }
     
 }
