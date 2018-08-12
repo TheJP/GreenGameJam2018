@@ -397,6 +397,26 @@ Prefab:
       propertyPath: Terrain
       value: 
       objectReference: {fileID: 471126710}
+    - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
+        type: 2}
+      propertyPath: placeables
+      value: 
+      objectReference: {fileID: 1376919863}
+    - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
+        type: 2}
+      propertyPath: terrain
+      value: 
+      objectReference: {fileID: 471126710}
+    - target: {fileID: 114924235169517418, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
+        type: 2}
+      propertyPath: keyWaves.Array.data[0].number
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
   m_IsPrefabAsset: 0
