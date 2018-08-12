@@ -87,15 +87,15 @@ public class WaveSpawner : MonoBehaviour
     public float TimeBetweenWaves = 5f;
 
     public int NextWave => _waveCounter + 1;
-    public float WaveCountdown => _waveCountdown;
+    //public float WaveCountdown => _waveCountdown;
     public bool EndlessMode => _keyWaves.Count == 0;
-    public SpawnState State => _state;
+    //public SpawnState State => _state;
     public bool EnemyIsAlive => _enemiesContainer != null && _enemiesContainer.transform.childCount > 0;
 
     private int _waveCounter = 1;
     private Stack<KeyWave> _keyWaves;
     private KeyWave _lastKeyWave;
-    private float _searchCountdown = 1f;
+    // private float _searchCountdown = 1f; // Not used
     private float _waveCountdown;
     private SpawnState _state = SpawnState.COUNTING;
     private GameObject _enemiesContainer = null;
@@ -118,7 +118,7 @@ public class WaveSpawner : MonoBehaviour
         _keyWaves = new Stack<KeyWave>(KeyWaves.Reverse());
         _lastKeyWave = null;
         _state = SpawnState.COUNTING;
-        _searchCountdown = 1f;
+        //_searchCountdown = 1f;
         _waveCountdown = TimeBetweenWaves;
     }
 

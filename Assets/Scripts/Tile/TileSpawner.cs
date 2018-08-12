@@ -41,5 +41,6 @@ public class TileSpawner : MonoBehaviour
         var tower = FindObjectOfType<OxygenTower>();
         tower.aoeRadius *= 2;
         tower.oxygenRefillPerSecond *= Settings.JoinedPlayers.Count;
+        tower.minOxygenUsagePerSecond *= Settings.JoinedPlayers.Count;
     }
 }

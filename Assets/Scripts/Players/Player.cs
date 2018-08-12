@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         this.animator = GetComponentInChildren<Animator>();
 
-        Attributes = new PlayerAttributes(this, oxygenStorageCapacity);
+        Attributes = new PlayerAttributes(oxygenStorageCapacity);
         Attributes.OxygenLevelChanged += OxygenLevelChanged;
 
         GameObject inventoryObject = Instantiate(inventoryPrefab, transform);
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
 
         this.tileController = FindObjectOfType<TileController>();
 
-        var info = Input.GetJoystickNames();
+        Input.GetJoystickNames();
     }
 
     private void Start()

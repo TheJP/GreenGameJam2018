@@ -17,9 +17,9 @@ namespace Monsters
         public AttackableBuilding Target;
 
         private Rigidbody2D _rigidbody2D;
-        private SpriteRenderer _spriteRenderer;
-        private float attacksPerSeconds = 1f;
-        private int stuckcount = 0;
+        //private SpriteRenderer _spriteRenderer;
+        //private float attacksPerSeconds = 1f;
+        //private int stuckcount = 0;
         private Pathfinder _pathfinder;
         
         private AudioSource audioSource;
@@ -29,7 +29,7 @@ namespace Monsters
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            _spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+            //_spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
             
             audioSource = GetComponent<AudioSource>();
             if (audioSource != null)

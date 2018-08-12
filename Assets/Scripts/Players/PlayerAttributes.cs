@@ -11,22 +11,17 @@ public class PlayerAttributes
 
     public IInventoryItem CurrentEquippedItem { get; set; }
 
-#pragma warning disable 0649
-    private Player player;
-#pragma warning restore 0649
-
     //List of Phobies
     //Weapon Inventory
     //Tower Inventory
 
-    public PlayerAttributes(Player player, Oxygen maxOxygen)
+    public PlayerAttributes(Oxygen maxOxygen)
     {
-        this.player = player;
         MaxOxygen = maxOxygen;
         this.CurrentOxygen = maxOxygen;
     }
 
-    public PlayerAttributes(Player player) : this(player, new Oxygen(100)) { }
+    public PlayerAttributes(Player player) : this(new Oxygen(100)) { }
 
     /// <summary>
     /// Increase the Oxygen of this Player about the given amount.
