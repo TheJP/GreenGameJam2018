@@ -2,11 +2,11 @@
 
 public class CountDisplayController : MonoBehaviour
 {
-    public float m_Speed = 20f;
+    public float speed = 20f;
 
     private void Update()
     {
-        transform.Translate(Vector3.down * m_Speed * Time.deltaTime);
+        transform.Translate(Vector3.down * speed * Time.deltaTime);
         if (transform.localPosition.y <= 0)
         {
             Debug.Log("spawn monsters!");

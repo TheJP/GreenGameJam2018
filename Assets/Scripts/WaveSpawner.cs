@@ -13,7 +13,6 @@ public class WaveSpawner : MonoBehaviour
     {
         Spawning,
         Waiting,
-        Counting,
     };
 
     [System.Serializable]
@@ -80,21 +79,11 @@ public class WaveSpawner : MonoBehaviour
 
     public KeyWave[] keyWaves;
     public Transform[] spawnPoints;
-    public float timeBetweenWaves = 5f;
     public Tilemap placeables;
     public Tilemap terrain;
     public GameObject enemiesContainer = null;
 
-    public int NextWave => _waveCounter + 1;
-    //public float WaveCountdown => _waveCountdown;
-    //public SpawnState State => _state;
-    public bool EnemyIsAlive => enemiesContainer != null && enemiesContainer.transform.childCount > 0;
-
-    private int _waveCounter = 1;
-    private KeyWave _lastKeyWave;
-    // private float _searchCountdown = 1f; // Not used
-    private float _waveCountdown;
-    private SpawnState _state = SpawnState.Counting;
+    private SpawnState state = SpawnState.Waiting;
 
     private void Awake()
     {
@@ -109,66 +98,12 @@ public class WaveSpawner : MonoBehaviour
         }
 
         EnsureEnemiesContainerExists();
-        _waveCounter = 1;
-        _lastKeyWave = null;
-        _state = SpawnState.Counting;
-        //_searchCountdown = 1f;
-        _waveCountdown = timeBetweenWaves;
+        state = SpawnState.Waiting;
 
         Array.Sort(keyWaves, (a, b) => a.number.CompareTo(b.number));
     }
 
-    //private Wave GetWave(int number)
-    //{
-    //}
-
-    private void Start()
-    {
-        var waves = new Wave[keyWaves.Last().number + 1];
-
-        var keyWave = keyWaves.First();
-    }
-
-    void Update()
-    {
-        if (_state == SpawnState.Waiting)
-        {
-            if (!EnemyIsAlive)
-            {
-                WaveCompleted();
-            }
-            else
-            {
-                return;
-            }
-        }
-
-
-        if (_waveCountdown <= 0)
-        {
-            if (_state != SpawnState.Spawning)
-            {
-                //if (!EndlessMode && _waveCounter == _keyWaves.Peek().number)
-                //{
-                //    _lastKeyWave = _keyWaves.Pop();
-                //}
-
-                StartCoroutine(SpawnWave(new Wave(_waveCounter, _lastKeyWave)));
-                _waveCounter++;
-            }
-        }
-        else
-        {
-            _waveCountdown -= Time.deltaTime;
-        }
-    }
-
-    void WaveCompleted()
-    {
-        Debug.Log("Wave Completed!");
-        _state = SpawnState.Counting;
-    }
-
+    public Wave GetWave(int number) => new Wave(number, keyWaves.First(w => w.number <= number));
 
     private void EnsureEnemiesContainerExists()
     {
@@ -180,10 +115,9 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnWave(Wave wave)
+    public IEnumerator SpawnWave(Wave wave)
     {
-        Debug.Log($"Spawning Wave: {wave}");
-        _state = SpawnState.Spawning;
+        state = SpawnState.Spawning;
         EnsureEnemiesContainerExists();
 
         foreach (var enemy in wave.Enemies)
@@ -195,10 +129,10 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        _state = SpawnState.Waiting;
+        state = SpawnState.Waiting;
     }
 
-    void SpawnEnemy(Monster prefab)
+    private void SpawnEnemy(Monster prefab)
     {
         Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         var enemy = Instantiate(prefab, _sp.position, _sp.rotation);
