@@ -27,17 +27,14 @@ public class BloodMoon : MonoBehaviour
 
 	private IEnumerator NextBloodMoonEvent(float secondsUntil)
 	{
-		Debug.Log("Next blood moon in " + secondsUntil);
 		yield return new WaitForSeconds(secondsUntil);
 		
-		Debug.Log("Blood moon alert");
 		// Action station, action station
 		// Blood moon might be happening soon, give out alerts, man the stations
 		BloodMoonAdvancedWarning?.Invoke(advancedWarningTime);
 		
 		yield return new WaitForSeconds(advancedWarningTime);
 		
-		Debug.Log("Blood moon going");
 		// Too late, blood moon is now happening
 		BloodMoonAlert?.Invoke();
 		
