@@ -18,7 +18,6 @@ namespace Monsters
         public Tilemap Placeables { get; set; }
         public Tilemap Terrain { get; set; }
 
-
         private Rigidbody2D _rigidbody2D;
 
         //private SpriteRenderer _spriteRenderer;
