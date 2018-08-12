@@ -287,6 +287,10 @@ MonoBehaviour:
   intervalMin: 150
   intervalMax: 360
   advancedWarningTime: 40
+  enemies:
+  - {fileID: 114604524971665166, guid: 661650d64297f42c187e75bad4cf03de, type: 2}
+  - {fileID: 114159807042858070, guid: 010458b00dd0a4c53b9ccfeb40b7c80f, type: 2}
+  bloodMoonEnemies: 20
   audioSourceWarning: {fileID: 82827671448222428}
   audioSourceBloodMoon: {fileID: 82053711321389626}
 --- !u!114 &114877873572369328

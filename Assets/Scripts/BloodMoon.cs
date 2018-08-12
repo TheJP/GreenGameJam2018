@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Monsters;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,13 @@ public class BloodMoon : MonoBehaviour
 	private float advancedWarningTime = 50;
 
 	[SerializeField]
+	private Monster[] enemies;
+	
+	[SerializeField]
+	[Tooltip("Amount of enemies to spawn for a blood moon")]
+	private int bloodMoonEnemies = 20;
+
+	[SerializeField]
 	[Tooltip("Audio to play as warning before blood moon")]
 	private AudioSource audioSourceWarning;
 
@@ -26,12 +34,13 @@ public class BloodMoon : MonoBehaviour
 	[Tooltip("Audio to play when blood moon occurs")]
 	private AudioSource audioSourceBloodMoon;
 
-	
 	private IEnumerator currentBloodMoon;
+	private WaveSpawner waveSpawner;
 
 	private void Start()
 	{
-		StartBloodMoonRoutine();		
+		waveSpawner = FindObjectOfType<WaveSpawner>();
+		StartBloodMoonRoutine();
 	}
 
 	private IEnumerator NextBloodMoonEvent(float secondsUntil)
@@ -48,7 +57,16 @@ public class BloodMoon : MonoBehaviour
 		// Too late, blood moon is now happening
 		audioSourceBloodMoon.Play();
 		BloodMoonAlert?.Invoke();
-		
+
+		if (enemies != null && enemies.Length > 0)
+		{
+			for (var i = 0; i < bloodMoonEnemies; ++i)
+			{
+				var index = Random.Range(0, enemies.Length);
+				waveSpawner.SpawnEnemy(enemies[index]);
+			}
+		}
+
 		StartBloodMoonRoutine();
 	}
 
