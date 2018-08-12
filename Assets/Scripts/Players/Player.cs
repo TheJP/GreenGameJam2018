@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     public PrefabTile[] tiles;
     private TileController tileController;
 
+    private ResourceManager resourceManager;
+
     public GameObject[] weapons;
     public GameObject weaponCache;
 
@@ -64,7 +66,7 @@ public class Player : MonoBehaviour
 
         this.tileController = FindObjectOfType<TileController>();
 
-        Input.GetJoystickNames();
+        this.resourceManager = FindObjectOfType<ResourceManager>();
     }
 
     private void Start()
@@ -200,7 +202,17 @@ public class Player : MonoBehaviour
             if (currentItem is InventoryTile)
             {
                 InventoryTile inventoryTile = (InventoryTile)currentItem;
-                tileController.TryAddTile(inventoryTile.Tile, transform.position);
+                PrefabTile tileToBuild = inventoryTile.Tile;
+
+                if (this.resourceManager.TryConsume(tileToBuild.BuildingCosts))
+                {
+                    this.tileController.TryAddTile(tileToBuild, transform.position);
+                }
+                else
+                {
+                    Debug.Log("Not enough ConstructionMaterial to Build");
+                    //TODO: Maybe error sound if to less ressources
+                }
             }
             else if (currentItem is InventoryWeapon)
             {

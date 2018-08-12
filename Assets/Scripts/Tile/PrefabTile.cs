@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Resources;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -14,6 +15,9 @@ public class PrefabTile : TileBase
 
     [Tooltip("The gameobject to spawn")]
     public GameObject Prefab;
+
+    [Tooltip("The Costs to build this Tile")]
+    public ConstructionMaterial BuildingCosts;
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
