@@ -131,9 +131,11 @@ public class Player : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 var particles = Instantiate(DeathParticleSystem);
-                particles.transform.SetParent(transform, false);
+                particles.transform.position = transform.position;
                 particles.Play();
             }
+            gameObject.SetActive(false);
+            
         }
     }
 
