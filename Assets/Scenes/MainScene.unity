@@ -475,6 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d8d18a639d7314492b883203c23bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpawner: {fileID: 902667103}
   minimalCameraSize: 5
 --- !u!20 &519420031
 Camera:

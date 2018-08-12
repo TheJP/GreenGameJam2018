@@ -23,7 +23,7 @@ public class PlayerSpawner : MonoBehaviour
         // Used for testing when the scene is started directly
         if (Settings.JoinedPlayers.Count < 1)
         {
-            Settings.AddPlayer(Color.green, 1);
+            Settings.AddPlayer(Color.green, 4);
         }
     }
 
