@@ -18,6 +18,7 @@ public class MoonCockpit : MonoBehaviour
 	private float bloodMoonCountdown;
 
 	private readonly Dictionary<int, bool> playersInRange;
+	private CameraController cameraController;
 
 	public MoonCockpit()
 	{
@@ -26,6 +27,7 @@ public class MoonCockpit : MonoBehaviour
 	
 	private void Start ()
 	{
+		cameraController = FindObjectOfType<CameraController>();
 		var playerSpawner = FindObjectOfType<PlayerSpawner>();
 		players = playerSpawner.Players.ToArray();
 
@@ -78,6 +80,8 @@ public class MoonCockpit : MonoBehaviour
 		}
 		
 		yield return null;
+		var minimalCameraSize = cameraController.minimalCameraSize;
+		cameraController.minimalCameraSize = 10;
 		planetSystemController.CreateBloodMoonEvent(success =>
 		{
 			if (success && cockpitIsActive)
@@ -87,6 +91,7 @@ public class MoonCockpit : MonoBehaviour
 
 			cockpitIsActive = false;
 			planetMiniGame.SetActive(false);
+			cameraController.minimalCameraSize = minimalCameraSize;
 
 			foreach (var player in players)
 			{
