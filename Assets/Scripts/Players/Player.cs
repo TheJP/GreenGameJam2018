@@ -1,4 +1,5 @@
 using Resources;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -210,14 +211,18 @@ public class Player : MonoBehaviour
                 InventoryTile inventoryTile = (InventoryTile)currentItem;
                 PrefabTile tileToBuild = inventoryTile.Tile;
 
-
-                //if ()
                 if (this.resourceManager.ConstructionMaterialAvailable >= tileToBuild.BuildingCosts)
                 {
                     if (!(this.resourceManager.TryConsume(tileToBuild.BuildingCosts) && this.tileController.TryAddTile(tileToBuild, transform.position)))
                     {
                         var fadeout = Instantiate(fadeoutTextPrefab, transform);
                         fadeout.TextMesh.text = "#@!&$%";
+                        fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
+                    }
+                    else
+                    {
+                        var fadeout = Instantiate(fadeoutTextPrefab, transform);
+                        fadeout.TextMesh.text = $"-{(float)tileToBuild.BuildingCosts}";
                         fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
                     }
                 }
@@ -238,8 +243,24 @@ public class Player : MonoBehaviour
 
     internal void SellTower()
     {
-        // TODO: Sell Tower in front of you
-        Debug.Log("Function Not implemntes yet");
+        if (!Attributes.IsAlive) { return; }
+
+        if (!TowerSellable()) { return; }
+
+        PrefabTile tile;
+        if (tileController.TryRemoveTile(transform.position, out tile))
+        {
+            resourceManager.Store(tile.BuildingCosts / 2);
+            var fadeout = Instantiate(fadeoutTextPrefab, transform);
+            fadeout.TextMesh.text = $"+{(float)tile.BuildingCosts / 2}";
+            fadeout.TextMesh.color = new Color(0.0f, 1.0f, 0.0f, 1);
+        }
+    }
+
+    private bool TowerSellable()
+    {
+        //TODO: Check if Tower is allowed to sell. Maybe the initial towers can be tagged?
+        return true;
     }
 
     private void OxygenLevelChanged(Oxygen oxygen)
