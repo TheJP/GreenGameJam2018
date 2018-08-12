@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyCostPerOxygenUnit:
-    value: 1
+    value: 0.2
   oxygenPerSecond:
     value: 5
 --- !u!212 &212342543534422252

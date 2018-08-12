@@ -35,9 +35,7 @@ public class ResourcesInfoController : MonoBehaviour
 	
     // Use this for initialization
     void Start ()
-    {
-        Debug.Log("have resourceManager: " + resourceManager);
-            
+    {           
         energyDisplay = addDisplay("Energy", energyIcon, energyColor, 0, 0);
         oxygenDisplay = addDisplay("Oxygen", oxygenIcon, oxygenColor, 1, 0);
         materialDisplay = addDisplay("Construction material", constructionMaterialIcon, constructionMaterialColor, 2, 0);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileSpawner : MonoBehaviour
 {
@@ -13,19 +14,32 @@ public class TileSpawner : MonoBehaviour
     public Transform oxygenTower;
 
     [Tooltip("Locations to spawn the main base trees")]
-    public Transform[] oxygenProducer;
+    public Transform[] oxygenProducers;
 
-    [Tooltip("Locations to spawn the main base solar arrays")]
-    public Transform[] solarArrays;
+    [Header("Tiles")]
 
-    [Header("Prefabs")]
+    [Tooltip("Tile used to spawn the oxygen tower")]
+    public TileBase oxygenTowerTile;
 
-    [Tooltip("Prefab used to spawn the oxygen tower")]
-    public OxygenTower oxygenTowerPrefab;
+    [Tooltip("Tile used to spawn the tree")]
+    public TileBase oxygenProducerTile;
 
-    [Tooltip("Prefab used to spawn the tree")]
-    public OxygenProducer oxygenProducerPrefab;
+    private IEnumerator Start()
+    {
+        controller.TryAddTile(oxygenTowerTile, oxygenTower.position);
 
-    [Tooltip("Prefab used to spawn the solar array1")]
-    public SolarArray solarArrayPrefab;
+        // Spawn one tree per player
+        for(int i = 0; i < Settings.JoinedPlayers.Count; ++i)
+        {
+            controller.TryAddTile(oxygenProducerTile, oxygenProducers[i].position);
+        }
+
+        // Wait until oxygen tower is spawned in
+        yield return null;
+
+        // Modify base tower to be better and bigger than the regular one
+        var tower = FindObjectOfType<OxygenTower>();
+        tower.aoeRadius *= 2;
+        tower.oxygenRefillPerSecond *= Settings.JoinedPlayers.Count;
+    }
 }
