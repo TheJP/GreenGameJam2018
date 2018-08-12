@@ -14,7 +14,7 @@ namespace Monsters
     {
         public MonsterAttributes Attributes;
 
-        public Building Target;
+        public AttackableBuilding Target;
 
         private Rigidbody2D _rigidbody2D;
         private SpriteRenderer _spriteRenderer;
@@ -58,9 +58,9 @@ namespace Monsters
             }
         }
 
-        private Building FindTarget()
+        private AttackableBuilding FindTarget()
         {
-            var buildings = FindObjectsOfType<Building>();
+            var buildings = FindObjectsOfType<AttackableBuilding>();
             return buildings.FirstOrDefault();
         }
 

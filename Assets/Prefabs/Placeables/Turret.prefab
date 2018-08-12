@@ -52,6 +52,8 @@ GameObject:
   - component: {fileID: 4772742338854864}
   - component: {fileID: 212959353938750534}
   - component: {fileID: 114892529015853574}
+  - component: {fileID: 114943070897757214}
+  - component: {fileID: 114361359138096380}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -100,6 +102,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114361359138096380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1818415801269782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f689c5076b74615a66201da79794ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Recompute: 0
+  DebugTileSprite: {fileID: 11400000, guid: 3d06a1b5f5c084aa7a5c5be179ba9fe6, type: 2}
+  DrawDebugInfo: 0
 --- !u!114 &114892529015853574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,6 +137,18 @@ MonoBehaviour:
   standbyEnergy:
     value: 0.5
   dummyTarget: {fileID: 0}
+--- !u!114 &114943070897757214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1818415801269782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fccbfd7cfe43b7a613e7a3b9d8c6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
 --- !u!212 &212530387652220076
 SpriteRenderer:
   m_ObjectHideFlags: 1

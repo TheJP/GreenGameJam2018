@@ -2,9 +2,9 @@
 
 namespace Monsters
 {
-    public class Building : MonoBehaviour
+    public class AttackableBuilding : MonoBehaviour
     {
-        private float health;
+        public float health = 200f;
 
         public void TakeDamage(float damage)
         {

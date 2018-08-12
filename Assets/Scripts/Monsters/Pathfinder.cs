@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,11 +17,23 @@ namespace Monsters
         public TileBase DebugTileSprite;
         public bool DrawDebugInfo;
 
-        public Tilemap Terrain;
-        public Tilemap NoColliders;
-
-
+        private Tilemap Terrain;
+        private Tilemap NoColliders;
         Node[] _mat = new Node[Size2 * Size2];
+
+        private void Awake()
+        {
+            var grid = GameObject.Find("Grid");
+            Terrain = grid.GetComponentsInChildren<Tilemap>()
+                .FirstOrDefault(t => t.gameObject.name == "CollisionTilemap");
+            NoColliders = grid.GetComponentsInChildren<Tilemap>()
+                .FirstOrDefault(t => t.gameObject.name == "NoCollisionTilemap");
+
+            if (Terrain == null || NoColliders == null)
+            {
+                 Debug.LogError("Pathfinder relies on having a top-level object 'Grid' with the Tilemaps as children");
+            }
+        }
 
         private void Start()
         {
@@ -126,7 +139,14 @@ namespace Monsters
             {
                 cost[i] = new Node(int.MaxValue);
             }
-
+            
+            if (Index(Terrain.WorldToCell(transform.position)) < 0)
+            {
+                Debug.LogError($"Building {gameObject.name} at {transform.position} is outside the playing filed");
+                return cost;
+            }
+        
+                
             var unexplored = new Queue<Step>(Size2);
             unexplored.Enqueue(new Step(Terrain.WorldToCell(transform.position), 0));
 
@@ -136,6 +156,7 @@ namespace Monsters
                 var position = currentNode.Position;
 
                 var index = Index(position); // index is alwasy in bounds here
+                
                 if (cost[index].Distance > currentNode.Cost)
                 {
                     cost[index].Distance = currentNode.Cost;
