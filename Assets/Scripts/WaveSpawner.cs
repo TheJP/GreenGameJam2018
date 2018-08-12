@@ -114,11 +114,12 @@ public class WaveSpawner : MonoBehaviour
         _state = SpawnState.Counting;
         //_searchCountdown = 1f;
         _waveCountdown = timeBetweenWaves;
+
+        Array.Sort(keyWaves, (a, b) => a.number.CompareTo(b.number));
     }
 
     //private Wave GetWave(int number)
     //{
-    //    KeyWave
     //}
 
     private void Start()
