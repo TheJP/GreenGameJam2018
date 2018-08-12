@@ -62,17 +62,17 @@ namespace Resources
 
         
         public Energy EnergyCapacity =>
-            energyStorages.Aggregate(energyBaseStorage.CurrentValue, (a, s) => a + s.Capacity);
+            energyStorages.Aggregate(energyBaseStorage.Capacity, (a, s) => a + s.Capacity);
 
         public Oxygen OxygenCapacity =>
-            oxygenStorages.Aggregate(oxygenBaseStorage.CurrentValue, (a, s) => a + s.Capacity);
+            oxygenStorages.Aggregate(oxygenBaseStorage.Capacity, (a, s) => a + s.Capacity);
 
         public ConstructionMaterial ConstructionMaterialCapacity =>
             constructionMaterialStorages.Aggregate(constructionMaterialBaseStorage.Capacity,
-                (a, s) => a + s.CurrentValue);
+                (a, s) => a + s.Capacity);
 
         public Blood BloodCapacity =>
-            bloodStorages.Aggregate(bloodBaseStorage.CurrentValue, (a, s) => a + s.Capacity);
+            bloodStorages.Aggregate(bloodBaseStorage.Capacity, (a, s) => a + s.Capacity);
 
         
         public ResourceManager()

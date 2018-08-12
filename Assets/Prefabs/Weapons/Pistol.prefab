@@ -181,6 +181,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1693081496907750, guid: 49ccf81b59d4be54facc800c94f61783,
     type: 2}
   bulletSpawn: {fileID: 1187411196839922}
+  audioSource: {fileID: 82474892058890470}
 --- !u!212 &212441690350333944
 SpriteRenderer:
   m_ObjectHideFlags: 1

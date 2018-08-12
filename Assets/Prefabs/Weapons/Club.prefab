@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 95499286599412956}
+  audioSource: {fileID: 82835641358541228}
 --- !u!212 &212485600171878938
 SpriteRenderer:
   m_ObjectHideFlags: 1
