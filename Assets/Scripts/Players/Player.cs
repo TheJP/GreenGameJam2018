@@ -1,5 +1,4 @@
 using Resources;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,27 +95,28 @@ public class Player : MonoBehaviour
     {
         if (Attributes.CurrentEquippedItem != null)
         {
+
+            bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
+            this.spriteRenderer.flipX = (lookRight) ? false : true;
+
             if (Attributes.CurrentEquippedItem is InventoryTile)
             {
-                bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
-                this.spriteRenderer.flipX = (lookRight) ? false : true;
-
                 rightHand.sprite = lookRight ? Attributes.CurrentEquippedItem.Sprite : null;
                 leftHand.sprite = lookRight ? null : Attributes.CurrentEquippedItem.Sprite;
             }
             else if (Attributes.CurrentEquippedItem is InventoryWeapon)
             {
                 GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
-
-                bool lookRight = Input.GetAxis($"Horizontal_{PlayerNumber}") > 0;
                 if (lookRight)
                 {
-                    weapon.GetComponent<SpriteRenderer>().flipX = false;
+                    //weapon.GetComponent<SpriteRenderer>().flipX = false;
+                    weapon.gameObject.transform.localScale = new Vector2(-1, 1);
                     weapon.gameObject.transform.SetParent(rightHand.gameObject.transform, false);
                 }
                 else
                 {
                     weapon.GetComponent<SpriteRenderer>().flipX = true;
+                    weapon.gameObject.transform.localScale = new Vector2(1, 1);
                     weapon.gameObject.transform.SetParent(leftHand.gameObject.transform, false);
                 }
             }
@@ -175,7 +175,6 @@ public class Player : MonoBehaviour
 
     internal void ConfirmSelection(IInventoryItem inventoryItem)
     {
-        Debug.Log($"Current Item with Sprite {this.inventory.GetCurrentSelectedItem().Sprite.name} is confirmed");
         this.inventory.DisableItemSelection();
         this.inventory.DisableMenuView();
 
@@ -203,6 +202,7 @@ public class Player : MonoBehaviour
     internal void SellTower()
     {
         // TODO: Sell Tower in front of you
+        Debug.Log("Function Not implemntes yet");
     }
 
     private void OxygenLevelChanged(Oxygen oxygen)

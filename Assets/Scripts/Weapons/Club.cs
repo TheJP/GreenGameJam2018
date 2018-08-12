@@ -13,5 +13,7 @@ public class Club : MonoBehaviour, IPlayerWeapon
     public void Fire()
     {
         animator.SetTrigger("beat");
+
+        //TODO: Make Damge to Mobs
     }
 }
