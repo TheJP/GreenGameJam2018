@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 114302736908132414}
   - component: {fileID: 50312807844512914}
   - component: {fileID: 82635967633930628}
+  - component: {fileID: 114057963980169158}
   m_Layer: 0
   m_Name: Arachnid
   m_TagString: Enemy
@@ -495,6 +496,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114057963980169158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1689299491351822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5401b8601c489095a57ac6bd933ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114223472841195806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,7 +643,7 @@ MonoBehaviour:
     EnergyValue: 1
     MaxSpeed: 3
   Target: {fileID: 0}
-  placeables: {fileID: 0}
+  MonsterMovement: {fileID: 114057963980169158}
 --- !u!114 &114673351340362056
 MonoBehaviour:
   m_ObjectHideFlags: 1

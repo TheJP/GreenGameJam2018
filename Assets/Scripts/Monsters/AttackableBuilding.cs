@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -32,7 +33,7 @@ namespace Monsters
 
             if (Terrain == null || NoColliders == null)
             {
-                 Debug.LogError("Pathfinder relies on having a top-level object 'Grid' with the Tilemaps as children");
+                Debug.LogError("Pathfinder relies on having a top-level object 'Grid' with the Tilemaps as children");
             }
         }
 
@@ -48,7 +49,13 @@ namespace Monsters
 
         public MoveDirection PathFrom(Vector3 from)
         {
-            var position = Terrain.WorldToCell(from);
+            var cell = Terrain.WorldToCell(from);
+            return PathFrom(cell);
+        }
+
+        public MoveDirection PathFrom(Vector3Int fromCell)
+        {
+            var position = fromCell;
 
             var left = Index(position + Vector3Int.left);
             var right = Index(position + Vector3Int.right);
@@ -86,10 +93,49 @@ namespace Monsters
 
             if (min == int.MaxValue)
             {
-                Debug.Log("no path from " + from + " to " + transform.position);
+                Debug.Log("no path from " + fromCell + " to " + transform.position);
             }
 
             return nextDirection;
+        }
+
+        public Vector3Int CellPosition(Vector3 position)
+        {
+            return Terrain.WorldToCell(position);
+        }
+
+        public Vector3Int NextCell(Vector3Int fromCell, int steps = 1)
+        {
+
+            var cell = fromCell;
+            while (steps > 0)
+            {
+                steps--;
+                var direction = PathFrom(cell);
+
+                switch (direction)
+                {
+                    case MoveDirection.None:
+                        steps = 0;
+                        break;
+                    case MoveDirection.Left:
+                        cell += Vector3Int.left;
+                        break;
+                    case MoveDirection.Right:
+                        cell += Vector3Int.right;
+                        break;
+                    case MoveDirection.Up:
+                        cell += Vector3Int.up;
+                        break;
+                    case MoveDirection.Down:
+                        cell += Vector3Int.down;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            return cell;
         }
 
         private void Update()
@@ -140,14 +186,14 @@ namespace Monsters
             {
                 cost[i] = new Node(int.MaxValue);
             }
-            
+
             if (Index(Terrain.WorldToCell(transform.position)) < 0)
             {
                 Debug.LogError($"Building {gameObject.name} at {transform.position} is outside the playing filed");
                 return cost;
             }
-        
-                
+
+
             var unexplored = new Queue<Step>(Size2);
             unexplored.Enqueue(new Step(Terrain.WorldToCell(transform.position), 0));
 
@@ -157,7 +203,7 @@ namespace Monsters
                 var position = currentNode.Position;
 
                 var index = Index(position); // index is alwasy in bounds here
-                
+
                 if (cost[index].Distance > currentNode.Cost)
                 {
                     cost[index].Distance = currentNode.Cost;
