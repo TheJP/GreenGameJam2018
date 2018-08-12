@@ -67,7 +67,7 @@ public class BloodMoon : MonoBehaviour
 			}
 		}
 
-		StartBloodMoonRoutine();
+		CancelBloodMoon();
 	}
 
 	private void StartBloodMoonRoutine()
