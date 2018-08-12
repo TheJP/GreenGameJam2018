@@ -2,9 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Monsters;
-// using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -77,27 +75,21 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        public override string ToString()
-        {
-            return
-                $"{{number: {Number}, name: {Name}, modifier : {Modifier}, enemies: {string.Join(",", Enemies.ToList())}}}";
-        }
+        public override string ToString() => $"{{number: {Number}, name: {Name}, modifier : {Modifier}, enemies: {string.Join(",", Enemies.ToList())}}}";
     }
 
-    public KeyWave[] KeyWaves;
-    public Transform[] SpawnPoints;
-    public float TimeBetweenWaves = 5f;
-    public Tilemap Placeables;
-    public GameObject _enemiesContainer = null;
+    public KeyWave[] keyWaves;
+    public Transform[] spawnPoints;
+    public float timeBetweenWaves = 5f;
+    public Tilemap placeables;
+    public GameObject enemiesContainer = null;
 
     public int NextWave => _waveCounter + 1;
     //public float WaveCountdown => _waveCountdown;
-    public bool EndlessMode => _keyWaves.Count == 0;
     //public SpawnState State => _state;
-    public bool EnemyIsAlive => _enemiesContainer != null && _enemiesContainer.transform.childCount > 0;
+    public bool EnemyIsAlive => enemiesContainer != null && enemiesContainer.transform.childCount > 0;
 
     private int _waveCounter = 1;
-    private Stack<KeyWave> _keyWaves;
     private KeyWave _lastKeyWave;
     // private float _searchCountdown = 1f; // Not used
     private float _waveCountdown;
@@ -105,23 +97,34 @@ public class WaveSpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (KeyWaves.Length == 0)
+        if (keyWaves.Length == 0)
         {
             Debug.LogError("No waves defined!");
         }
 
-        if (SpawnPoints.Length == 0)
+        if (spawnPoints.Length == 0)
         {
             Debug.LogError("No spawn points referenced.");
         }
 
         EnsureEnemiesContainerExists();
         _waveCounter = 1;
-        _keyWaves = new Stack<KeyWave>(KeyWaves.Reverse());
         _lastKeyWave = null;
         _state = SpawnState.Counting;
         //_searchCountdown = 1f;
-        _waveCountdown = TimeBetweenWaves;
+        _waveCountdown = timeBetweenWaves;
+    }
+
+    //private Wave GetWave(int number)
+    //{
+    //    KeyWave
+    //}
+
+    private void Start()
+    {
+        var waves = new Wave[keyWaves.Last().number + 1];
+
+        var keyWave = keyWaves.First();
     }
 
     void Update()
@@ -143,10 +146,10 @@ public class WaveSpawner : MonoBehaviour
         {
             if (_state != SpawnState.Spawning)
             {
-                if (!EndlessMode && _waveCounter == _keyWaves.Peek().number)
-                {
-                    _lastKeyWave = _keyWaves.Pop();
-                }
+                //if (!EndlessMode && _waveCounter == _keyWaves.Peek().number)
+                //{
+                //    _lastKeyWave = _keyWaves.Pop();
+                //}
 
                 StartCoroutine(SpawnWave(new Wave(_waveCounter, _lastKeyWave)));
                 _waveCounter++;
@@ -167,11 +170,11 @@ public class WaveSpawner : MonoBehaviour
 
     private void EnsureEnemiesContainerExists()
     {
-        if (_enemiesContainer == null)
+        if (enemiesContainer == null)
         {
-            _enemiesContainer = new GameObject();
-            _enemiesContainer.transform.parent = transform;
-            _enemiesContainer.name = "enemies";
+            enemiesContainer = new GameObject();
+            enemiesContainer.transform.parent = transform;
+            enemiesContainer.name = "enemies";
         }
     }
 
@@ -191,16 +194,14 @@ public class WaveSpawner : MonoBehaviour
         }
 
         _state = SpawnState.Waiting;
-
-        yield break;
     }
 
     void SpawnEnemy(Monster prefab)
     {
-        Transform _sp = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
+        Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         var enemy = Instantiate(prefab, _sp.position, _sp.rotation);
-        enemy.transform.SetParent(_enemiesContainer.transform);
+        enemy.transform.SetParent(enemiesContainer.transform);
         var monster = enemy.GetComponent<Monster>();
-        monster.Placeables = Placeables;
+        monster.Placeables = placeables;
     }
 }

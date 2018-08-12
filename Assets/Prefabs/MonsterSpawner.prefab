@@ -11,6 +11,36 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1493365962815938}
   m_IsPrefabAsset: 1
+--- !u!1 &1084412548247804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4980878191925128}
+  m_Layer: 0
+  m_Name: MonsterSpawn1
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1330297827321742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4574154413697982}
+  m_Layer: 0
+  m_Name: MonsterSpawn2
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1493365962815938
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,6 +58,62 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1675476167242894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4926342709297648}
+  m_Layer: 0
+  m_Name: MonsterSpawn4
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1957587151411428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4537039741906842}
+  m_Layer: 0
+  m_Name: MonsterSpawn3
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4537039741906842
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1957587151411428}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 25.5, y: 5.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4797279154157802}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4574154413697982
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1330297827321742}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -35.5, y: -6.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4797279154157802}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4797279154157802
 Transform:
   m_ObjectHideFlags: 1
@@ -37,8 +123,38 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4980878191925128}
+  - {fileID: 4574154413697982}
+  - {fileID: 4537039741906842}
+  - {fileID: 4926342709297648}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4926342709297648
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675476167242894}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.5, y: 15.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4797279154157802}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4980878191925128
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1084412548247804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -27.5, y: 4.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4797279154157802}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114058842355521556
@@ -52,9 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3b3c34337383d44b7aecf9b2ad6249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KeyWaves:
-  - name: Start Wave
-    number: 1
+  keyWaves:
+  - name: Spiders
+    number: 0
     enemies:
     - Prefab: {fileID: 114604524971665166, guid: 661650d64297f42c187e75bad4cf03de,
         type: 2}
@@ -66,35 +182,38 @@ MonoBehaviour:
       next_attack: 1
       next_health: 1
       next_numbers: 0.3
-  - name: Final Wave
+  - name: Worms
     number: 5
     enemies:
     - Prefab: {fileID: 114604524971665166, guid: 661650d64297f42c187e75bad4cf03de,
         type: 2}
       Count: 20
       Rate: 5
-    - Prefab: {fileID: 114604524971665166, guid: 661650d64297f42c187e75bad4cf03de,
+    - Prefab: {fileID: 114159807042858070, guid: 010458b00dd0a4c53b9ccfeb40b7c80f,
         type: 2}
-      Count: 5
+      Count: 2
       Rate: 1
     subsequent_rounds:
-      attack: 2
-      health: 2
-      next_attack: 2
-      next_health: 0.5
-      next_numbers: 0.5
-  SpawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  TimeBetweenWaves: 5
-  Placeables: {fileID: 0}
+      attack: 1
+      health: 1
+      next_attack: 1
+      next_health: 1
+      next_numbers: 0.3
+  spawnPoints:
+  - {fileID: 4980878191925128}
+  - {fileID: 4574154413697982}
+  - {fileID: 4537039741906842}
+  - {fileID: 4926342709297648}
+  timeBetweenWaves: 5
+  placeables: {fileID: 0}
+  enemiesContainer: {fileID: 0}
 --- !u!114 &114924235169517418
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1493365962815938}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ced7af498015c6848a85d29ee2e03f2e, type: 3}
   m_Name: 
