@@ -109,13 +109,11 @@ public class Player : MonoBehaviour
                 GameObject weapon = ((InventoryWeapon)Attributes.CurrentEquippedItem).Weapon;
                 if (lookRight)
                 {
-                    //weapon.GetComponent<SpriteRenderer>().flipX = false;
                     weapon.gameObject.transform.localScale = new Vector2(-1, 1);
                     weapon.gameObject.transform.SetParent(rightHand.gameObject.transform, false);
                 }
                 else
                 {
-                    weapon.GetComponent<SpriteRenderer>().flipX = true;
                     weapon.gameObject.transform.localScale = new Vector2(1, 1);
                     weapon.gameObject.transform.SetParent(leftHand.gameObject.transform, false);
                 }
@@ -150,16 +148,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Opens the Menu with the Inventory with the available Tiles and Weapons.
+    /// </summary>
     internal void OpenInventory()
     {
         this.playerMovement.enabled = false;
 
+
         var itemList = new List<IInventoryItem>();
-        foreach (PrefabTile tile in tiles)
-        {
-            IInventoryItem item = new InventoryTile(tile);
-            itemList.Add(item);
-        }
 
         foreach (GameObject weapon in weapons)
         {
@@ -168,6 +165,11 @@ public class Player : MonoBehaviour
             itemList.Add(item);
         }
 
+        foreach (PrefabTile tile in tiles)
+        {
+            IInventoryItem item = new InventoryTile(tile);
+            itemList.Add(item);
+        }
 
         this.inventory.EnableMenuView(itemList);
         this.inventory.EnableItemSelection();
