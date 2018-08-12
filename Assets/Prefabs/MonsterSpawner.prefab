@@ -176,6 +176,7 @@ MonoBehaviour:
         type: 2}
       Count: 2
       Rate: 1
+      monsterType: 0
     subsequent_rounds:
       attack: 1
       health: 1
@@ -189,10 +190,12 @@ MonoBehaviour:
         type: 2}
       Count: 20
       Rate: 5
+      monsterType: 0
     - Prefab: {fileID: 114159807042858070, guid: 010458b00dd0a4c53b9ccfeb40b7c80f,
         type: 2}
       Count: 2
       Rate: 1
+      monsterType: 2
     subsequent_rounds:
       attack: 1
       health: 1
@@ -204,8 +207,8 @@ MonoBehaviour:
   - {fileID: 4574154413697982}
   - {fileID: 4537039741906842}
   - {fileID: 4926342709297648}
-  timeBetweenWaves: 5
   placeables: {fileID: 0}
+  terrain: {fileID: 0}
   enemiesContainer: {fileID: 0}
 --- !u!114 &114924235169517418
 MonoBehaviour:
@@ -222,5 +225,8 @@ MonoBehaviour:
     type: 2}
   meteorAsset: {fileID: 114658940609317180, guid: 0c1a8bb85648b69458e4426659ade1f3,
     type: 2}
-  waveTimeMinDistanceSec: 5
+  wormAsset: {fileID: 114810222848120506, guid: 34f241b35da88734ab1049ec3e25f3ed,
+    type: 2}
+  timeBetweenWaves: 20
+  displayInAdvance: 60
   waveDisplayCtrl: {fileID: 0}

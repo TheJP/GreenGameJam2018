@@ -418,14 +418,14 @@ Prefab:
       objectReference: {fileID: 562081586}
     - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
         type: 2}
-      propertyPath: enemiesContainer
-      value: 
-      objectReference: {fileID: 1459985696}
-    - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
-        type: 2}
       propertyPath: terrain
       value: 
       objectReference: {fileID: 906617703}
+    - target: {fileID: 114058842355521556, guid: 35fe87f4ca09c48c78f88d136b49bd7f,
+        type: 2}
+      propertyPath: enemiesContainer
+      value: 
+      objectReference: {fileID: 1459985696}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35fe87f4ca09c48c78f88d136b49bd7f, type: 2}
   m_IsPrefabAsset: 0

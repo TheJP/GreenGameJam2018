@@ -1,6 +1,6 @@
 ﻿public enum MonsterType
 {
     Spider,
-    // Worm, 
-    Meteor
+    Meteor,
+    Worm,
 }

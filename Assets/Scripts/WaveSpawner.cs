@@ -31,6 +31,7 @@ public class WaveSpawner : MonoBehaviour
         public Monster Prefab;
         public int Count = 1;
         public float Rate = 1f;
+        public MonsterType monsterType;
 
         public override string ToString()
         {
@@ -117,6 +118,7 @@ public class WaveSpawner : MonoBehaviour
 
     public IEnumerator SpawnWave(Wave wave)
     {
+        Debug.Log("Spawning wave " + wave.Number);
         state = SpawnState.Spawning;
         EnsureEnemiesContainerExists();
 

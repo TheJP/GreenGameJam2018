@@ -1,20 +1,36 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CountDisplayController : MonoBehaviour
 {
-    public float speed = 20f;
+    public float Duration { get; set; }
+
+    public event Action SpawnWave;
+
+    private float startTime;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+
+    private bool invoked = false;
+
+    private void Start()
+    {
+        startTime = Time.time;
+        startPosition = transform.position;
+        targetPosition = new Vector3(transform.position.x, -100, transform.position.z); // TODO: Replace 100 with `height / 2`
+    }
 
     private void Update()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
+        transform.position = Vector3.Lerp(startPosition, targetPosition, (Time.time - startTime) / Duration);
         if (transform.localPosition.y <= 0)
         {
-            Debug.Log("spawn monsters!");
+            if (!invoked)
+            {
+                invoked = true;
+                SpawnWave?.Invoke();
+            }
             Destroy(gameObject, .5f);
-
-            // somehow from the wave:
-            // GameObject prefab = wave.Asset.monsterPrefab;	
-            // and then spawn the monsters... 
         }
     }
 }

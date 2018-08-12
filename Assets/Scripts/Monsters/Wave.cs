@@ -4,42 +4,14 @@ using UnityEngine;
 
 public class Wave
 {
-    // [SerializeField] private MonsterType monsterType;
-    [SerializeField] private MonsterAsset asset;
-    [SerializeField] private int count;
-    [SerializeField] private float rate;
+    public MonsterAsset Asset { get; }
+    public int Count { get; }
+    public float TimeUntilThisWave { get; }
 
-    // public Wave (MonsterType type, int count, float rate)
-    public Wave(MonsterAsset asset, int count, float rate)
+    public Wave(MonsterAsset asset, int count, float timeUntilThisWave)
     {
-        // this.monsterType = type;
-        // this.asset = WaveGenerator.GetMonsterAssetForType(type);
-        this.asset = asset;
-        this.count = count;
-        this.rate = rate;
-    }
-
-    public int Count
-    {
-        get { return count; }
-        set { count = value; }
-    }
-
-    public float Rate
-    {
-        get { return rate; }
-        set { rate = value; }
-    }
-
-    /*public MonsterType MonsterType
-    {
-        get { return monsterType; }
-        set { monsterType = value; }
-    }
-    */
-    public MonsterAsset Asset
-    {
-        get { return asset; }
-        set { asset = value; }
+        Asset = asset;
+        Count = count;
+        TimeUntilThisWave = timeUntilThisWave;
     }
 }
