@@ -21,15 +21,12 @@ public class OxygenTowerVisuals : MonoBehaviour
         oxygenTower = GetComponent<OxygenTower>();
     }
 
-    private void Start()
-    {
-        oxygenArea.transform.localScale = new Vector3(oxygenTower.aoeRadius * 2f, oxygenTower.aoeRadius * 2f, 1f);
-    }
-
     private void Update()
     {
         bool on = animator.GetBool(OxygenTower.AnimatorOnFlag);
         particles.SetActive(on);
         oxygenArea.SetActive(on);
+
+        if (on) { oxygenArea.transform.localScale = new Vector3(oxygenTower.aoeRadius * 2f, oxygenTower.aoeRadius * 2f, 1f); }
     }
 }
