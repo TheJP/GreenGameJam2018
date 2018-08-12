@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] private DeathAnimationState _deathAnimationDeathAnimationState = DeathAnimationState.Alive;
 
+    [SerializeField] 
+    [Tooltip("Audio to play when getting oxygen")]
+    private AudioSource audioSourceOxygen;
+    private float pitchRange = 0.2f;
+
 #pragma warning restore 0649
 
     private Inventory inventory;
@@ -49,6 +54,8 @@ public class Player : MonoBehaviour
     private TileController tileController;
 
     private ResourceManager resourceManager;
+
+    private float originalPitch;
 
     public GameObject[] weapons;
     public GameObject weaponCache;
@@ -83,6 +90,10 @@ public class Player : MonoBehaviour
         this.tileController = FindObjectOfType<TileController>();
 
         this.resourceManager = FindObjectOfType<ResourceManager>();
+                
+        originalPitch = audioSourceOxygen.pitch;
+        audioSourceOxygen.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
+
     }
 
     private void Start()
@@ -188,6 +199,7 @@ public class Player : MonoBehaviour
         else
         {
             // TODO: Add oxygen received animation
+            audioSourceOxygen.Play();
             Attributes.IncreaseOxygen(oxygen);
             return true;
         }
