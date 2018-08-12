@@ -258,8 +258,8 @@ public class Player : MonoBehaviour
                     else
                     {
                         var fadeout = Instantiate(fadeoutTextPrefab, transform);
-                        fadeout.TextMesh.text = $"-{(float) tileToBuild.BuildingCosts}";
-                        fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
+                        fadeout.TextMesh.text = $"-{(float)tileToBuild.BuildingCosts}";
+                        fadeout.TextMesh.color = new Color(0.6392157F, 0.5019608F, 0.3892157F, 1.0F);
                     }
                 }
                 else
@@ -279,23 +279,17 @@ public class Player : MonoBehaviour
 
     internal void SellTower()
     {
-        if (!Attributes.IsAlive)
-        {
-            return;
-        }
+        if (!Attributes.IsAlive) { return; }
 
-        if (!TowerSellable())
-        {
-            return;
-        }
+        if (!TowerSellable()) { return; }
 
         PrefabTile tile;
         if (tileController.TryRemoveTile(transform.position, out tile))
         {
             resourceManager.Store(tile.BuildingCosts / 2);
             var fadeout = Instantiate(fadeoutTextPrefab, transform);
-            fadeout.TextMesh.text = $"+{(float) tile.BuildingCosts / 2}";
-            fadeout.TextMesh.color = new Color(0.0f, 1.0f, 0.0f, 1);
+            fadeout.TextMesh.text = $"+{(float)tile.BuildingCosts / 2}";
+            fadeout.TextMesh.color = new Color(0.6392157F, 0.5019608F, 0.3892157F, 1.0F);
         }
     }
 
