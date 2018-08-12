@@ -105,7 +105,6 @@ public class WaveSpawner : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("resetting waves");
         if (KeyWaves.Length == 0)
         {
             Debug.LogError("No waves defined!");

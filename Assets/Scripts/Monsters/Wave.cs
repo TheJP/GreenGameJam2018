@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Wave
-{		
+{
     // [SerializeField] private MonsterType monsterType;
     [SerializeField] private MonsterAsset asset;
     [SerializeField] private int count;
     [SerializeField] private float rate;
 
     // public Wave (MonsterType type, int count, float rate)
-    public Wave (MonsterAsset asset, int count, float rate)
+    public Wave(MonsterAsset asset, int count, float rate)
     {
         // this.monsterType = type;
         // this.asset = WaveGenerator.GetMonsterAssetForType(type);

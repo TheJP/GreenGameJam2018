@@ -3,47 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaveDisplayController : MonoBehaviour {
+[RequireComponent(typeof(RectTransform))]
+public class WaveDisplayController : MonoBehaviour
+{
 
-	public GameObject enemyCountDisplayPrefab;
-	public int distance;
-	public int numberOfPlaces;
-	
-	// public GameObject[] m_Displays;   
+    public CountDisplayController enemyCountDisplayPrefab;
+    public int distance;
+    public int numberOfPlaces;
 
-	private Wave[] waves;
-	private int offsetPlaces;		// zeitabhängig..., besser lösen
-	
-	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	
-	// Update is called once per frame
-	void Update () {
-		
-		// do someting about keeping track of insertion point or wait time for next free space in display?
-	}
+    // public GameObject[] m_Displays;
 
-	public void AddWaveEntry(Wave wave)
-	{
-		
-		GameObject display = Instantiate(enemyCountDisplayPrefab, this.transform.position - Vector3.down * numberOfPlaces * distance, this.transform.rotation);
-		MonsterAsset asset = wave.Asset;
+    private Wave[] waves;
+    private int offsetPlaces;       // zeitabhängig..., besser lösen
 
-		Debug.Log("AddWaveEntry: asset is " + asset);
-		display.name = "Wave: " + wave.Count + " of type " + wave.Asset.monsterName;
-		display.transform.SetParent(this.transform, true);
-		Debug.Log("have added display: " + display.name);
-		
-		Text text = display.GetComponentInChildren<Text>();
-		text.text = "" + wave.Count;
-		text.color = wave.Asset.textColor;
-		
-		Image image = display.GetComponentInChildren<Image>();
-		image.sprite = wave.Asset.icon;
-	}
-	
+    private RectTransform rectTransform;
+
+    private void Awake() => rectTransform = GetComponent<RectTransform>();
+
+    public void AddWaveEntry(Wave wave)
+    {
+        var spawnPosition = new Vector3(transform.position.x, rectTransform.rect.yMax, enemyCountDisplayPrefab.transform.position.z);
+        var display = Instantiate(enemyCountDisplayPrefab, spawnPosition, enemyCountDisplayPrefab.transform.rotation, transform);
+        display.name = $"Wave: {wave.Count} of type {wave.Asset.monsterName}";
+
+        Text text = display.GetComponentInChildren<Text>();
+        text.text = $"{wave.Count}";
+        text.color = wave.Asset.textColor;
+
+        Image image = display.GetComponentInChildren<Image>();
+        image.sprite = wave.Asset.icon;
+    }
 }
