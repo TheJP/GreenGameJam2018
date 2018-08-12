@@ -12,6 +12,9 @@ public class CameraController : MonoBehaviour
     [Tooltip("Minimal size that the camera uses (prevents extreme zoom in)")]
     public float minimalCameraSize = 5;
 
+    [Tooltip("Border that gets shown additionally to the left and right of the players")]
+    public float shownBorder = 3f;
+
     private Camera moveableCamera;
 
     private void Awake() => moveableCamera = GetComponent<Camera>();
@@ -33,5 +36,9 @@ public class CameraController : MonoBehaviour
 
         var centre = (bounds.Max + bounds.Min) / 2;
         moveableCamera.transform.position = new Vector3(centre.x, centre.y, moveableCamera.transform.position.z);
+
+        var radius = (bounds.Max - bounds.Min) / 2;
+        var widthSize = radius.x / moveableCamera.aspect;
+        moveableCamera.orthographicSize = Mathf.Max(minimalCameraSize, widthSize + shownBorder, radius.y + shownBorder);
     }
 }
