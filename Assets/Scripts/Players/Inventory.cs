@@ -80,6 +80,9 @@ public class Inventory : MonoBehaviour
         spriteLeft.sprite = (currentSelctedItem >= 1) ? items[currentSelctedItem - 1].Sprite : null;
         spriteMiddle.sprite = items[currentSelctedItem].Sprite;
         spriteRight.sprite = (currentSelctedItem < items.Count - 1) ? items[currentSelctedItem + 1].Sprite : null;
+
+        spriteLeft.color = (spriteLeft.sprite == null) ? Color.clear : Color.white;
+        spriteRight.color = (spriteRight.sprite == null) ? Color.clear : Color.white;
     }
 
     internal void MoveSelectionRight()
