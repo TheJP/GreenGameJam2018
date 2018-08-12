@@ -6,7 +6,7 @@ namespace Monsters
 {
     public class Pathfinder : MonoBehaviour
     {
-        private const int Size = 25;
+        private const int Size = 30;
         private const int Size2 = Size * 2;
 
         private const float DebugDist = Size2;
@@ -108,10 +108,6 @@ namespace Monsters
             var matX = position.x + Size;
             var matY = position.y + Size;
             var index = matY * Size2 + matX;
-
-            Debug.Log(
-                "I am at tile [" + position.x + "," + position.y + "] in mat [" + matX + "," + matY +
-                "] this is index " + index);
 
             if (matX < 0 || matX >= Size2 || matY < 0 || matY >= Size2)
             {

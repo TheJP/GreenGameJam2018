@@ -85,7 +85,6 @@ namespace Monsters
                     transform.localScale.z);
             }
 
-            Debug.Log(direction);
             switch (direction)
             {
                 case MoveDirection.Left:
