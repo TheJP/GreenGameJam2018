@@ -16,7 +16,7 @@ public class Club : MonoBehaviour, IPlayerWeapon
     private float originalPitch;
     private float pitchRange = 0.2f;
 
-    private void Start()
+    private void Awake()
     {
         if (audioSource != null)
         {
@@ -27,7 +27,7 @@ public class Club : MonoBehaviour, IPlayerWeapon
             audioSource.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);                
         }
     }
-    
+
     public void Fire()
     {
         animator.SetTrigger("beat");
