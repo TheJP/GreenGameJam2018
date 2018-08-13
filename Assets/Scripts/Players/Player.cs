@@ -260,17 +260,22 @@ public class Player : MonoBehaviour
                 InventoryTile inventoryTile = (InventoryTile) currentItem;
                 PrefabTile tileToBuild = inventoryTile.Tile;
 
-                if (this.resourceManager.ConstructionMaterialAvailable >= tileToBuild.BuildingCosts)
+                if (resourceManager.ConstructionMaterialAvailable >= tileToBuild.BuildingCosts)
                 {
-                    if (!(this.resourceManager.TryConsume(tileToBuild.BuildingCosts) &&
-                          this.tileController.TryAddTile(tileToBuild, transform.position)))
+                    if (!tileController.TryAddTile(tileToBuild, transform.position))
                     {
                         var fadeout = Instantiate(fadeoutTextPrefab, transform);
                         fadeout.TextMesh.text = "#@!&$%";
                         fadeout.TextMesh.color = new Color(1.0f, 0.0f, 0.0f, 1);
                     }
+                    // Consume should always work in this case, because we checked for available resources
+                    else if (!resourceManager.TryConsume(tileToBuild.BuildingCosts))
+                    {
+                        Debug.LogError("Could not consume resources for building even though enough resources were available");
+                    }
                     else
                     {
+                        // Success, create building
                         var fadeout = Instantiate(fadeoutTextPrefab, transform);
                         fadeout.TextMesh.text = $"-{(float)tileToBuild.BuildingCosts}";
                         fadeout.TextMesh.color = new Color(0.6392157F, 0.5019608F, 0.3892157F, 1.0F);
