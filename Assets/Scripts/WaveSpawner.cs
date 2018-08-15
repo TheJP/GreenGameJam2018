@@ -9,13 +9,7 @@ using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public enum SpawnState
-    {
-        Spawning,
-        Waiting,
-    };
-
-    [System.Serializable]
+    [Serializable]
     public class KeyWave
     {
         public string name = "Wave 1";
@@ -25,7 +19,7 @@ public class WaveSpawner : MonoBehaviour
         public Modifiers subsequent_rounds;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Enemy
     {
         public Monster Prefab;
@@ -39,7 +33,7 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Modifiers
     {
         public float attack = 1f;
@@ -84,8 +78,6 @@ public class WaveSpawner : MonoBehaviour
     public Tilemap terrain;
     public GameObject enemiesContainer = null;
 
-    private SpawnState state = SpawnState.Waiting;
-
     private void Awake()
     {
         if (keyWaves.Length == 0)
@@ -99,7 +91,6 @@ public class WaveSpawner : MonoBehaviour
         }
 
         EnsureEnemiesContainerExists();
-        state = SpawnState.Waiting;
 
         Array.Sort(keyWaves, (a, b) => a.number.CompareTo(b.number));
     }
@@ -118,8 +109,6 @@ public class WaveSpawner : MonoBehaviour
 
     public IEnumerator SpawnWave(Wave wave)
     {
-        Debug.Log("Spawning wave " + wave.Number);
-        state = SpawnState.Spawning;
         EnsureEnemiesContainerExists();
 
         foreach (var enemy in wave.Enemies)
@@ -130,8 +119,6 @@ public class WaveSpawner : MonoBehaviour
                 yield return new WaitForSeconds(1f / enemy.Rate);
             }
         }
-
-        state = SpawnState.Waiting;
     }
 
     public void SpawnEnemy(Monster prefab)

@@ -13,7 +13,6 @@ namespace Monsters
         private const int Size2 = Size * 2;
 
         private const float DebugDist = Size2;
-        //private const int MaxJump = 3;
 
         public bool Recompute;
         public TileBase DebugTileSprite;
@@ -25,6 +24,7 @@ namespace Monsters
 
         private void Awake()
         {
+            // TODO: Refactor (Don't rely on GameObject names. Also: Why is Pathfinding implemented in AttackableBuilding?)
             var grid = GameObject.Find("Grid");
             Terrain = grid.GetComponentsInChildren<Tilemap>()
                 .FirstOrDefault(t => t.gameObject.name == "CollisionTilemap");

@@ -12,80 +12,61 @@ using Random = UnityEngine.Random;
 
 namespace Monsters
 {
+    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(MonsterMovement))]
     public class Monster : MonoBehaviour
     {
         public MonsterAttributes Attributes;
         public Tilemap Placeables { get; set; }
         public Tilemap Terrain { get; set; }
 
-        private Rigidbody2D _rigidbody2D;
+        public AttackableBuilding target;
 
-        //private SpriteRenderer _spriteRenderer;
-        //private float attacksPerSeconds = 1f;
-        //private int stuckcount = 0;
-        public AttackableBuilding Target;
-        public MonsterMovement MonsterMovement;
-
+        private MonsterMovement monsterMovement;
         private AudioSource audioSource;
         private float originalPitch;
         private float pitchRange = 0.2f;
 
+        private void Awake()
+        {
+            audioSource = GetComponent<AudioSource>();
+            monsterMovement = GetComponent<MonsterMovement>();
+        }
+
         private void Start()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            //_spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+            audioSource.volume = 0.9f;
+            audioSource.loop = true;
+            audioSource.playOnAwake = false;
+            originalPitch = audioSource.pitch;
+            audioSource.pitch = Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
+            audioSource.Play();
 
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource != null)
-            {
-                audioSource.volume = 0.9f;
-                audioSource.loop = true;
-                audioSource.playOnAwake = false;
-                originalPitch = audioSource.pitch;
-                audioSource.pitch = Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
-                audioSource.Play();
-            }
-
-            if (Placeables == null)
-            {
-                Debug.LogError("Monster needs placeables tilemap");
-            }
+            Debug.Assert(Placeables != null, "Monster needs placeables tilemap");
         }
 
-        /*
-        public void Awake()
-        {
-            Debug.Log("in awake");
-
-            if (audioSource != null)
-            {
-                Debug.Log("have audio");
-                audioSource.Play();
-            }
-        }
-*/
-        private bool InRange() => Target != null &&
-                                  Vector3.Distance(Target.transform.position, transform.position) < Attributes.Range;
+        private bool InRange() =>
+            target != null && Vector3.Distance(target.transform.position, transform.position) < Attributes.Range;
 
         private void Update()
         {
-            if (Target == null)
+            if (target == null)
             {
-                Target = FindTarget();
+                target = FindTarget();
             }
         }
 
         private void FixedUpdate()
         {
-            if (Target != null &&
-                Vector3.Distance(Target.transform.position, transform.position) > Attributes.Range)
+            if (target != null &&
+                Vector3.Distance(target.transform.position, transform.position) > Attributes.Range)
             {
-                MonsterMovement.MoveTowards(Target);
+                monsterMovement.MoveTowards(target);
             }
 
             if (InRange())
             {
-                Target.GetComponent<Health>().TakeDamage(Attributes.Attackpower * Time.fixedDeltaTime);
+                target.GetComponent<Health>().TakeDamage(Attributes.Attackpower * Time.fixedDeltaTime);
             }
         }
 
@@ -94,7 +75,5 @@ namespace Monsters
             var attackable = Placeables.GetComponentsInChildren<AttackableBuilding>();
             return attackable.Length == 0 ? null : attackable[Random.Range(0, attackable.Length)];
         }
-
-        private MoveDirection _lastHorizontal = MoveDirection.Left;
     }
 }
