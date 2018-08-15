@@ -1,13 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using UnityEditor.Experimental.AssetImporters;
-using UnityEngine;
-using UnityEngine.Experimental.UIElements;
-using UnityEngine.Rendering;
-using UnityEngine.Scripting.APIUpdating;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.WSA;
 using Random = UnityEngine.Random;
 
 namespace Monsters
@@ -16,6 +8,8 @@ namespace Monsters
     [RequireComponent(typeof(MonsterMovement))]
     public class Monster : MonoBehaviour
     {
+        private const float PitchRange = 0.2f;
+
         public MonsterAttributes Attributes;
         public Tilemap Placeables { get; set; }
         public Tilemap Terrain { get; set; }
@@ -25,7 +19,6 @@ namespace Monsters
         private MonsterMovement monsterMovement;
         private AudioSource audioSource;
         private float originalPitch;
-        private float pitchRange = 0.2f;
 
         private void Awake()
         {
@@ -39,7 +32,7 @@ namespace Monsters
             audioSource.loop = true;
             audioSource.playOnAwake = false;
             originalPitch = audioSource.pitch;
-            audioSource.pitch = Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
+            audioSource.pitch = Random.Range(originalPitch - PitchRange, originalPitch + PitchRange);
             audioSource.Play();
 
             Debug.Assert(Placeables != null, "Monster needs placeables tilemap");

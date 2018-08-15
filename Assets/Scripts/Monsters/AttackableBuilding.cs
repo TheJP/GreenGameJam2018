@@ -18,20 +18,20 @@ namespace Monsters
         public TileBase DebugTileSprite;
         public bool DrawDebugInfo;
 
-        private Tilemap Terrain;
-        private Tilemap NoColliders;
-        Node[] _mat = new Node[Size2 * Size2];
+        private Tilemap terrain;
+        private Tilemap noColliders;
+        private readonly int[] cost = new int[Size2 * Size2];
 
         private void Awake()
         {
             // TODO: Refactor (Don't rely on GameObject names. Also: Why is Pathfinding implemented in AttackableBuilding?)
             var grid = GameObject.Find("Grid");
-            Terrain = grid.GetComponentsInChildren<Tilemap>()
+            terrain = grid.GetComponentsInChildren<Tilemap>()
                 .FirstOrDefault(t => t.gameObject.name == "CollisionTilemap");
-            NoColliders = grid.GetComponentsInChildren<Tilemap>()
+            noColliders = grid.GetComponentsInChildren<Tilemap>()
                 .FirstOrDefault(t => t.gameObject.name == "NoCollisionTilemap");
 
-            if (Terrain == null || NoColliders == null)
+            if (terrain == null || noColliders == null)
             {
                 Debug.LogError("Pathfinder relies on having a top-level object 'Grid' with the Tilemaps as children");
             }
@@ -44,12 +44,12 @@ namespace Monsters
 
         public void ReloadPath()
         {
-            _mat = CalcualteCostMatrix();
+            CalcualteCostMatrix();
         }
 
         public MoveDirection PathFrom(Vector3 from)
         {
-            var cell = Terrain.WorldToCell(from);
+            var cell = terrain.WorldToCell(from);
             return PathFrom(cell);
         }
 
@@ -67,27 +67,27 @@ namespace Monsters
 
             var min = int.MaxValue;
             var nextDirection = MoveDirection.None;
-            if (left >= 0 && _mat[left].Distance < min)
+            if (left >= 0 && cost[left] < min)
             {
-                min = _mat[left].Distance;
+                min = cost[left];
                 nextDirection = MoveDirection.Left;
             }
 
-            if (right >= 0 && _mat[right].Distance < min)
+            if (right >= 0 && cost[right] < min)
             {
-                min = _mat[right].Distance;
+                min = cost[right];
                 nextDirection = MoveDirection.Right;
             }
 
-            if (up >= 0 && _mat[up].Distance < min)
+            if (up >= 0 && cost[up] < min)
             {
-                min = _mat[up].Distance;
+                min = cost[up];
                 nextDirection = MoveDirection.Up;
             }
 
-            if (down >= 0 && _mat[down].Distance < min)
+            if (down >= 0 && cost[down] < min)
             {
-                min = _mat[down].Distance;
+                min = cost[down];
                 nextDirection = MoveDirection.Down;
             }
 
@@ -97,11 +97,6 @@ namespace Monsters
             }
 
             return nextDirection;
-        }
-
-        public Vector3Int CellPosition(Vector3 position)
-        {
-            return Terrain.WorldToCell(position);
         }
 
         public Vector3Int NextCell(Vector3Int fromCell, int steps = 1)
@@ -147,19 +142,14 @@ namespace Monsters
             }
         }
 
-        private void Explore(Vector3Int position, Node[] cost, int distance, Queue<Step> unexplored)
+        private void Explore(Vector3Int position, int distance, Queue<Step> unexplored)
         {
-            var matX = position.x + Size;
-            var matY = position.y + Size;
-            if (matX < 0 || matX >= Size2 || matY < 0 || matY >= Size2)
-            {
-                return;
-            }
+            var index = Index(position);
+            if (index < 0) { return; }
 
-            var index = matY * Size2 + matX;
-            if (Terrain.GetTile(position) == null && cost[index].Distance > distance + 1)
+            if (terrain.GetTile(position) == null && cost[index] > distance)
             {
-                unexplored.Enqueue(new Step(position, distance + 1));
+                unexplored.Enqueue(new Step(position, distance));
             }
         }
 
@@ -167,35 +157,32 @@ namespace Monsters
         {
             var matX = position.x + Size;
             var matY = position.y + Size;
-            var index = matY * Size2 + matX;
 
             if (matX < 0 || matX >= Size2 || matY < 0 || matY >= Size2)
             {
                 return -1;
             }
 
-            return index;
+            return matY * Size2 + matX;
         }
 
-        private Node[] CalcualteCostMatrix()
+        private void CalcualteCostMatrix()
         {
             // TODO consider jumping ability when calulating path
 
-            Node[] cost = new Node[Size2 * Size2];
             for (var i = 0; i < cost.Length; i++)
             {
-                cost[i] = new Node(int.MaxValue);
+                cost[i] = int.MaxValue;
             }
 
-            if (Index(Terrain.WorldToCell(transform.position)) < 0)
+            if (Index(terrain.WorldToCell(transform.position)) < 0)
             {
                 Debug.LogError($"Building {gameObject.name} at {transform.position} is outside the playing filed");
-                return cost;
+                return;
             }
 
-
-            var unexplored = new Queue<Step>(Size2);
-            unexplored.Enqueue(new Step(Terrain.WorldToCell(transform.position), 0));
+            var unexplored = new Queue<Step>();
+            unexplored.Enqueue(new Step(terrain.WorldToCell(transform.position), 0));
 
             while (unexplored.Count > 0)
             {
@@ -204,34 +191,24 @@ namespace Monsters
 
                 var index = Index(position); // index is alwasy in bounds here
 
-                if (cost[index].Distance > currentNode.Cost)
+                if (cost[index] > currentNode.Cost)
                 {
-                    cost[index].Distance = currentNode.Cost;
+                    cost[index] = currentNode.Cost;
                     if (DrawDebugInfo)
                     {
-                        NoColliders.SetTile(position, DebugTileSprite);
-                        NoColliders.GetTile<Tile>(position).color =
+                        noColliders.SetTile(position, DebugTileSprite);
+                        noColliders.GetTile<Tile>(position).color =
                             Color.Lerp(Color.green, Color.red, currentNode.Cost / DebugDist);
                     }
 
-                    Explore(position + Vector3Int.left, cost, currentNode.Cost, unexplored);
-                    Explore(position + Vector3Int.right, cost, currentNode.Cost, unexplored);
-                    Explore(position + Vector3Int.up, cost, currentNode.Cost, unexplored);
-                    Explore(position + Vector3Int.down, cost, currentNode.Cost, unexplored);
+                    int newCost = currentNode.Cost + 1;
+                    Explore(position + Vector3Int.left, newCost, unexplored);
+                    Explore(position + Vector3Int.right, newCost, unexplored);
+                    Explore(position + Vector3Int.up, newCost, unexplored);
+                    Explore(position + Vector3Int.down, newCost, unexplored);
                 }
+                else Debug.Log("else");
             }
-
-            return cost;
-        }
-    }
-
-    internal class Node
-    {
-        public int Distance { get; set; }
-
-        public Node(int distance, int jump = 0)
-        {
-            Distance = distance;
         }
     }
 
