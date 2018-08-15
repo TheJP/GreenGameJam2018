@@ -9,7 +9,8 @@ namespace Monsters
     [RequireComponent(typeof(Health))]
     public class AttackableBuilding : MonoBehaviour
     {
-        private const int Size = 30;
+        // TODO: Calculate size dynamically
+        private const int Size = 50;
         private const int Size2 = Size * 2;
 
         private const float DebugDist = Size2;
