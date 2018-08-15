@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CountDisplayController : MonoBehaviour
 {
-    public float Duration { get; set; }
 
     public event Action SpawnWave;
 
@@ -12,6 +11,13 @@ public class CountDisplayController : MonoBehaviour
     private Vector3 targetPosition;
 
     private bool invoked = false;
+    private float duration = 0.001f;
+
+    public float Duration
+    {
+        get { return duration; }
+        set { duration = Mathf.Max(0.001f, value); }
+    }
 
     private void Start()
     {
@@ -22,7 +28,7 @@ public class CountDisplayController : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(startPosition, targetPosition, (Time.time - startTime) / Duration);
+        transform.position = Vector3.LerpUnclamped(startPosition, targetPosition, (Time.time - startTime) / Duration);
         if (transform.localPosition.y <= 0)
         {
             if (!invoked)
