@@ -7,13 +7,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int playerNumber;
-
-    public int PlayerNumber
-    {
-        get { return this.playerNumber; }
-        set { this.playerNumber = value; }
-    }
+    private const float PitchRange = 0.2f;
 
     enum DeathAnimationState
     {
@@ -23,6 +17,9 @@ public class Player : MonoBehaviour
     }
 
 #pragma warning disable 0649
+
+    [SerializeField] private int playerNumber;
+
     [SerializeField] private Sprite sprite;
 
     [SerializeField] private Oxygen oxygenUsagePerSecond = new Oxygen(5);
@@ -44,33 +41,35 @@ public class Player : MonoBehaviour
     [SerializeField] 
     [Tooltip("Audio to play when getting oxygen")]
     private AudioSource audioSourceOxygen;
-    private float pitchRange = 0.2f;
-
-#pragma warning restore 0649
-
-    private Inventory inventory;
-
-    public PrefabTile[] tiles;
-    private TileController tileController;
-
-    private ResourceManager resourceManager;
-
-    private float originalPitch;
-
-    public GameObject[] weapons;
-    public GameObject weaponCache;
-    public ParticleSystem DeathParticleSystem;
 
     [SerializeField] private Color color;
 
-    public Color Color
-    {
-        get { return this.color; }
-        set { this.color = value; }
-    }
+#pragma warning restore 0649
+
+
+    public PrefabTile[] tiles;
+    public GameObject[] weapons;
+    public GameObject weaponCache;
+    public ParticleSystem deathParticleSystem;
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private TileController tileController;
+    private float originalPitch;
+    private ResourceManager resourceManager;
+    private Inventory inventory;
+
+    public Color Color
+    {
+        get { return color; }
+        set { color = value; }
+    }
+
+    public int PlayerNumber
+    {
+        get { return playerNumber; }
+        set { playerNumber = value; }
+    }
 
     public PlayerAttributes Attributes { get; private set; }
 
@@ -78,21 +77,21 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        this.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        this.animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
 
         Attributes = new PlayerAttributes(oxygenStorageCapacity);
         Attributes.OxygenLevelChanged += OxygenLevelChanged;
 
-        GameObject inventoryObject = Instantiate(inventoryPrefab, transform);
-        this.inventory = inventoryObject.GetComponent<Inventory>();
+        var inventoryObject = Instantiate(inventoryPrefab, transform);
+        inventory = inventoryObject.GetComponent<Inventory>();
 
-        this.tileController = FindObjectOfType<TileController>();
+        tileController = FindObjectOfType<TileController>();
 
-        this.resourceManager = FindObjectOfType<ResourceManager>();
+        resourceManager = FindObjectOfType<ResourceManager>();
                 
         originalPitch = audioSourceOxygen.pitch;
-        audioSourceOxygen.pitch = UnityEngine.Random.Range(originalPitch - pitchRange, originalPitch + pitchRange);
+        audioSourceOxygen.pitch = UnityEngine.Random.Range(originalPitch - PitchRange, originalPitch + PitchRange);
 
     }
 
@@ -130,9 +129,8 @@ public class Player : MonoBehaviour
             _deathAnimationDeathAnimationState = DeathAnimationState.Dying;
             for (int i = 0; i < 3; i++)
             {
-                var particles = Instantiate(DeathParticleSystem);
-                particles.transform.position = transform.position;
-                particles.Play();
+                var particles = Instantiate(deathParticleSystem, transform.position, deathParticleSystem.transform.rotation, transform.parent);
+                Destroy(particles.gameObject, particles.main.duration + particles.main.startLifetime.constant);
             }
             gameObject.SetActive(false);
             

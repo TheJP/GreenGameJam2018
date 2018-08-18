@@ -208,7 +208,6 @@ namespace Monsters
                     Explore(position + Vector3Int.up, newCost, unexplored);
                     Explore(position + Vector3Int.down, newCost, unexplored);
                 }
-                else Debug.Log("else");
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Obsolete("Use PlayerSpawner instead")]
 public class PlayerFactory : MonoBehaviour
 {
 #pragma warning disable 0649
