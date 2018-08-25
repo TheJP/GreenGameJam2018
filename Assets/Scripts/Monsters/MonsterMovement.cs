@@ -9,5 +9,8 @@ namespace Monsters
         /// </summary>
         /// <param name="attackableBuilding"></param>
         public abstract void MoveTowards(AttackableBuilding attackableBuilding);
+
+        // return true if this movement is passive (like for the meteors)
+        public abstract bool CanOnlyFall();
     }
 }

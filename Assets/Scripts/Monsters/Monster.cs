@@ -68,5 +68,10 @@ namespace Monsters
             var attackable = Placeables.GetComponentsInChildren<AttackableBuilding>();
             return attackable.Length == 0 ? null : attackable[Random.Range(0, attackable.Length)];
         }
+
+        public bool CanOnlyFall()
+        {
+            return monsterMovement.CanOnlyFall();
+        }
     }
 }

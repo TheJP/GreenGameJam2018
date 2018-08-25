@@ -29,7 +29,7 @@ public class WaveSpawner : MonoBehaviour
 
         public override string ToString()
         {
-            return $"{{prefab : {Prefab.gameObject.name}, count : {Count}, rate : {Rate}}}";
+            return $"{{prefab : {Prefab.gameObject.name}, count : {Count}, rate : {Rate}, type: {monsterType}}}";
         }
     }
 
@@ -74,6 +74,8 @@ public class WaveSpawner : MonoBehaviour
 
     public KeyWave[] keyWaves;
     public Transform[] spawnPoints;
+    public Transform meteorSpawnCenter;
+    public int meteorSpawnXVariation;
     public Tilemap placeables;
     public Tilemap terrain;
     public GameObject enemiesContainer = null;
@@ -122,12 +124,44 @@ public class WaveSpawner : MonoBehaviour
     }
 
     public void SpawnEnemy(Monster prefab)
-    {
-        Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        var enemy = Instantiate(prefab, _sp.position, _sp.rotation);
-        enemy.transform.SetParent(enemiesContainer.transform);
+    {   
+        // We should use a different spawn point for falling monsters (meteors) then for crawling monsters (spiders, worms etc.)
+        // But monster prefab does not have a movement, so it does not know if it can only fall (like a meteor).
+        // Thus, we have to instantiate the monster first, see what it is and then select (or change) the spawn point.
+
+        // var enemy = Instantiate(prefab, _sp.position, _sp.rotation);
+        // enemy.transform.SetParent(enemiesContainer.transform);
+        // instead of the above, try later: 
+        var enemy = Instantiate(prefab, enemiesContainer.transform);
+        
+        // check the movement (if it can only fall) and then set the spawn point        
         var monster = enemy.GetComponent<Monster>();
         monster.Placeables = placeables;
         monster.Terrain = terrain;
+        
+        Debug.Log("monster can only fall: " + monster.CanOnlyFall());
+
+        float deviation = Random.Range(0, this.meteorSpawnXVariation);
+        float x = this.meteorSpawnCenter.position.x + deviation;
+        float y = this.meteorSpawnCenter.position.y;
+        Debug.Log($"Meteor spawn point: {x} / {y}");
+
+        // set position and rotation
+        if (monster.CanOnlyFall())
+        {
+            Vector3 meteorPos = this.meteorSpawnCenter.position + deviation * Vector3.right;
+            Debug.Log($"meteorPos is {meteorPos}");
+            enemy.transform.position = meteorPos;
+            enemy.transform.rotation = this.meteorSpawnCenter.rotation;
+        }
+        else
+        {
+            Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            enemy.transform.position = _sp.position;
+            enemy.transform.rotation = _sp.rotation;
+        }
+
+        
+        
     }
 }

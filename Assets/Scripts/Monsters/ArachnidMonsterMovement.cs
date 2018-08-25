@@ -61,5 +61,10 @@ namespace Monsters
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public override bool CanOnlyFall()
+        {
+            return false;
+        }
     }
 }

@@ -57,5 +57,10 @@ namespace Monsters
                 _wait -= Time.fixedDeltaTime;
             }
         }
+
+        public override bool CanOnlyFall()
+        {
+            return false;
+        }
     }
 }
