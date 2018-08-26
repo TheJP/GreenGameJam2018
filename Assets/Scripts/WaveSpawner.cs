@@ -139,18 +139,11 @@ public class WaveSpawner : MonoBehaviour
         monster.Placeables = placeables;
         monster.Terrain = terrain;
         
-        Debug.Log("monster can only fall: " + monster.CanOnlyFall());
-
-        float deviation = Random.Range(0, this.meteorSpawnXVariation);
-        float x = this.meteorSpawnCenter.position.x + deviation;
-        float y = this.meteorSpawnCenter.position.y;
-        Debug.Log($"Meteor spawn point: {x} / {y}");
 
         // set position and rotation
         if (monster.CanOnlyFall())
         {
-            Vector3 meteorPos = this.meteorSpawnCenter.position + deviation * Vector3.right;
-            Debug.Log($"meteorPos is {meteorPos}");
+            Vector3 meteorPos = this.meteorSpawnCenter.position + Random.Range(0, this.meteorSpawnXVariation) * Vector3.right;
             enemy.transform.position = meteorPos;
             enemy.transform.rotation = this.meteorSpawnCenter.rotation;
         }
