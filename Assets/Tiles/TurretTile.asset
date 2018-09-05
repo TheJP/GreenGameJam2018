@@ -14,4 +14,4 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: de9a5f2aea5bf6d40a5e63d917c34d09, type: 3}
   Prefab: {fileID: 1818415801269782, guid: c8a95b19c5dffcb468519a7b0fa9bc69, type: 2}
   BuildingCosts:
-    value: 1
+    value: 100
